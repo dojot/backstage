@@ -900,4 +900,5 @@ it('Consult the history by time period (dashboard)', async () => {
 
   const result = await Resolvers.Query.getDeviceHistoryForDashboard({}, params, {});
   expect(result).toEqual('[{"8aa0f9hue":"#414DE8","timestamp":"2020-07-20T13:25:06Z"},{"0998temperature":36.5,"timestamp":"2020-07-20T15:46:21Z"},{"0998temperature":15.6,"timestamp":"2020-07-20T15:46:42Z"},{"8aa0f9hue":"#4785FF","timestamp":"2020-07-20T16:25:13Z"},{"0998temperature":10.6,"timestamp":"2020-07-20T16:47:07Z","8aa0f9hue":"#4785FF"}]')
+
 });

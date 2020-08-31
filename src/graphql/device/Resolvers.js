@@ -262,6 +262,7 @@ const Resolvers = {
       let sortedHistory = [];
       let queryStringParams = '';
       const history = [];
+      let sortedHistory = [];
       const historyPromiseArray = [];
       const fetchedData = [];
 
@@ -327,6 +328,7 @@ const Resolvers = {
         sortedHistory = _.orderBy(history, (o) => {
           return moment(o.timestamp).format('YYYYMMDDHHmmss');
         }, ['asc']);
+
 
 
       } catch (error) {
