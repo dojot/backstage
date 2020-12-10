@@ -1,6 +1,6 @@
 {
   "name": "gui-helper",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "This repository is to get together all services can help GUI",
   "main": "index.js",
   "scripts": {
