@@ -241,8 +241,9 @@ const Resolvers = {
       let historyPromiseArray = [];
       const auxStaticAttrs = [];
       switch (operationType) {
-        case operations.TEMPLATES:
+        case operations.LIST:
           queryStringParams = `${dateFrom && `&dateFrom=${dateFrom}`}${dateTo && `&dateTo=${dateTo}`}`;
+        case operations.TEMPLATES:
         case operations.CSMAP:
         case operations.MAP:
         case operations.LAST.N:
