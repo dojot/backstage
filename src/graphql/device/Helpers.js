@@ -98,7 +98,7 @@ const formatOutPut = (attributes, operationType, staticAttributes) => {
       });
       historyObj[`${device_id}${attr}`] = {
         value: parseGeo(staticValue.static_value),
-        timestamp: ts.length > 20 ? `${ts.substring(0, ts.length - (ts.length - 19))}Z` : ts,
+        timestamp: value,
         deviceLabel: staticValue.deviceLabel,
       }
     } else if (operationType === operations.LIST) {
