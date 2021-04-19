@@ -22,7 +22,7 @@ const mockConfig = {
     'home.url': 'http://localhost:8000',
   },
   proxy: {
-    target: 'http://localhost:8000',
+    target: 'http://127.0.0.1:34059',
     'log.level': 'debug',
     'log.secure': false,
   },
@@ -83,6 +83,7 @@ const mockKey = {
 };
 
 const request = require('supertest');
+
 
 const express = require('../../../app/express');
 
@@ -150,11 +151,13 @@ const userInfo = {
   tenant: 'realm',
 };
 
+const api = request(app);
+
 describe('RoutesV1', () => {
   let cookies;
 
   test('/backstage/v1/auth: ok', (done) => {
-    request(app)
+    api
       .get('/backstage/v1/auth?tenant=admin')
       .then((res) => {
         expect(res.statusCode).toBe(303);
@@ -167,7 +170,7 @@ describe('RoutesV1', () => {
   });
 
   test('/backstage/v1/auth: without query string', (done) => {
-    request(app)
+    api
       .get('/backstage/v1/auth')
       .then((res) => {
         expect(res.statusCode).toBe(400);
@@ -178,7 +181,7 @@ describe('RoutesV1', () => {
 
   test('/backstage/v1/auth: unexpected error', (done) => {
     mockBuildUrlLogin.mockImplementationOnce(new Error());
-    request(app)
+    api
       .get('/backstage/v1/auth?tenant=admin')
       .then((res) => {
         expect(res.statusCode).toBe(500);
@@ -190,7 +193,7 @@ describe('RoutesV1', () => {
   test('/backstage/v1/auth: error when try set session', (done) => {
     mockRedisSet.mockRejectedValueOnce(new Error());
     mockBuildUrlLogin.mockImplementationOnce(new Error());
-    request(app)
+    api
       .get('/backstage/v1/auth?tenant=admin')
       .then((res) => {
         expect(res.statusCode).toBe(500);
@@ -207,7 +210,7 @@ describe('RoutesV1', () => {
       refreshExpiresAt: 'refreshExpiresAt',
       accessTokenExpiresAt: 'accessTokenExpiresAt',
     });
-    request(app)
+    api
       .get('/backstage/v1/auth/return?code=code&state=state&session_state=session_state')
       .set('Cookie', [cookies])
       .then((response) => {
@@ -220,7 +223,7 @@ describe('RoutesV1', () => {
 
   test('/backstage/v1/auth/return: error when try get session', (done) => {
     mockRedisGet.mockRejectedValueOnce(new Error());
-    request(app)
+    api
       .get('/backstage/v1/auth/return?code=code&state=state&session_state=session_state')
       .set('Cookie', [cookies])
       .then((response) => {
@@ -233,7 +236,7 @@ describe('RoutesV1', () => {
   test('/backstage/v1/auth/return: redirect with error', (done) => {
     mockRedisGet.mockResolvedValueOnce(sessionMockIncomplete);
     mockTokenByAuthCode.mockRejectedValueOnce(new Error('msgError'));
-    request(app)
+    api
       .get('/backstage/v1/auth/return?code=code&state=state&session_state=session_state')
       .set('Cookie', [cookies])
       .then((response) => {
@@ -246,7 +249,7 @@ describe('RoutesV1', () => {
 
   test('/backstage/v1/auth/return: without call /auth ', (done) => {
     mockRedisGet.mockResolvedValueOnce(sessionBaseObj);
-    request(app)
+    api
       .get('/backstage/v1/auth/return?code=code&state=state&session_state=session_state')
       .set('Cookie', [cookies])
       .then((response) => {
@@ -258,7 +261,7 @@ describe('RoutesV1', () => {
   });
 
   test('/backstage/v1/auth/return: without query string ', (done) => {
-    request(app)
+    api
       .get('/backstage/v1/auth/return')
       .then((response) => {
         expect(response.statusCode).toBe(400);
@@ -271,7 +274,7 @@ describe('RoutesV1', () => {
     mockRedisGet.mockResolvedValueOnce(sessionMockComplete);
     mockKeyInfoByToken.mockResolvedValueOnce(userInfo);
 
-    request(app)
+    api
       .get('/backstage/v1/auth/user-info')
       .set('Cookie', [cookies])
       .then((response) => {
@@ -302,7 +305,7 @@ describe('RoutesV1', () => {
       accessTokenExpiresAt: 'accessTokenExpiresAt',
     });
 
-    request(app)
+    api
       .get('/backstage/v1/auth/user-info')
       .set('Cookie', [cookies])
       .then((response) => {
@@ -339,7 +342,7 @@ describe('RoutesV1', () => {
 
     mockTokenByRefresh.mockRejectedValueOnce('not ok');
 
-    request(app)
+    api
       .get('/backstage/v1/auth/user-info')
       .set('Cookie', [cookies])
       .then((response) => {
@@ -354,7 +357,7 @@ describe('RoutesV1', () => {
   test('/backstage/v1/auth/user-info: without token', (done) => {
     mockRedisGet.mockResolvedValueOnce(sessionMockIncomplete);
 
-    request(app)
+    api
       .get('/backstage/v1/auth/user-info')
       .set('Cookie', [cookies])
       .then((response) => {
@@ -370,7 +373,7 @@ describe('RoutesV1', () => {
     mockRedisGet.mockResolvedValueOnce(sessionMockComplete);
     mockKeyInfoByToken.mockRejectedValueOnce(new Error());
 
-    request(app)
+    api
       .get('/backstage/v1/auth/user-info')
       .set('Cookie', [cookies])
       .then((response) => {
@@ -385,7 +388,7 @@ describe('RoutesV1', () => {
 
   test('/backstage/v1/auth/revoke: ok', (done) => {
     mockRedisGet.mockResolvedValueOnce(sessionMockComplete);
-    request(app)
+    api
       .get('/backstage/v1/auth/revoke')
       .set('Cookie', [cookies])
       .then((response) => {
@@ -398,7 +401,7 @@ describe('RoutesV1', () => {
 
   test('/backstage/v1/auth/revoke: no session ok', (done) => {
     mockRedisGet.mockResolvedValueOnce(sessionBaseObj);
-    request(app)
+    api
       .get('/backstage/v1/auth/revoke')
       .set('Cookie', [cookies])
       .then((response) => {
@@ -412,7 +415,7 @@ describe('RoutesV1', () => {
   test('/backstage/v1/auth/revoke: cant destroy session', (done) => {
     mockRedisGet.mockResolvedValueOnce(sessionMockComplete);
     mockRedisDestroy.mockRejectedValueOnce(new Error());
-    request(app)
+    api
       .get('/backstage/v1/auth/revoke')
       .set('Cookie', [cookies])
       .then((response) => {
@@ -426,7 +429,7 @@ describe('RoutesV1', () => {
   test('/backstage/v1/api-docs: Check if API-docs loads', (done) => {
     mockRedisGet.mockResolvedValueOnce(sessionMockComplete);
     expect.assertions(2);
-    request(app)
+    api
       .get('/backstage/v1/api-docs')
       .set('Cookie', [cookies])
       .then((response) => {
@@ -439,21 +442,8 @@ describe('RoutesV1', () => {
   test('/backstage/v1/graphql: Check if GraphQL loads', (done) => {
     expect.assertions(2);
     mockRedisGet.mockResolvedValueOnce(sessionMockComplete);
-    request(app)
+    api
       .get('/backstage/v1/graphql?query=%0A%0A%7B%0A%20%20getConfig(user%3A%20%22user%22%2C%20tenant%3A%20%22tenant%22)%0A%7D%0A%0A')
-      .set('Cookie', [cookies])
-      .then((response) => {
-        expect(response.statusCode).toBeGreaterThanOrEqual(200);
-        expect(response.statusCode).toBeLessThan(400);
-        done();
-      });
-  });
-
-  test('/proxy: Check if Proxy loads', (done) => {
-    expect.assertions(2);
-    mockRedisGet.mockResolvedValueOnce(sessionMockComplete);
-    request(app)
-      .get('/backstage/v1/proxy/')
       .set('Cookie', [cookies])
       .then((response) => {
         expect(response.statusCode).toBeGreaterThanOrEqual(200);
