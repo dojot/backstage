@@ -1,4 +1,4 @@
-# Backstage
+# Backstage [![CodeFactor](https://www.codefactor.io/repository/github/dojot/backstage/badge)](https://www.codefactor.io/repository/github/dojot/backstage) [![codecov](https://codecov.io/gh/dojot/backstage/branch/development/graph/badge.svg)](https://codecov.io/gh/dojot/backstage) [![Docker badge ](https://img.shields.io/docker/pulls/dojot/gui-v2.svg)](https://hub.docker.com/r/dojot/backstage/) [![License badge](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 The **Backstage** is intended to be an intermediary between the dojot and Keycloak APIs for the GUIs.
 
