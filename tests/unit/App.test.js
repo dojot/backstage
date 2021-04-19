@@ -76,4 +76,13 @@ describe('App', () => {
       expect(e.message).toBe(msg);
     }
   });
+
+  test('instantiate class and init ok ', async () => {
+    mockPostgresInit.mockResolvedValueOnce('Ok');
+
+    expect.assertions(1);
+    app = new App();
+    await app.init();
+    expect(mockPostgresInit).toBeCalled();
+  });
 });
