@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 const mockConfig = {
   app: {
     'base.url': 'http://localhost:8000',
@@ -103,7 +104,7 @@ describe('Keycloak tests', () => {
     expect.assertions(3);
     class ErrorTest extends Error {
       constructor(message) {
-        super(message); // (1)
+        super(message);
         this.response = {
           status: 'status',
           data: {
@@ -182,7 +183,19 @@ describe('Keycloak tests', () => {
 
   test('getTokenByRefreshToken: reject', async () => {
     expect.assertions(2);
-    mockAxiosPost.mockRejectedValueOnce(new Error('a'));
+    class ErrorTest2 extends Error {
+      constructor(message) {
+        super(message);
+        this.response = {
+          status: 'status',
+          data: {
+            message: 'messageError',
+          },
+        };
+      }
+    }
+
+    mockAxiosPost.mockRejectedValueOnce(new ErrorTest2());
     try {
       const realm = 'admin';
       const authorizationCode = 'authorizationCode';
@@ -192,7 +205,7 @@ describe('Keycloak tests', () => {
         .getTokenByRefreshToken(realm, authorizationCode, codeVerifier);
     } catch (e) {
       expect(mockAxiosPost).toHaveBeenCalled();
-      expect(e.message).toBe('a');
+      expect(e.message).toBe('messageError');
     }
   });
 
@@ -245,8 +258,20 @@ describe('Keycloak tests', () => {
   });
 
   test('getPermissionsByToken: reject', async () => {
+    class ErrorTest extends Error {
+      constructor(message) {
+        super(message);
+        this.response = {
+          status: 'status',
+          data: {
+            error: 'errorTxt',
+          },
+        };
+      }
+    }
+
+    mockAxiosPost.mockRejectedValueOnce(new ErrorTest());
     expect.assertions(2);
-    mockAxiosPost.mockRejectedValueOnce(new Error('a'));
     try {
       const realm = 'admin';
       const accessToken = 'accessToken';
@@ -256,7 +281,7 @@ describe('Keycloak tests', () => {
         .getPermissionsByToken(realm, accessToken);
     } catch (e) {
       expect(mockAxiosPost).toHaveBeenCalled();
-      expect(e.message).toBe('a');
+      expect(e.message).toBe('errorTxt');
     }
   });
   test('getPermissionsByToken: =! 200', async () => {

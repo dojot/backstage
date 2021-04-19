@@ -448,4 +448,17 @@ describe('RoutesV1', () => {
         done();
       });
   });
+
+  test('/proxy: Check if Proxy loads', (done) => {
+    expect.assertions(2);
+    mockRedisGet.mockResolvedValueOnce(sessionMockComplete);
+    request(app)
+      .get('/backstage/v1/proxy/')
+      .set('Cookie', [cookies])
+      .then((response) => {
+        expect(response.statusCode).toBeGreaterThanOrEqual(200);
+        expect(response.statusCode).toBeLessThan(400);
+        done();
+      });
+  });
 });

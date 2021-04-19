@@ -204,7 +204,7 @@ module.exports = ({ mountPoint, keycloak }) => {
               if (req.session && req.session.realm) {
                 const { realm } = req.session;
                 req.session.destroy((err) => {
-                  logger.warn(`auth-user-logout-route.get: session-destroy-error:=${JSON.stringify(err)}`);
+                  if (err) { logger.warn(`auth-user-logout-route.get: session-destroy-error:=${JSON.stringify(err)}`); }
                 });
 
                 const url = keycloak.buildUrlLogout(realm, GUI_HOME_URL);
