@@ -3,7 +3,7 @@ coverage:
   status:
     project:
       default:
-        target: 80%
+        target: 85%
         threshold: 0.5%
         base: auto
         if_no_uploads: error
@@ -12,7 +12,7 @@ coverage:
         only_pulls: false
     patch:
       default:
-        target: 80%
+        target: 85%
         threshold: 0.5%
         base: auto
         if_no_uploads: error
