@@ -107,7 +107,6 @@ class Redis {
     });
     clientRedis.on('error', (error) => {
       logger.error(`Redis ${nameClient} has an error:`, error);
-      this.serviceState.signalNotReady(`redis-${nameClient}`);
       if (error.code === 'CONNECTION_BROKEN') {
         logger.warn('The service will be shutdown for exceeding attempts to reconnect with Redis');
         this.serviceState.shutdown().then(() => {
