@@ -25,7 +25,7 @@ const {
  * @param {an instance of ../redis}object.redis instance of the Redis class
  * @param {an instance of ../keycloak}object.keycloak instance of the Keycloak class
  *
- * @throws  Some error when try load open api in yaml
+ * @throws  Some error if cannot create an express instance
  *
  * @returns {express}
  */

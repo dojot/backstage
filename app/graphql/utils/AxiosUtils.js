@@ -30,12 +30,12 @@ class AxiosUtils {
     };
   }
 
-  // static handleErrorAxios(error) {
-  //   if (error.response && error.response.status && error.response.data) {
-  //     throw new Error(`${error.response.status}: ${JSON.stringify(error.response.data)}`);
-  //   }
-  //   throw error;
-  // }
+  static handleErrorAxios(error) {
+    if (error.response && error.response.status && error.response.data) {
+      throw new Error(`${error.response.status}: ${JSON.stringify(error.response.data)}`);
+    }
+    throw error;
+  }
 }
 
 module.exports = AxiosUtils;

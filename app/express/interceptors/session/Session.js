@@ -19,6 +19,7 @@ const { session: sessionConfig } = getConfig('BS');
  */
 const renewAccessTokenIfNecessary = async (req, keycloak) => {
   logger.debug('renewAccessTokenIfNecessary: ...');
+  // checks if the current token is expired
   if ((Date.now() > new Date(req.session.accessTokenExpiresAt).getTime())) {
     logger.debug('renewAccessTokenIfNecessary: Getting a new token...');
     const {

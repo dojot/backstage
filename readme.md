@@ -1,4 +1,4 @@
-# Backstage [![CodeFactor](https://www.codefactor.io/repository/github/dojot/backstage/badge)](https://www.codefactor.io/repository/github/dojot/backstage) [![codecov](https://codecov.io/gh/dojot/backstage/branch/development/graph/badge.svg)](https://codecov.io/gh/dojot/backstage) [![Docker badge ](https://img.shields.io/docker/pulls/dojot/gui-v2.svg)](https://hub.docker.com/r/dojot/backstage/) [![License badge](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+# Backstage [![CodeFactor](https://www.codefactor.io/repository/github/dojot/backstage/badge)](https://www.codefactor.io/repository/github/dojot/backstage)[![codecov](https://codecov.io/gh/dojot/backstage/branch/development/graph/badge.svg)](https://codecov.io/gh/dojot/backstage) [![Docker badge ](https://img.shields.io/docker/pulls/dojot/backstage.svg)](https://hub.docker.com/r/dojot/backstage/) [![License badge](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)[![DeepScan grade](https://deepscan.io/api/teams/2714/projects/3991/branches/33559/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=2714&pid=3991&bid=33559) [![CodeFactor](https://www.codefactor.io/repository/github/dojot/backstage/badge)](https://www.codefactor.io/repository/github/dojot/backstage)
 
 The **Backstage** is intended to be an intermediary between the dojot and Keycloak APIs for the GUIs.
 
@@ -52,7 +52,7 @@ The services dependencies are listed in the next topics.
 
 ## Rest API
 
-The link to the static API documentation for the available endpoints:
+The link to the API documentation for the available endpoints:
 
 - [Latest Backstage Retriever API documentation](https://dojot.github.io/backstage/api/doc.html)
 - [Development Backstage Retriever API documentation](https://dojot.github.io/backstage/api/doc.html?version=development)
@@ -126,7 +126,7 @@ The sequence diagram (figure 2) shows the main flows and below the figure are ex
 
 Calls made through the GUI can be pre-processed and accessed via GraphQL.
 
-To access the data via GraphQL it is necessary to have executed the authentication flow of the keycloak, that is, to have a cookie with a valid session id in the backstage.
+To access the data via GraphQL it is necessary to have executed the authentication flow of OAuth using OpenID via the keycloak, that is, to have a cookie with a valid session id in the backstage.
 
 To access GraphiQL, graphical interface in GraphQL interactive (it is also possible to see the documentation) enable `graphql.graphiql` and access the url it follows this pattern:
 
@@ -143,9 +143,9 @@ The link to the static GraphQL documentation:
 
 ## Proxy
 
-There is an endpoint the proxy, for for internal calls to dojot via api gateway (kong). It adds `Authorization: 'Bearer TOKEN'` to the request header based on the current session.
+There is an proxy endpoint for internal calls to dojot via api gateway (kong). It adds `Authorization: 'Bearer TOKEN'` to the request header based on the current session.
 
-To access the data via Proxy it is necessary to have executed the authentication flow of the keycloak, that is, to have a cookie with a valid session id in the backstage.
+To access the data via Proxy it is necessary to have executed the authentication flow of OAuth using OpenID via the keycloak, that is, to have a cookie with a valid session id in the backstage.
 
 For example, calling `<app.base.url>/backstage/v1/proxy/device` internally will be called `<app.internal.base.url>/device`.
 

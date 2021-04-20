@@ -70,7 +70,7 @@ class Keycloak {
    * @param {string} codeChallenge
    * @returns
    */
-  buildUrlLogin(realm, state, codeChallenge, urlReturn) {
+  buildUrlLogin(realm, state, codeChallenge, redirectUri) {
     return buildUrlLogin({
       baseUrl: this.externalKeycloakUrl,
       clientId: this.clientId,
@@ -78,7 +78,7 @@ class Keycloak {
       state,
       codeChallenge,
       codeChallengeMethod: configKeycloak['code.challenge.method'],
-      urlReturn,
+      redirectUri,
     });
   }
 

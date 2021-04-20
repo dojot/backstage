@@ -265,7 +265,7 @@ describe('RoutesV1', () => {
       .get('/backstage/v1/auth/return')
       .then((response) => {
         expect(response.statusCode).toBe(400);
-        expect(response.body).toStrictEqual({ error: "request.query should have required property 'code', request.query should have required property 'state', request.query should have required property 'session_state'" });
+        expect(response.body).toStrictEqual({ error: "request.query should have required property 'code', request.query should have required property 'state'" });
         done();
       });
   });

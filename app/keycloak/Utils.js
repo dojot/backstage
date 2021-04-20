@@ -1,8 +1,19 @@
-const buildOIDCURL = (url, realm) => `${url}/realms/${realm}/protocol/openid-connect`;
+const endpointOIDC = (realm) => `/realms/${realm}/protocol/openid-connect`;
+
+const buildOIDCURL = (url, realm) => `${url}${endpointOIDC(realm)}`;
+
 
 /**
  * Built external URL for browser login
+ *
  * @param {object} param0
+ * @param {string} param0.baseUrl Start URL
+ * @param {string} param0.redirectUri URL to redirect
+ * @param {string} param0.realm Realm
+ * @param {string} param0.clientId clientId
+ * @param {string} param0.codeChallenge codeChallenge
+ * @param {string} param0.codeChallengeMethod codeChallengeMethod
+ * @param {string} param0.codeChallengeMethod codeChallengeMethod
  * @returns
  */
 const buildUrlLogin = ({
@@ -12,7 +23,7 @@ const buildUrlLogin = ({
   state,
   codeChallenge,
   codeChallengeMethod,
-  urlReturn,
+  redirectUri,
 }) => {
   const url = new URL(`${buildOIDCURL(baseUrl, realm)}/auth?`);
 
@@ -22,7 +33,7 @@ const buildUrlLogin = ({
   url.searchParams.append('state', state);
   url.searchParams.append('code_challenge', codeChallenge);
   url.searchParams.append('code_challenge_method', codeChallengeMethod);
-  url.searchParams.append('redirect_uri', urlReturn);
+  url.searchParams.append('redirect_uri', redirectUri);
 
   return url.href;
 };
@@ -31,6 +42,9 @@ const buildUrlLogin = ({
  * Built external URL for browser logout
  *
  * @param {object} param0
+ * @param {string} param0.baseUrl Start URL
+ * @param {string} param0.redirectUri URL to redirect
+ * @param {string} param0.realm Realm
  * @returns
  */
 const buildUrlLogout = ({
@@ -47,4 +61,5 @@ const buildUrlLogout = ({
 module.exports = {
   buildUrlLogin,
   buildUrlLogout,
+  endpointOIDC,
 };

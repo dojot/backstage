@@ -48,8 +48,9 @@ export default function ReturnLogin(props) {
               userInfo: resultUserInfo,
             });
       }catch(error){
+        // these are errors related to authentication and authorization
         // redirect to the homepage or do something else
-        if (error.response && error.response.status===401){
+        if (error.response && (error.response.status===401 || error.response.status===403)){
           setData({
             ...data,
             errorMsg: `${error.response.status}: ${JSON.stringify(error.response.data)}`,
@@ -77,7 +78,7 @@ export default function ReturnLogin(props) {
 
   const handleExampleData  = async (evt) => {
     try{
-    const { data: resultData } = await axios.post(Config.GQ_URL, {
+    const { data: resultData } = await axios.post(Config.GQL_URL, {
       query: GQL_DEVICES_LIST,
       });
       setData({
@@ -86,8 +87,9 @@ export default function ReturnLogin(props) {
         errorMsg:'none',
       });
     }catch(error){
+        // these are errors related to authentication and authorization
         // redirect to the homepage or do something else
-        if (error.response && error.response.status===401){
+        if (error.response && (error.response.status===401 || error.response.status===403)){
           setData({
             ...data,
             dataExample: {},
@@ -105,7 +107,7 @@ export default function ReturnLogin(props) {
 
   const handleExampleProxy  = async (evt) => {
     try{
-    const { data: resultData } = await axios.post(Config.PROXY_URL+'/device?a=1&abc=d', {
+    const { data: resultData } = await axios.post(Config.PROXY_URL+'/device', {
       "label": "test_device",
       "templates": [
         1
@@ -118,8 +120,9 @@ export default function ReturnLogin(props) {
         errorMsg:'none',
       });
     }catch(error){
+        // these are errors related to authentication and authorization
         // redirect to the homepage or do something else
-        if (error.response && error.response.status===401){
+        if (error.response && (error.response.status===401 || error.response.status===403)){
           setData({
             ...data,
             dataProxy: {},

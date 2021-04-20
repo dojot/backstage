@@ -38,7 +38,7 @@ class Postgres {
       this.createHealthChecker();
       this.registerShutdown();
       this.initialized = true;
-      await this.checkTableUserConfig();
+      await this.createTableUserConfigIfNotExist();
     } catch (error) {
       logger.error('init: error=', error);
       throw error;
@@ -112,7 +112,7 @@ class Postgres {
    * Checks if the user_config table exists, if the creation does not exist
    * @private
    */
-  async checkTableUserConfig() {
+  async createTableUserConfigIfNotExist() {
     try {
       await this.query({ text: QUERY_CREATE_TABLE_USER_CONFIG });
       logger.info('Table user_config is available to use.');

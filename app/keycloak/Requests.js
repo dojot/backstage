@@ -1,6 +1,7 @@
 const { Logger } = require('@dojot/microservice-sdk');
 const querystring = require('querystring');
 const createError = require('http-errors');
+const { endpointOIDC } = require('./Utils.js');
 
 /**
  * Transforms from the time window that will expire, to the approximate
@@ -38,23 +39,7 @@ const commonHandleError = (error) => {
   return (error);
 };
 
-/**
- *
- * @param {string} realm
- * @returns
- */
-function endpointOIDC(realm) {
-  return `/realms/${realm}/protocol/openid-connect`;
-}
-
-/**
- *
- * @param {string} realm
- * @returns
- */
-function endpointOIDCToken(realm) {
-  return `${endpointOIDC(realm)}/token`;
-}
+const endpointOIDCToken = (realm) => `${endpointOIDC(realm)}/token`;
 
 
 /**
