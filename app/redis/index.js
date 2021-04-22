@@ -76,13 +76,11 @@ class Redis {
 
     this.redisPub.on('connect', () => {
       logger.debug('Redis pub is connect.');
-      this.serviceState.signalReady('redis-pub');
       this.initPub();
     });
 
     this.redisSub.on('connect', async () => {
       logger.debug('Redis sub is connect.');
-      this.serviceState.signalReady('redis-sub');
       await this.initSub(redisConfig.db);
     });
 
