@@ -108,10 +108,6 @@ describe('redis tests', () => {
       .toHaveBeenNthCalledWith(1, 'redis-pub');
     expect(mockSignalReady)
       .toHaveBeenNthCalledWith(2, 'redis-sub');
-    expect(mockSignalReady)
-      .toHaveBeenNthCalledWith(3, 'redis-pub');
-    expect(mockSignalReady)
-      .toHaveBeenNthCalledWith(4, 'redis-sub');
   });
 
   test('Management get: ok', async () => {
