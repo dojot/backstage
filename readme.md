@@ -333,4 +333,4 @@ Check the [example](./example) directory for more details.
 
 The Backstage source code is released under Apache License 2.0.
 
-Check NOTICE and LICENSE files for more information.
+Check [NOTICE](./NOTICE.md) and [LICENSE](./LICENSE) files for more information.
