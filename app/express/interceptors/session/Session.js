@@ -13,7 +13,7 @@ const { session: sessionConfig } = getConfig('BS');
 
 // if a secret is not defined, the service is unable to start
 if (!sessionConfig.secret) {
-  throw new Error('secret option required for sessions');
+  throw new Error('The `session.secret` option is required, please read the topic attention in the readme.');
 }
 
 /**
