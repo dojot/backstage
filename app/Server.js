@@ -37,6 +37,9 @@ class Server {
     });
     this.server.on('error', (e) => {
       logger.error('Server experienced an error:', e);
+      if (e.code === 'EADDRINUSE') {
+        throw e;
+      }
     });
     this.server.listen(configServer.port, configServer.host);
 
