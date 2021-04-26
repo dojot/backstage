@@ -1,4 +1,4 @@
-FROM node:12.21-alpine AS base
+FROM node:12.22-alpine AS base
 
 WORKDIR /opt/backstage
 
@@ -31,7 +31,7 @@ COPY  api ./api
 COPY  config ./config
 COPY  index.js ./index.js
 
-FROM node:12.21-alpine
+FROM node:12.22-alpine
 
 WORKDIR /opt/backstage
 

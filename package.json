@@ -3,7 +3,7 @@
     "version": "2.0.0",
     "description": "This service is intended to be an intermediary between the dojot and Keycloak APIs for the GUIs.",
     "engines": {
-        "node": ">=12.21",
+        "node": ">=12.22",
         "npm": ">=6.14"
     },
     "private": true,
@@ -25,6 +25,7 @@
     "keywords": [
         "dojot",
         "backend-for-gui",
+        "backend-for-frontend",
         "keycloak",
         "graphql"
     ],
@@ -34,10 +35,10 @@
         "test/",
         "!test/unit/coverage/"
     ],
-    "author": "@mprevide",
+    "author": "Mariane Previde [@mprevide]",
     "contributors": [
-        "@luisfelipefurlan",
-        "@juliamourac"
+        "Luis Felipe Furlan [@luisfelipefurlan]",
+        "Julia de Moura [@juliamourac]"
     ],
     "license": "Apache-2.0",
     "licenses": [
@@ -48,10 +49,10 @@
     ],
     "homepage": "https://github.com/dojot",
     "dependencies": {
-        "@dojot/microservice-sdk": "0.1.11",
+        "@dojot/microservice-sdk": "0.1.12",
         "axios": "^0.21.1",
         "base64url": "^3.0.1",
-        "caniuse-lite": "^1.0.30001208",
+        "caniuse-lite": "^1.0.30001216",
         "express": "^4.17.1",
         "express-graphql": "^0.12.0",
         "express-openapi-validator": "^4.8.0",
@@ -60,7 +61,7 @@
         "graphql": "^15.5.0",
         "graphql-tools": "^7.0.4",
         "http-errors": "^1.8.0",
-        "http-proxy-middleware": "^1.1.1",
+        "http-proxy-middleware": "^1.3.0",
         "http-terminator": "^2.0.3",
         "js-yaml": "^3.14.0",
         "lodash": "^4.17.21",
@@ -68,7 +69,7 @@
         "moment": "^2.29.1",
         "pg": "^8.5.1",
         "randomstring": "^1.1.5",
-        "redis": "^3.0.2",
+        "redis": "^3.1.2",
         "swagger-ui-express": "^4.1.4"
     },
     "jest": {
@@ -101,7 +102,7 @@
     },
     "devDependencies": {
         "@bbc/apache2-license-checker": "^1.1.4",
-        "eslint": "^7.24.0",
+        "eslint": "^7.25.0",
         "eslint-config-airbnb-base": "^14.2.0",
         "eslint-plugin-import": "^2.22.1",
         "eslint-plugin-security": "^1.4.0",
