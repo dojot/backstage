@@ -327,7 +327,6 @@ describe('Keycloak tests', () => {
       username: 'username',
       email: 'email',
       emailVerified: true,
-      realm: 'realm',
       tenant: 'realm',
     });
   });

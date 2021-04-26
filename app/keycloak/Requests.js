@@ -288,7 +288,6 @@ class Requests {
           username: data.preferred_username,
           email: data.email,
           emailVerified: data.email_verified,
-          realm,
           tenant: realm,
         };
       }

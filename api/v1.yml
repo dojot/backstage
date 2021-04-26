@@ -31,7 +31,7 @@ paths:
         - auth
       summary: "Authenticate"
       description: |
-      Create session cookie, generate PKCE, and redirect to the Keycloak login screen using the OAuth2/OIDC protocols
+        Create session cookie, generate PKCE, and redirect to the Keycloak login screen using the OAuth2/OIDC protocols
       operationId: Authenticate
       parameters:
         - name: tenant
