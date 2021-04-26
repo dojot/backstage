@@ -5,7 +5,7 @@ const {
 
 const { session: sessionRedisConfig } = getConfig('BS');
 
-const logger = new Logger('backstage:Redis/RedisSessionMgmt');
+const logger = new Logger('backstage:Redis/RedisManagement');
 class RedisSessionMgmt {
   constructor(
     redisPub, redisSub,
@@ -170,12 +170,13 @@ class RedisSessionMgmt {
   async destroy(sid) {
     logger.debug(`destroy: sid=${sid}`);
     try {
-      const { accessToken, realm, refreshToken } = await this.get(sid);
-
-      if (accessToken && realm && refreshToken) {
-        await this.beforeDestroy(realm, accessToken, refreshToken);
+      const session = await this.get(sid);
+      if (session) {
+        const { accessToken, realm, refreshToken } = session;
+        if (accessToken && realm && refreshToken) {
+          await this.beforeDestroy(realm, accessToken, refreshToken);
+        }
       }
-
       await this.redisPub.del(this.prefixSession + sid);
       await this.redisPub.del(this.prefixSessionIdle + sid);
     } catch (err) {
