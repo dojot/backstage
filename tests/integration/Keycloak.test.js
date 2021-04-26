@@ -49,8 +49,6 @@ jest.mock('axios', () => mockAxios);
 
 const Keycloak = require('../../app/keycloak');
 
-let keycloak = null;
-
 describe('Keycloak tests', () => {
   beforeAll(() => {
 
@@ -63,10 +61,10 @@ describe('Keycloak tests', () => {
   afterEach(() => {
   });
   test('init', () => {
-    keycloak = new Keycloak(serviceStateMock);
-    expect(keycloak.healthCheckMs).toBe(30000);
+    Keycloak.init(serviceStateMock);
+    expect(Keycloak.healthCheckMs).toBe(30000);
     expect(mockAddHealthChecker)
-      .toHaveBeenCalledWith(keycloak.serviceName, expect.any(Function), 30000);
+      .toHaveBeenCalledWith(Keycloak.serviceName, expect.any(Function), 30000);
   });
 
   test('getTokenByAuthorizationCode: ok', async () => {
@@ -86,7 +84,7 @@ describe('Keycloak tests', () => {
     const authorizationCode = 'authorizationCode';
     const codeVerifier = 'codeVerifier';
 
-    const returnData = await keycloak
+    const returnData = await Keycloak
       .getRequestsInstance()
       .getTokenByAuthorizationCode(realm, authorizationCode, codeVerifier);
 
@@ -121,7 +119,7 @@ describe('Keycloak tests', () => {
       const realm = 'admin';
       const authorizationCode = 'authorizationCode';
       const codeVerifier = 'codeVerifier';
-      await keycloak
+      await Keycloak
         .getRequestsInstance()
         .getTokenByAuthorizationCode(realm, authorizationCode, codeVerifier);
     } catch (e) {
@@ -141,7 +139,7 @@ describe('Keycloak tests', () => {
       const realm = 'admin';
       const authorizationCode = 'authorizationCode';
       const codeVerifier = 'codeVerifier';
-      await keycloak
+      await Keycloak
         .getRequestsInstance()
         .getTokenByAuthorizationCode(realm, authorizationCode, codeVerifier);
     } catch (e) {
@@ -167,7 +165,7 @@ describe('Keycloak tests', () => {
     const authorizationCode = 'authorizationCode';
     const codeVerifier = 'codeVerifier';
 
-    const returnData = await keycloak
+    const returnData = await Keycloak
       .getRequestsInstance()
       .getTokenByRefreshToken(realm, authorizationCode, codeVerifier);
 
@@ -200,7 +198,7 @@ describe('Keycloak tests', () => {
       const realm = 'admin';
       const authorizationCode = 'authorizationCode';
       const codeVerifier = 'codeVerifier';
-      await keycloak
+      await Keycloak
         .getRequestsInstance()
         .getTokenByRefreshToken(realm, authorizationCode, codeVerifier);
     } catch (e) {
@@ -219,7 +217,7 @@ describe('Keycloak tests', () => {
       const realm = 'admin';
       const authorizationCode = 'authorizationCode';
       const codeVerifier = 'codeVerifier';
-      await keycloak
+      await Keycloak
         .getRequestsInstance()
         .getTokenByRefreshToken(realm, authorizationCode, codeVerifier);
     } catch (e) {
@@ -246,7 +244,7 @@ describe('Keycloak tests', () => {
     const realm = 'admin';
     const accessToken = 'accessToken';
 
-    const returnData = await keycloak
+    const returnData = await Keycloak
       .getRequestsInstance()
       .getPermissionsByToken(realm, accessToken);
 
@@ -276,7 +274,7 @@ describe('Keycloak tests', () => {
       const realm = 'admin';
       const accessToken = 'accessToken';
 
-      await keycloak
+      await Keycloak
         .getRequestsInstance()
         .getPermissionsByToken(realm, accessToken);
     } catch (e) {
@@ -293,7 +291,7 @@ describe('Keycloak tests', () => {
     try {
       const realm = 'admin';
       const accessToken = 'accessToken';
-      await keycloak
+      await Keycloak
         .getRequestsInstance()
         .getPermissionsByToken(realm, accessToken);
     } catch (e) {
@@ -317,7 +315,7 @@ describe('Keycloak tests', () => {
     const realm = 'realm';
     const accessToken = 'accessToken';
 
-    const returnData = await keycloak
+    const returnData = await Keycloak
       .getRequestsInstance()
       .getUserInfoByToken(realm, accessToken);
 
@@ -337,7 +335,7 @@ describe('Keycloak tests', () => {
     try {
       const realm = 'admin';
       const accessToken = 'accessToken';
-      await keycloak
+      await Keycloak
         .getRequestsInstance()
         .getUserInfoByToken(realm, accessToken);
     } catch (e) {
@@ -356,7 +354,7 @@ describe('Keycloak tests', () => {
     try {
       const realm = 'admin';
       const accessToken = 'accessToken';
-      await keycloak
+      await Keycloak
         .getRequestsInstance()
         .getUserInfoByToken(realm, accessToken);
     } catch (e) {
@@ -371,7 +369,7 @@ describe('Keycloak tests', () => {
       data: 'anyData',
     });
 
-    const returnData = await keycloak
+    const returnData = await Keycloak
       .getRequestsInstance()
       .getStatus();
 
@@ -384,7 +382,7 @@ describe('Keycloak tests', () => {
       status: 500,
     });
 
-    const returnData = await keycloak
+    const returnData = await Keycloak
       .getRequestsInstance()
       .getStatus();
 
@@ -402,7 +400,7 @@ describe('Keycloak tests', () => {
     const accessToken = 'accessToken';
     const refreshToken = 'refreshToken';
 
-    await keycloak
+    await Keycloak
       .getRequestsInstance()
       .logout(realm, accessToken, refreshToken);
 
@@ -418,13 +416,13 @@ describe('Keycloak tests', () => {
     const accessToken = 'accessToken';
     const refreshToken = 'refreshToken';
 
-    await keycloak
+    await Keycloak
       .getRequestsInstance()
       .logout(realm, accessToken, refreshToken);
   });
 
   test('createInfluxHealthChecker - heath', async () => {
-    keycloak.createHealthChecker(serviceStateMock);
+    Keycloak.createHealthChecker(serviceStateMock);
 
     const callback = mockAddHealthChecker.mock.calls[0][1];
 
@@ -444,7 +442,7 @@ describe('Keycloak tests', () => {
 
 
   test('createInfluxHealthChecker - not heath ', async () => {
-    keycloak.createHealthChecker(serviceStateMock);
+    Keycloak.createHealthChecker(serviceStateMock);
 
     const callback = mockAddHealthChecker.mock.calls[0][1];
     mockAxiosGet.mockRejectedValueOnce(new Error());
@@ -462,7 +460,7 @@ describe('Keycloak tests', () => {
     const state = 'state';
     const codeChallenge = 'codeChallenge';
     const urlReturn = 'redirectUri';
-    const urlLogin = keycloak.buildUrlLogin(realm, state, codeChallenge, urlReturn);
+    const urlLogin = Keycloak.buildUrlLogin(realm, state, codeChallenge, urlReturn);
 
     expect(urlLogin).toBe('http://localhost:8000/auth/realms/admin/protocol/openid-connect/auth?client_id=gui&response_type=code&scope=openid&state=state&code_challenge=codeChallenge&code_challenge_method=S256&redirect_uri=redirectUri');
   });
@@ -470,7 +468,7 @@ describe('Keycloak tests', () => {
   test('buildUrlLogout ', async () => {
     const realm = 'admin';
     const redirectUri = 'redirectUri';
-    const urlLogout = keycloak.buildUrlLogout(realm, redirectUri);
+    const urlLogout = Keycloak.buildUrlLogout(realm, redirectUri);
 
     expect(urlLogout).toBe('http://localhost:8000/auth/realms/admin/protocol/openid-connect/logout?redirect_uri=redirectUri');
   });

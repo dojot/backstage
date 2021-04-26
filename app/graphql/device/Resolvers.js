@@ -6,6 +6,7 @@ const moment = require('moment');
 const {
   Logger,
 } = require('@dojot/microservice-sdk');
+// const Keycloak = require('../../keycloak');
 
 const logger = new Logger('backstage:graphql/device/Resolvers');
 const UTIL = require('../utils/AxiosUtils');

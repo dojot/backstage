@@ -25,40 +25,56 @@ class Keycloak {
    *          Manages the services' states, providing health check and shutdown utilities.
    *
    */
-  constructor(serviceState) {
-    this.serviceName = 'keycloak';
-    this.clientId = configKeycloak['public.client.id'];
-    this.externalKeycloakUrl = configKeycloak['url.external'];
-    this.internalKeycloakUrl = configKeycloak['url.api.gateway'];
-    this.healthCheckMs = configKeycloak['healthcheck.ms'];
-    this.createHealthChecker(serviceState);
+  init(serviceState) {
+    try {
+      this.serviceName = 'keycloak';
+      this.clientId = configKeycloak['public.client.id'];
+      this.externalKeycloakUrl = configKeycloak['url.external'];
+      this.internalKeycloakUrl = configKeycloak['url.api.gateway'];
+      this.healthCheckMs = configKeycloak['healthcheck.ms'];
+      this.createHealthChecker(serviceState);
 
 
-    this.axiosKeycloak = axios.create({
-      baseURL: this.internalKeycloakUrl,
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
-    });
+      this.axiosKeycloak = axios.create({
+        baseURL: this.internalKeycloakUrl,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+      });
 
-    if (configKeycloak.secure) {
-      const configReplaced = replaceTLSFlattenConfigs(configKeycloak);
+      if (configKeycloak.secure) {
+        const configReplaced = replaceTLSFlattenConfigs(configKeycloak);
 
-      this.axiosKeycloak.httpsAgent = new https.Agent(
-        { ...configReplaced.ssl },
+        this.axiosKeycloak.httpsAgent = new https.Agent(
+          { ...configReplaced.ssl },
+        );
+      }
+
+      this.requests = new Requests(
+        this.clientId,
+        this.axiosKeycloak,
       );
+      this.initialized = true;
+    } catch (error) {
+      logger.error('init: error=', error);
+      throw error;
     }
-
-    this.requests = new Requests(
-      this.clientId,
-      this.axiosKeycloak,
-    );
   }
 
+  /**
+   * Checks whether it was started properly by calling the init method
+   * @private
+   */
+  checkInitiated() {
+    if (!this.initialized) {
+      throw new Error('Call init method first');
+    }
+  }
 
   /**
    * Returns a Requests instance
    * @returns {Requests}
    */
   getRequestsInstance() {
+    this.checkInitiated();
     return this.requests;
   }
 
@@ -71,6 +87,7 @@ class Keycloak {
    * @returns
    */
   buildUrlLogin(realm, state, codeChallenge, redirectUri) {
+    this.checkInitiated();
     return buildUrlLogin({
       baseUrl: this.externalKeycloakUrl,
       clientId: this.clientId,
@@ -89,6 +106,7 @@ class Keycloak {
    * @returns
    */
   buildUrlLogout(realm, redirectUri) {
+    this.checkInitiated();
     return buildUrlLogout({
       baseUrl: this.externalKeycloakUrl,
       redirectUri,
@@ -121,4 +139,4 @@ class Keycloak {
   }
 }
 
-module.exports = Keycloak;
+module.exports = new Keycloak();

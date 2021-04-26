@@ -43,7 +43,12 @@ const mockPostgres = {
 };
 jest.mock('../../app/postgres', () => mockPostgres);
 jest.mock('../../app/express', () => jest.fn());
-jest.mock('../../app/keycloak', () => jest.fn());
+
+const mockKeycloakInit = jest.fn();
+const mockKeycloak = {
+  init: mockKeycloakInit,
+};
+jest.mock('../../app/keycloak', () => mockKeycloak);
 jest.mock('../../app/redis', () => jest.fn());
 
 const App = require('../../app/App');

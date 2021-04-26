@@ -4,6 +4,7 @@ const {
 } = require('@dojot/microservice-sdk');
 
 const Postgres = require('../../postgres');
+// const Keycloak = require('../../keycloak');
 
 const logger = new Logger('backstage:graphql/user/Resolvers');
 
