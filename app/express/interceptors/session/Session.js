@@ -11,6 +11,11 @@ const logger = new Logger('backstage:express/interceptors/session/Session');
 
 const { session: sessionConfig } = getConfig('BS');
 
+// if a secret is not defined, the service is unable to start
+if (!sessionConfig.secret) {
+  throw new Error('secret option required for sessions');
+}
+
 /**
  * Renew the access token through the refresh token if the current access token is expired
  *

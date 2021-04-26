@@ -7,6 +7,7 @@ The **Backstage** is intended to be an intermediary between the dojot and Keyclo
 ## **Table of Contents**
 
 - [Overview](#overview)
+- [Attention](#attention)
 - [Dependencies](#dependencies)
   - [Dojot Services](#dojot-services)
   - [Others Services](#others-services)
@@ -33,7 +34,9 @@ The **Backstage** is intended to be an intermediary between the dojot and Keyclo
 
 Backstage is a backend for the frontend. Currently it has two main roles, one is to maintain the session with information as an access token only on the backend, thus ensuring more security and another role is to manipulate the data in order to be simpler to be consumed on the frontend, thus reducing processing load in the client's browser.
 
-__Attention__ the value of `session.secret`,  used to sign the session ID, **should be unique for each environment**
+## Attention
+
+__Attention__ The configurable value `session.secret`, used to sign the session ID, **must be unique for each environment** and always configured, if not configured via the configuration file or environment variable `BS_SESSION_SECRET`, the service will not be able to start.
 
 ## Dependencies
 
