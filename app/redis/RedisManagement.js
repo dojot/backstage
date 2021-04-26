@@ -10,18 +10,19 @@ class RedisSessionMgmt {
   constructor(
     redisPub, redisSub,
   ) {
-    this.maxLifetime = sessionRedisConfig['redis.max.life.time.sec'] || 86400; // One day in seconds.
-    this.maxIdleTime = sessionRedisConfig['redis.max.idle.time.sec'] || 1800; // 30 minutes in seconds.
-    this.maxLoginReturnTime = sessionRedisConfig['redis.max.login.return.time.sec'] || 120;// 2 min
-
     // `session` is a key created in redis with ttl with the value`this.maxLifetime`.
     // It is the maximum time for a session.
+    this.maxLifetime = sessionRedisConfig['redis.max.life.time.sec'] || 86400; // One day in seconds.
     this.prefixSession = sessionRedisConfig['redis.key.prefix.name.max.life'] || 'session:';
 
     // `session-idle` is a key created in redis with ttl with
     // the value `this.maxIdle` in each request, this ttl is restarted.
+    this.maxIdleTime = sessionRedisConfig['redis.max.idle.time.sec'] || 1800; // 30 minutes in seconds.
     this.prefixSessionIdle = sessionRedisConfig['redis.key.prefix.name.max.idle'] || 'session-idle:';
     this.prefixSessionIdleSize = (this.prefixSessionIdle).length;
+
+    // the maximum time to sign in when the process starts
+    this.maxLoginReturnTime = sessionRedisConfig['redis.max.login.return.time.sec'] || 120;// 2 min
 
     this.redisPub = redisPub;
     this.redisSub = redisSub;

@@ -21,7 +21,7 @@ const logger = new Logger('backstage:express/routes/v1/Auth');
 module.exports = ({ mountPoint, keycloak }) => {
   /**
    *  Create session, generate PKCE, and redirect to the
-   *  keycloack login screen using the openid connect protocol
+   *  keycloak login screen using the OAuth2/OIDC protocols.
    */
   const auth = {
     mountPoint,
@@ -68,10 +68,10 @@ module.exports = ({ mountPoint, keycloak }) => {
 
   /**
    * Called when there is success in the login screen, this endpoint
-   * is passed as `redirect_uri` when redirecting to the keycloack login screen
+   * is passed as `redirect_uri` when redirecting to the keycloak login screen
    * and if the login happens
-   * correctly the keycloack calls this endpoint.
-   * The openid connect protocol is used.
+   * correctly the keycloak calls this endpoint.
+   * The OAuth2/OIDC protocols are used.
    */
   const authReturn = {
     mountPoint,
@@ -145,7 +145,7 @@ module.exports = ({ mountPoint, keycloak }) => {
   /**
    *  Returns information from the active session user such as name,
    *  email, tenant (realm) and the permissions associated with that
-   *  user using openid connect.
+   *  user using OAuth2/OIDC protocols.
    */
   const authUserInfo = {
     mountPoint,
@@ -184,9 +184,9 @@ module.exports = ({ mountPoint, keycloak }) => {
   };
 
   /**
-   * Revoke the active user session using openid connect and redirects to
-   * the keycloack logout url if there is an active session and
-   * that keycloack url redirects to `gui.home.url` or redirects directly
+   * Revoke the active user session using OAuth2/OIDC protocols and redirects to
+   * the keycloak logout url if there is an active session and
+   * that keycloak url redirects to `gui.home.url` or redirects directly
    * to` gui.home.url` with an error query string.
    */
   const authRevoke = {

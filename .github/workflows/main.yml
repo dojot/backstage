@@ -1,6 +1,6 @@
 name: Backstage
 
-# trigger when create a branch, push a tag or a branch, PR with changes in 'storage/time-series/influxdb/retriever/**'
+# trigger when create a branch, push a tag or a branch, PR
 on:
   create:
   push:

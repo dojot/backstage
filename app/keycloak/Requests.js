@@ -5,7 +5,9 @@ const { endpointOIDC } = require('./Utils.js');
 
 /**
  * Transforms from the time window that will expire, to the approximate
- *  moment that will expire
+ * moment that will expire
+ *
+ * It converts a relative time to an absolute time
  *
  * @param {Number} expiresIn In seconds
  * @returns {Date}

@@ -48,8 +48,8 @@ The services dependencies are listed in the next topics.
 
 ### Others Services
 
-- [Keycloak](https://www.keycloak.org/) (tested using Keycloak version 12.0.2)
-- [Redis](https://redis.io/) (tested using 6.0.4 version 6.0.4)
+- [Keycloak](https://www.keycloak.org/) (tested using Keycloak version 12.0.x)
+- [Redis](https://redis.io/) (tested using Redis version 6.0.4)
 - [Postgres](https://www.postgresql.org/) (tested using Postgres version 9.5)
 
 ## Rest API
@@ -69,7 +69,7 @@ For example, the address could be:
 
 ## Keycloak
 
-Keycloak implements the OAuth 2.0 and OpenID Connect processes, has its own customizable login screen and a tenant in the dojot is equivalent to a `realm` in Keycloak.
+Keycloak implements the OAuth 2.0 and OpenID Connect protocols, has its own customizable login screen and a tenant in the dojot is equivalent to a `realm` in Keycloak.
 
 The Backstage will use the Keycloak to execute the  [Proof Key for Code Exchange flow, PKCE](https://oauth.net/2/pkce/),  is an extension to the [Authorization Code flow](https://oauth.net/2/grant-types/authorization-code/). In order to obtain greater security, the proposal is that the Access Token and the Refresh Token are accessible only in Backstage and kept in Redis. Another important point is that to identify the session between the browser and the backstage, an HttpOnly cookie will be used, and in that cookie there will be a session identification. It is recommended that this cookie only accepts HTTPS connections.
 
@@ -78,7 +78,7 @@ The backstage also controls the time of the active session, obtain new Access To
 ### Requirements
 
 - Have a public client registered in the Keycloak the value can be set in `keycloak.public.client.id`
-- If you are using kong with the dojot plugin, pepkong, when registering resources/endpoints in Kong, define which ones are safe, they need authentication and authorization (a valid token and permission to access). Whenever a request is made passing through Kong in one of these resources that need authentication and authorization, a plugin is executed in Kong that checks in the Keycloack if the token in the header can access the resource/endpoint that it is intending to access, in case it cannot return an error.
+- If you are using kong with the dojot plugin, pepkong, when registering resources/endpoints in Kong, define which ones are safe, they need authentication and authorization (a valid token and permission to access). Whenever a request is made passing through Kong in one of these resources that need authentication and authorization, a plugin is executed in Kong that checks in the Keycloak if the token in the header can access the resource/endpoint that it is intending to access, in case it cannot return an error.
 
 ### Architecture
 
@@ -96,7 +96,7 @@ The sequence diagram (figure 2) shows the main flows and below the figure are ex
    1. User clicks on login and the GUI receives the click;
    1. The GUI makes a GET request for the `<app.base.url>/backstage/v1/auth?tenant=$TENANT&state=$STATE` endpoint in the Backstage;
    1. The backstage creates a session cookie; generates the code verifier and code challenge pair; creates a record in Redis to save session data with the prefix key `session.redis.key.prefix.name.max.life` and suffix session identifier, for example `session:abcde`; this register has valid for `session.redis.max.life.time.sec`, ttl;  another record is also created with prefix key `session.redis.key.prefix.name.max.idle` and suffix session identifier, for example `session-idle:abcde` with`session.redis.max.login.return.time.sec` as validity, ttl and this record has no data;
-   1. It's returns a redirect to the login screen with code 303 for `<keycloak.url.external>/realms/$TENANT/protocol/openid-connect/auth?client_id=<keycloak.public.client.id>&redirect_uri=<app.base.url>/backstage/v1/auth/return&state=$STATE&response_type=code&scope=openid&code_challenge=$CODE_CHALLENGE&code_challenge_method=<keycloak.code.challenge.method>`
+   1. It returns a redirect to the login screen with code 303 for `<keycloak.url.external>/realms/$TENANT/protocol/openid-connect/auth?client_id=<keycloak.public.client.id>&redirect_uri=<app.base.url>/backstage/v1/auth/return&state=$STATE&response_type=code&scope=openid&code_challenge=$CODE_CHALLENGE&code_challenge_method=<keycloak.code.challenge.method>`
 2. Login data sending flow
    1. The user places his login and password, and sends it to the keycloak. If they are valid, the keycloak continues the flow and redirects to the URL via GET defined in redirect_uri, in the case `<app.base.url>/backstage/v1/auth/return`,passing the Authorization Code and State in the QueryString of the URL.
    1. The Backstage `<app.base.url>/backstage/v1/auth/return` endpoint receives the Authorization Code. (As much as the request is made for the backend, the return happens in the browser and the authorization code is exposed, which is not a problem since we have the PKCE verification in the backend).
@@ -176,7 +176,7 @@ convention.
 | Key | Purpose | Default Value | Valid Values | Environment variable
 | --- | ------- | ------------- | ------------ | --------------------
 | app.base.url| The URL where this service will be available  | <http://localhost:8000> | URL | BS_APP_BASE_URL
-| app.internal.base.url| Internal access URL. In the case of dojot it is the URL to access the kong, our APi Gateway, tthere is still an internal authorization check for access to the endpoint/resource if you are using the pepkong plugin. | <http://apigw:8000> | URL | BS_APP_INTERNAL_BASE_URL
+| app.internal.base.url| Internal access URL. In the case of dojot it is the URL to access the kong, our API Gateway, there is still an internal authorization check for access to the endpoint/resource if you are using the pepkong plugin. | <http://apigw:8000> | URL | BS_APP_INTERNAL_BASE_URL
 | gui.return.url | GUI URL. URL available via browser to receive the response when the login process is complete. | <http://localhost:8000/return> | URL | BS_GUI_RETURN_URL
 | gui.home.url | Initial GUI URL, URL available via browser. | <http://localhost:8000> | URL | BS_GUI_HOME_URL
 | log.console.level | Console logger level | info | info, debug, error, warn | BS_LOG_CONSOLE_LEVEL
