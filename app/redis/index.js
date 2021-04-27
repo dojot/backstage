@@ -8,6 +8,7 @@ const { flatten, unflatten } = require('flat');
 const RedisManagement = require('./RedisManagement');
 
 const { replaceTLSFlattenConfigs } = require('../Utils');
+const { createRedisHealthChecker } = require('./Utils');
 
 const logger = new Logger('backstage:Redis');
 
@@ -77,15 +78,27 @@ class Redis {
     this.redisPub.on('connect', () => {
       logger.debug('Redis pub is connect.');
       this.initPub();
+      this.serviceState.signalReady('redis-pub');
     });
 
     this.redisSub.on('connect', async () => {
-      logger.debug('Redis sub is connect.');
-      await this.initSub(redisConfig.db);
+      try {
+        logger.debug('Redis sub is connect.');
+        await this.initSub(redisConfig.db);
+        logger.debug('Redis sub is connected!');
+        this.serviceState.signalReady('redis-sub');
+      } catch (e) {
+        // Using async functions with event handlers is problematic,
+        // because it can lead to an unhandled rejection
+        logger.debug('onConnect: Redis sub, e=', e);
+      }
     });
 
     this.handleEvents(this.redisPub, 'pub', this.serviceState);
     this.handleEvents(this.redisSub, 'sub', this.serviceState);
+
+    createRedisHealthChecker(this.redisPub, 'redis-pub', serviceState, logger);
+    createRedisHealthChecker(this.redisSub, 'redis-sub', serviceState, logger);
 
     this.registerShutdown();
   }
@@ -101,7 +114,6 @@ class Redis {
   handleEvents(clientRedis, nameClient) {
     clientRedis.on('ready', () => {
       logger.info(`Redis ${nameClient} is ready.`);
-      this.serviceState.signalReady(`redis-${nameClient}`);
     });
     clientRedis.on('error', (error) => {
       logger.error(`Redis ${nameClient} has an error:`, error);

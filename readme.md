@@ -238,7 +238,7 @@ convention.
 
 | Key | Purpose | Default Value | Valid Values | Environment variable
 | --- | ------- | ------------- | ------------ | --------------------
-| redis.client.host | Hostname of the Redis server | redis-backstage | string  | BS_REDIS_CLIENT_HOST
+| redis.client.host | Hostname of the Redis server | backstage-redis | string  | BS_REDIS_CLIENT_HOST
 | redis.client.port | Port of the Redis server | 6379 | integer  | BS_REDIS_CLIENT_PORT
 | redis.client.db | Database to be used in redis | 0 | integer  | BS_REDIS_CLIENT_DB
 | redis.client.connect_timeout | The maximum time for reconnection attempts.  | 3600000 | number (ms)  | BS_REDIS_CLIENT_CONNECT__TIMEOUT
@@ -247,7 +247,9 @@ convention.
 | redis.client.tls.cert | File path to  certificate. | none | path  | BS_REDIS_CLIENT_TLS_CERT
 | redis.client.tls.request.cert |  Whether to authenticate the remote peer by requesting a certificate. Clients always request a server certificate. I | none | boolean | BS_REDIS_CLIENT_TLS_REQUEST_CERT
 | redis.client.tls.reject.unauthorized |   If true, the server certificate is verified against the list of supplied CAs. | none | boolean | BS_REDIS_CLIENT_TLS_REJECT_UNAUTHORIZED
-| redis.reconnect.after.ms | Interval between connection attempts. | 5000 | number (ms) | BS_REDIS_reconnect_after_ms
+| redis.reconnect.after.ms | Interval between connection attempts. | 5000 | number (ms) | BS_REDIS_RECONNECT_AFTER_MS
+redis.healthcheck.ms | Specifies how often it is to check if it is possible to communicate with the redis in milliseconds. | 30000 | integer | BS_REDIS_HEALTHCHECK_MS
+redis.healthcheck.timeout.ms | the timeout to wait if the service can verify if it is health, if the timeout occurs the service is considered unhealthy. (ms) | 30000 | integer | BS_REDIS_HEALTHCHECK_TIMEOUT_MS
 
 #### Postgres Configurations
 
