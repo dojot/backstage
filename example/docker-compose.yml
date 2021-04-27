@@ -230,7 +230,7 @@ services:
         max-size: 20m
         max-file: '5'
 
-  redis-backstage:
+  backstage-redis:
     image: dojot/redis:6.0.4-alpine3.11
     restart: always
     ports:
@@ -245,7 +245,7 @@ services:
     image: rediscommander/redis-commander:latest
     restart: always
     environment:
-      - REDIS_HOSTS=local:redis-backstage:6379
+      - REDIS_HOSTS=local:backstage-redis:6379
     ports:
       - "8081:8081"
 
