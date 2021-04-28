@@ -107,12 +107,25 @@ export default function ReturnLogin(props) {
 
   const handleExampleProxy  = async (evt) => {
     try{
-    const { data: resultData } = await axios.post(Config.PROXY_URL+'/device', {
-      "label": "test_device",
-      "templates": [
-        1
+    const { data: resultData } = await axios.post(Config.PROXY_URL+'/template', {
+      "label": "Thermometer Template",
+      "attrs": [
+        {
+          "label": "temperature",
+          "type": "dynamic",
+          "value_type": "float"
+        },
+        {
+          "label": "fan",
+          "type": "actuator",
+          "value_type": "float"
+        }
       ]
-    });
+    },{
+        headers: { 'content-type': 'application/json' },
+        responseType: 'json'
+      }
+    );
 
       setData({
         ...data,
@@ -178,7 +191,7 @@ export default function ReturnLogin(props) {
       <div>
       <button
         onClick={handleExampleProxy}>
-        Proxy, create a device `test_device`
+        Proxy, create a template `Thermometer Template`
       </button>
       </div>
       <div>Data returned: {JSON.stringify(data.dataProxy)}</div>
