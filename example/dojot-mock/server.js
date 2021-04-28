@@ -62,6 +62,56 @@ try {
     }
   });
 
+  app.post('/template', (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    if (req.body.label && req.body.attrs) {
+      res.status(200).end(JSON.stringify({
+        result: 'ok',
+        template: {
+          attrs: [{
+            created: '2021-04-28T20:30:34.617676+00:00',
+            id: 38,
+            label: 'fan',
+            template_id: '1',
+            type: 'actuator',
+            value_type: 'float',
+          }, {
+            created: '2021-04-28T20:30:34.617198+00:00',
+            id: 37,
+            label: 'temperature',
+            template_id: '1',
+            type: 'dynamic',
+            value_type: 'float',
+          }],
+          config_attrs: [],
+          created: '2021-04-28T20:30:34.616413+00:00',
+          data_attrs: [{
+            created: '2021-04-28T20:30:34.617676+00:00',
+            id: 38,
+            label: 'fan',
+            template_id: '1',
+            type: 'actuator',
+            value_type: 'float',
+          }, {
+            created: '2021-04-28T20:30:34.617198+00:00',
+            id: 37,
+            label: 'temperature',
+            template_id: '1',
+            type: 'dynamic',
+            value_type: 'float',
+          }],
+          id: 1,
+          label: req.body.label,
+        },
+      }));
+    } else {
+      res.status(400).end(JSON.stringify({
+        message: 'Bad Request',
+        status: 400,
+      }));
+    }
+  });
+
   app.get('/history/device/:id/history', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     if (req.params.id === 'ab00f6' && req.query.attr === 'attrDyInt') {
