@@ -36,7 +36,7 @@ Backstage is a backend for the frontend. Currently it has two main roles, one is
 
 ## Attention
 
-__Attention__ The configurable value `session.secret`, used to sign the session ID, **must be unique for each environment and always configured**, if not configured via the configuration file or environment variable `BS_SESSION_SECRET`, the service will not be able to start.
+__Attention__ The configurable value `session.secret`, used to sign the session ID, **must be unique for each environment and always configured**, if not configured via the configuration file or environment variable `BS_SESSION_SECRET`, the service will not be able to start. Give preference to large random values. Also note that in a cluster environment all instances must share the same secret.
 
 ## Dependencies
 
