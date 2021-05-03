@@ -221,7 +221,7 @@ convention.
 
 | Key | Purpose | Default Value | Valid Values | Environment variable
 | --- | ------- | ------------- | ------------ | --------------------
-| session.secret | This is the secret used to sign the session ID cookie.  **NOTE: Should be unique for each environment and and always configured** | none | string  | BS_SESSION_SECRET
+| session.secret | This is the secret used to sign the session ID cookie.  **NOTE: Should be unique for each environment and always configured** | none | string  | BS_SESSION_SECRET
 | session.cookie.name | The name of the session ID cookie to set in the response (and read from in the request) | dojot-backstage-cookie | string  | BS_SESSION_COOKIE_NAME
 | session.cookie.https | True is a recommended option. However, it requires an https-enabled website, i.e., HTTPS is necessary for secure cookies. If secure is set, and you access your site over HTTP, the cookie will not be set. If you have your node.js behind a proxy and are using secure: true, you need to set "trust proxy" in express
  | true | boolean  | BS_SESSION_COOKIE_HTTPS
