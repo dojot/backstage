@@ -29,6 +29,7 @@ The **Backstage** is intended to be an intermediary between the dojot and Keyclo
 - [Documentation](#documentation)
 - [Issues and help](#issues-and-help)
 - [Example](#example)
+- [License](#license)
 
 ## Overview
 
