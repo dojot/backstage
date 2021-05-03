@@ -17,6 +17,3 @@ README.md
 .vscode-test
 .idea/*
 .devcontainer
-
-# Ignore generate configs
-config/*.json
