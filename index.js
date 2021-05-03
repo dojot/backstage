@@ -25,7 +25,7 @@ if (configLog.file) {
 }
 
 const logger = new Logger('backstage:index');
-logger.info(`The current configuration is:\n${util.inspect(config, false, 5, true)}`);
+logger.debug(`The current configuration is:\n${util.inspect(config, false, 5, true)}`);
 
 const App = require('./app/App');
 
