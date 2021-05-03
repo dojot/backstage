@@ -249,7 +249,7 @@ convention.
 | redis.client.tls.reject.unauthorized |   If true, the server certificate is verified against the list of supplied CAs. | none | boolean | BS_REDIS_CLIENT_TLS_REJECT_UNAUTHORIZED
 | redis.reconnect.after.ms | Interval between connection attempts. | 5000 | number (ms) | BS_REDIS_RECONNECT_AFTER_MS
 redis.healthcheck.ms | Specifies how often it is to check if it is possible to communicate with the redis in milliseconds. | 30000 | integer | BS_REDIS_HEALTHCHECK_MS
-redis.healthcheck.timeout.ms | the timeout to wait if the service can verify if it is health, if the timeout occurs the service is considered unhealthy. (ms) | 30000 | integer | BS_REDIS_HEALTHCHECK_TIMEOUT_MS
+redis.healthcheck.timeout.ms | the timeout to wait if the service can verify if it is health, if the timeout occurs the service is considered unhealthy. (ms) | 5000 | integer | BS_REDIS_HEALTHCHECK_TIMEOUT_MS
 
 #### Postgres Configurations
 
