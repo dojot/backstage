@@ -1,0 +1,4 @@
+1) Changes to avoid cookie-hijacking. (Initial suggestions that depend on further research and understanding.)
+    - Regenerate the Session ID After Login,
+    - Perform Secondary Checks. For example, the IP will always be the same who logged in.
+    - Change the Cookie Value. Always change the value of the cookie so that if the cookie is stolen it will not work on the request. That is, change the cookie to every request.
