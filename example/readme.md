@@ -14,4 +14,4 @@ docker-compose up
 
 Access [http://localhost:8000/](http://localhost:8000/) in your browser.
 
-__NOTE__ There are 2 registered users, the `admin` with `admin` password and the `user` with `user` password. The `admin` user can perform any action, the  `user` only involving GET.
+__NOTE__ There is 1 registered users, the `admin` with `admin` password. The `admin` user can perform any action.
