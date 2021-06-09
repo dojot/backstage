@@ -15,9 +15,6 @@ node_modules/
 # Optional npm cache directory
 .npm
 
-# Local history
-.history
-
 # Optional eslint cache
 .eslintcache
 
@@ -29,6 +26,3 @@ node_modules/
 
 # Ignore generate configs
 config/*.json
-
-#local development
-build.sh
