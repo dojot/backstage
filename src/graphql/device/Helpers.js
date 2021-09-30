@@ -2,21 +2,28 @@ const _ = require('lodash');
 const axios = require('axios');
 const UTIL = require('../utils/AxiosUtils');
 const moment = require('moment');
-// const LOG = require('../../utils/Log');
-// const CacheService = require('../../utils/cache');
 
-const operations = {
+const OPERATION = Object.freeze({
   LAST: {
     MOUTHS: 4,
-    MINUTES: 3,
+    DAYS: 3,
     HOURS: 2,
-    DAYS: 1,
+    MINUTES: 1,
     N: 0,
   },
+  DATE_RANGE: 5,
+});
+
+const WIDGET_TYPE = Object.freeze({
+  DEFAULT: 0,
   MAP: 8,
-  TEMPLATES: 6,
-  LIST: 7,
-};
+  TABLE: 7,
+});
+
+const SOURCE = Object.freeze({
+  DEVICE: 0,
+  TEMPLATE: 1,
+});
 
 const reduceList = (prop) => {
   const array = [];
@@ -67,32 +74,61 @@ const parseGeo = value => {
   return [parseFloat(lat), parseFloat(long)]
 }
 
-const formatOutPut = (dynamicAttributes, staticAttributes, dojotDevices, operationType) => {
+const generateTemplateKey = (deviceDictionary, device, attr) => {
+  if (!_.isEmpty(deviceDictionary) && deviceDictionary[device]) {
+    return deviceDictionary[device][attr] ? `${deviceDictionary[device][attr]}${attr}` : undefined;
+  }
+  return undefined;
+}
+
+const parseValue = value => {
+  if (typeof value === 'boolean' ) {
+    return value;
+  }
+  if (isNaN(value)) {
+    return value;
+  }
+  return parseFloat(value);
+}
+
+const formatOutPut = (dynamicAttributes, staticAttributes, dojotDevices, deviceDictionary, sourceType, widgetType) => {
   const history = [];
   const historyObj = {};
-
   dynamicAttributes.forEach(({attr, device_id, value, ts}) => {
-    if (operationType === operations.MAP) {
+    if (widgetType === WIDGET_TYPE.MAP) {
       historyObj[`${device_id}${attr}`] = {
         value: parseGeo(value),
         timestamp: moment(ts).utc().format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
         deviceLabel: dojotDevices[device_id] ? dojotDevices[device_id].label : 'undefined',
+        templateKey: generateTemplateKey(deviceDictionary, device_id, attr),
       }
     } else {
-      history.push({
-        [`${device_id}${attr}`]: isNaN(value) ? value : parseFloat(value),
-        timestamp: moment(ts).utc().format("YYYY-MM-DDTHH:mm:ss[Z]"),
-      });
+      if (sourceType === SOURCE.DEVICE) {
+        history.push({
+          [`${device_id}${attr}`]: parseValue(value),
+          deviceLabel: dojotDevices[device_id] ? dojotDevices[device_id].label : 'undefined',
+          timestamp: moment(ts).utc().format("YYYY-MM-DDTHH:mm:ss[Z]"),
+        });
+      }
+      else {
+        history.push({
+          [generateTemplateKey(deviceDictionary, device_id, attr)]: parseValue(value),
+          deviceLabel: dojotDevices[device_id] ? dojotDevices[device_id].label : 'undefined',
+          timestamp: moment(ts).utc().format("YYYY-MM-DDTHH:mm:ss[Z]"),
+        });
+      }
+
     }
   });
 
-  if (operationType === operations.MAP) {
+  if (widgetType === WIDGET_TYPE.MAP) {
     Object.values(staticAttributes).forEach(({deviceID, deviceLabel, ...otherProps}) => {
       Object.values(otherProps).forEach(({static_value, created, label}) => {
         historyObj[`${deviceID}${label}`] = {
           value: parseGeo(static_value),
           timestamp: moment(created).utc().format("YYYY-MM-DDTHH:mm:ss.SSS[Z]"),
           deviceLabel: deviceLabel,
+          templateKey: generateTemplateKey(deviceDictionary, deviceID, label),
         }
       })
     })
@@ -109,15 +145,51 @@ const getDevices = async (devicesIds, options) => {
     const promise = axios(options(UTIL.GET, requestString)).then((response) => {
       if (!!response.data) {
         const {data: {attrs, created, id, label, templates}} = response;
-        values[id] = {attrs, created, id, label, templates}
+        values[id] = {attrs, created, id, label, templates, templateID: null}
       }
-
     }).catch(() => Promise.resolve(null));
     promises.push(promise);
   })
 
   await (Promise.all(promises));
   return values;
+}
+const getDevicesByTemplate = async (requestedTemplates, options) => {
+  const promises = [];
+  const values = {};
+  const devicesIDs = [];
+  let deviceDictionary = {};
+  Object.values(requestedTemplates).forEach(({templateID, dynamicAttrs, staticAttrs}) => {
+    const requestString = `/device/template/${templateID}`;
+    const promise = axios(options(UTIL.GET, requestString)).then((response) => {
+      if (!!response.data) {
+        const {data: {devices = []}, config: {url}} = response;
+        const templateId = url.split("/").pop()
+        devices.forEach(device => {
+          const {id, label, created, attrs, templates} = device;
+          if (!deviceDictionary[id]) {
+            deviceDictionary[id] = {};
+          }
+          dynamicAttrs.forEach(attribute => {
+            if (!deviceDictionary[id][attribute]) {
+              deviceDictionary[id][attribute] = templateId;
+            }
+          })
+          staticAttrs.forEach(attribute => {
+            if (!deviceDictionary[id][attribute]) {
+              deviceDictionary[id][attribute] = templateId;
+            }
+          })
+
+          devicesIDs.push({deviceID: id, dynamicAttrs, staticAttrs});
+          values[id] = {attrs, created, id, label, templates}
+        })
+      }
+    }).catch(() => Promise.resolve(null));
+    promises.push(promise);
+  })
+  await (Promise.all(promises));
+  return {values, devicesIDs, deviceDictionary};
 }
 
 const getHistory = async (devices, options, queryString) => {
@@ -136,7 +208,6 @@ const getHistory = async (devices, options, queryString) => {
       })
     }
   })
-
   await (Promise.all(promises));
   return attributes;
 }
@@ -151,7 +222,7 @@ const getStaticAttributes = (dojotDevices, requestedDevices) => {
               if (!auxStaticAttrs[deviceID]) {
                 auxStaticAttrs[deviceID] = {deviceID, deviceLabel: dojotDevices[deviceID].label}
               }
-              auxStaticAttrs[deviceID][attribute.id] = {...attribute}
+              auxStaticAttrs[deviceID][attribute.id] = {...attribute, templateID: template}
             }
           }
         )
@@ -171,5 +242,8 @@ module.exports = {
   getDevices,
   getHistory,
   getStaticAttributes,
-  operations
+  getDevicesByTemplate,
+  OPERATION,
+  WIDGET_TYPE,
+  SOURCE
 };
