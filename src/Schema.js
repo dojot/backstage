@@ -1,12 +1,11 @@
 const { makeExecutableSchema } = require('graphql-tools');
 const { merge } = require('lodash');
-const commonTypeDefs = require('./common/TypeDefs');
-const templateTypeDefs = require('./template/TypeDefs');
-const templateResolvers = require('./template/Resolvers');
-const deviceTypeDefs = require('./device/TypeDefs');
-const deviceResolvers = require('./device/Resolvers');
-const userResolvers = require('./user/Resolvers');
-const userTypeDefs = require('./user/TypeDefs');
+const templateTypeDefs = require('./operations/template/TypeDefs');
+const templateResolvers = require('./operations/template/Resolvers');
+const deviceTypeDefs = require('./operations/device/TypeDefs');
+const deviceResolvers = require('./operations/device/Resolvers');
+const userResolvers = require('./operations/configuration/Resolvers');
+const userTypeDefs = require('./operations/configuration/TypeDefs');
 
 
 const query = [`
@@ -36,7 +35,7 @@ const query = [`
 
 // Put schema together into one array of schema strings
 // and one map of resolvers, like makeExecutableSchema expects
-const typeDefs = [...query, ...templateTypeDefs, ...commonTypeDefs, ...deviceTypeDefs, ...userTypeDefs];
+const typeDefs = [...query, ...templateTypeDefs, ...deviceTypeDefs, ...userTypeDefs];
 const resolvers = merge(templateResolvers, deviceResolvers, userResolvers);
 
 const executableSchema = makeExecutableSchema({ typeDefs, resolvers });

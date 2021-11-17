@@ -1,13 +1,13 @@
 const { graphql } = require('graphql');
 const axios = require('axios');
-const executableSchema = require('../../graphql/Schema');
+const executableSchema = require('../../Schema');
 const testGetTemplate = require('./test-cases/template/GetTemplate');
 const testTemplatesHasImageFirmware = require('./test-cases/template/TemplatesHasImageFirmware');
 
 jest.mock('axios');
 
 afterEach(() => {
-  axios.mockReset();
+  axios.get.mockReset();
 });
 
 describe('Schema', () => {

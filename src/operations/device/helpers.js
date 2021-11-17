@@ -1,29 +1,6 @@
 const _ = require('lodash');
-const axios = require('axios');
-const UTIL = require('../utils/AxiosUtils');
 const moment = require('moment');
-
-const OPERATION = Object.freeze({
-  LAST: {
-    MOUTHS: 4,
-    DAYS: 3,
-    HOURS: 2,
-    MINUTES: 1,
-    N: 0,
-  },
-  DATE_RANGE: 5,
-});
-
-const WIDGET_TYPE = Object.freeze({
-  DEFAULT: 0,
-  MAP: 8,
-  TABLE: 7,
-});
-
-const SOURCE = Object.freeze({
-  DEVICE: 0,
-  TEMPLATE: 1,
-});
+const {WIDGET_TYPE, SOURCE} = require("../../constants")
 
 const reduceList = (prop) => {
   const array = [];
@@ -82,7 +59,7 @@ const generateTemplateKey = (deviceDictionary, device, attr) => {
 }
 
 const parseValue = value => {
-  if (typeof value === 'boolean' ) {
+  if (typeof value === 'boolean') {
     return value;
   }
   if (isNaN(value)) {
@@ -109,8 +86,7 @@ const formatOutPut = (dynamicAttributes, staticAttributes, dojotDevices, deviceD
           deviceLabel: dojotDevices[device_id] ? dojotDevices[device_id].label : 'undefined',
           timestamp: moment(ts).utc().format("YYYY-MM-DDTHH:mm:ss[Z]"),
         });
-      }
-      else {
+      } else {
         history.push({
           [generateTemplateKey(deviceDictionary, device_id, attr)]: parseValue(value),
           deviceLabel: dojotDevices[device_id] ? dojotDevices[device_id].label : 'undefined',
@@ -136,81 +112,6 @@ const formatOutPut = (dynamicAttributes, staticAttributes, dojotDevices, deviceD
 
   return {history, historyObj}
 };
-
-const getDevices = async (devicesIds, options) => {
-  const promises = [];
-  const values = {};
-  devicesIds.forEach(deviceId => {
-    const requestString = `/device/${deviceId}`;
-    const promise = axios(options(UTIL.GET, requestString)).then((response) => {
-      if (!!response.data) {
-        const {data: {attrs, created, id, label, templates}} = response;
-        values[id] = {attrs, created, id, label, templates, templateID: null}
-      }
-    }).catch(() => Promise.resolve(null));
-    promises.push(promise);
-  })
-
-  await (Promise.all(promises));
-  return values;
-}
-const getDevicesByTemplate = async (requestedTemplates, options) => {
-  const promises = [];
-  const values = {};
-  const devicesIDs = [];
-  let deviceDictionary = {};
-  Object.values(requestedTemplates).forEach(({templateID, dynamicAttrs, staticAttrs}) => {
-    const requestString = `/device/template/${templateID}`;
-    const promise = axios(options(UTIL.GET, requestString)).then((response) => {
-      if (!!response.data) {
-        const {data: {devices = []}, config: {url}} = response;
-        const templateId = url.split("/").pop()
-        devices.forEach(device => {
-          const {id, label, created, attrs, templates} = device;
-          if (!deviceDictionary[id]) {
-            deviceDictionary[id] = {};
-          }
-          dynamicAttrs.forEach(attribute => {
-            if (!deviceDictionary[id][attribute]) {
-              deviceDictionary[id][attribute] = templateId;
-            }
-          })
-          staticAttrs.forEach(attribute => {
-            if (!deviceDictionary[id][attribute]) {
-              deviceDictionary[id][attribute] = templateId;
-            }
-          })
-
-          devicesIDs.push({deviceID: id, dynamicAttrs, staticAttrs});
-          values[id] = {attrs, created, id, label, templates}
-        })
-      }
-    }).catch(() => Promise.resolve(null));
-    promises.push(promise);
-  })
-  await (Promise.all(promises));
-  return {values, devicesIDs, deviceDictionary};
-}
-
-const getHistory = async (devices, options, queryString) => {
-  const promises = [];
-  const attributes = [];
-  devices.forEach(({deviceID, dynamicAttrs}) => {
-    if (dynamicAttrs) {
-      dynamicAttrs.forEach((attribute) => {
-        const requestString = `/history/device/${deviceID}/history?attr=${attribute}${queryString ? `${queryString}` : ''}`;
-        const promise = axios(options(UTIL.GET, requestString)).then((response) => {
-          if (!!response.data && Array.isArray(response.data)) {
-            attributes.push(...response.data)
-          }
-        }).catch(() => Promise.resolve(null));
-        promises.push(promise);
-      })
-    }
-  })
-  await (Promise.all(promises));
-  return attributes;
-}
 
 const getStaticAttributes = (dojotDevices, requestedDevices) => {
   const auxStaticAttrs = {};
@@ -239,11 +140,5 @@ module.exports = {
   formatValueType,
   parseGeo,
   formatOutPut,
-  getDevices,
-  getHistory,
   getStaticAttributes,
-  getDevicesByTemplate,
-  OPERATION,
-  WIDGET_TYPE,
-  SOURCE
 };

@@ -1,18 +1,18 @@
 const axios = require('axios');
-const Resolvers = require('../../../graphql/template/Resolvers');
+const Resolvers = require('../../../operations/template/Resolvers');
 const { templateId3, templateId4, templateId5 } = require('../../apiMock/template');
 
 jest.mock('axios');
 
 afterEach(() => {
-  axios.mockReset();
+  axios.get.mockReset();
 });
 
 it('templatesHasImageFirmware', () => {
   const obj = {};
   const args = { templatesId: [3, 4, 5] };
   const ctx = {};
-  axios.mockImplementationOnce(() => Promise.resolve({ data: templateId3 }))
+  axios.get.mockImplementationOnce(() => Promise.resolve({ data: templateId3 }))
     .mockImplementationOnce(() => Promise.resolve({ data: templateId4 }))
     .mockImplementationOnce(() => Promise.resolve({ data: templateId5 }));
 
@@ -42,7 +42,7 @@ it('get template', () => {
   const obj = {};
   const args = { id: 5 };
   const ctx = {};
-  axios.mockImplementationOnce(() => Promise.resolve({ data: templateId5 }));
+  axios.get.mockImplementationOnce(() => Promise.resolve({ data: templateId5 }));
 
   return Resolvers.Query.template(obj, args, ctx)
     .then((output) => {

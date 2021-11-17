@@ -1,10 +1,10 @@
 const axios = require('axios');
-const Resolvers = require('../../../graphql/device/Resolvers');
+const Resolvers = require('../../../operations/device/Resolvers');
 
 jest.mock('axios');
 
 afterEach(() => {
-  axios.mockReset();
+  axios.get.mockReset();
 });
 
 const deviceData = {
@@ -301,7 +301,7 @@ it('Device - should return a device', () => {
   const params = { deviceId: '10cf' };
   const context = {};
 
-  axios.mockImplementationOnce(() => Promise.resolve({
+  axios.get.mockImplementationOnce(() => Promise.resolve({
     data: {
       attrs: {
         4865: [
@@ -396,7 +396,7 @@ it('Device - should return a device', () => {
 });
 
 it('Device - should get a list of devices', () => {
-  axios.mockResolvedValue({
+  axios.get.mockResolvedValue({
     data: {
       devices: [
         {
@@ -702,7 +702,7 @@ it('Device - Consult the history for the last 3 records (dashboard)', async () =
     }],
   };
 
-  axios.mockResolvedValue('default value')
+  axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(deviceData[0])
     .mockResolvedValueOnce(deviceData[1])
     .mockResolvedValueOnce(historyData[0])
@@ -725,7 +725,7 @@ it('Device - Consult the history for the last 3 records (dashboard)', async () =
 it('Device - Consult the history by time period (dashboard)', async () => {
   jest.mock('axios');
 
-  axios.mockResolvedValue('default value')
+  axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(deviceData[0])
     .mockResolvedValueOnce(deviceData[1])
     .mockResolvedValueOnce(historyData[0])
@@ -748,7 +748,7 @@ it('Device - Consult the history by time period (dashboard)', async () => {
 it('Device - should obtain a static coordinate point for the map', async () => {
   jest.mock('axios');
 
-  axios.mockResolvedValue('default value')
+  axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(deviceData[2])
 
   const params = {
@@ -766,7 +766,7 @@ it('Device - should obtain a static coordinate point for the map', async () => {
 it('Device - should obtain a static and dynamic coordinates points for the map', async () => {
   jest.mock('axios');
 
-  axios.mockResolvedValue('default value')
+  axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(deviceData[2])
     .mockResolvedValueOnce(historyData[3])
 
@@ -785,7 +785,7 @@ it('Device - should obtain a static and dynamic coordinates points for the map',
 it('Device - should obtain a empty responde', async () => {
   jest.mock('axios');
 
-  axios.mockResolvedValue('default value')
+  axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(deviceData[2])
 
   const params = {
@@ -796,14 +796,14 @@ it('Device - should obtain a empty responde', async () => {
     configs: { sourceType: 99, operationType: 0 }
   };
 
-  const result = await Resolvers.Query.getDeviceHistoryForDashboard({}, params, {});
+  const result = await Resolvers.Query.getDeviceHistoryForDashboard({}, params, {token: ''});
   expect(result).toEqual('[]')
 });
 
 it('Template - should get the coordinates from three devices', async () => {
   jest.mock('axios');
 
-  axios.mockResolvedValue('default value')
+  axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(devicesFromTemplateData)
 
   const params = {

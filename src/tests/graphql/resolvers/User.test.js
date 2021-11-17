@@ -1,4 +1,4 @@
-const Resolver = require('../../../graphql/user/Resolvers');
+const Resolver = require('../../../operations/configuration/Resolvers');
 const { Pool } = require('pg');
 
 jest.mock('pg', () => {
