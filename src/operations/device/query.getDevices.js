@@ -52,6 +52,7 @@ const getDevices = async (root, params, {token}) => {
             }
             attributes.push({
               label: attr.label,
+              id: attr.id,
               valueType: formatValueType(attr.value_type),
               isDynamic: attr.type === 'dynamic',
               staticValue: attr.static_value,
@@ -62,7 +63,10 @@ const getDevices = async (root, params, {token}) => {
       devices.push({
         id: device.id,
         label: device.label,
+        created: device.created,
+        updated: device.updated ? device.updated : "",
         attrs: attributes,
+        certificate: {}
       });
     });
 

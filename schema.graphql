@@ -7,6 +7,7 @@ schema {
 
 "Necessary data about and attribute of a device#"
 type Attr {
+  id: String
   isDynamic: Boolean!
   label: String!
   staticValue: String
@@ -32,6 +33,11 @@ type Attributes {
   value_type: String
 }
 
+type Certificate {
+  id: String
+  label: String
+}
+
 "JSON that defines a dashboard's configuration retrieved from database and parsed as string"
 type Config {
   config: String!
@@ -40,8 +46,11 @@ type Config {
 "Necessary informations about device#"
 type Device {
   attrs: [Attr]
+  certificate: Certificate
+  created: String
   id: String!
   label: String!
+  updated: String
 }
 
 type DeviceCreatedList {
