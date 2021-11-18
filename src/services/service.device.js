@@ -88,10 +88,20 @@ const getDevicesByTemplate = async (token, templates) => {
   return {values, devicesIDs, deviceDictionary};
 }
 
+const createDevice = async (token, data) => {
+  return axios.post(`${baseURL}/device`, data, getHeader(token))
+}
+
+const deleteDevice = async (token, id) => {
+  return axios.delete(`${baseURL}/device/${id}`, getHeader(token))
+}
+
 module.exports = {
   getDeviceById,
   getDeviceList,
   getHistoryFromDevices,
   getDevicesByTemplate,
-  getDevicesWithFilter
+  getDevicesWithFilter,
+  createDevice,
+  deleteDevice
 };

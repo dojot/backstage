@@ -89,6 +89,21 @@ type Device {
     label: String!
     attrs: [HistoryAttr]
  }
+ #Attribute format for device creation#
+ input DeviceAttributes{
+    created: String
+    id: Int
+    label: String
+    static_value: String
+    template_id: String
+    type: String
+    value_type: String
+ }
+
+ type DeviceCreatedList{
+    id: String
+    label: String
+ }
 `];
 
 module.exports = TypeDefs;

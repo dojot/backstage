@@ -5,9 +5,7 @@ const service = require('../../services/service.device')
 const getDeviceById = async (root, { deviceId }, {token}) => {
 
   try {
-    // const { data: deviceData } = await service.getDeviceById(token, deviceId);
     const ret = await service.getDeviceById(token, deviceId);
-    console.log(ret);
     const { data: deviceData } = ret;
     const device = {
       id: deviceData.id,
