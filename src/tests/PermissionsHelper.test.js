@@ -1,4 +1,4 @@
-const PermissionHelper = require('../graphql/auth/helpers/PermissionsHelper');
+const PermissionHelper = require('../operations/authentication/helpers/PermissionsHelper');
 
 const permMockIn = {
   permissions: [

@@ -7,6 +7,7 @@ schema {
 
 "Necessary data about and attribute of a device#"
 type Attr {
+  id: String
   isDynamic: Boolean!
   label: String!
   staticValue: String
@@ -32,6 +33,11 @@ type Attributes {
   value_type: String
 }
 
+type Certificate {
+  id: String
+  label: String
+}
+
 "JSON that defines a dashboard's configuration retrieved from database and parsed as string"
 type Config {
   config: String!
@@ -40,8 +46,16 @@ type Config {
 "Necessary informations about device#"
 type Device {
   attrs: [Attr]
+  certificate: Certificate
+  created: String
   id: String!
   label: String!
+  updated: String
+}
+
+type DeviceCreatedList {
+  id: String
+  label: String
 }
 
 "A paginated list of Devices.#"
@@ -91,6 +105,8 @@ type Metadata {
 }
 
 type Mutation {
+  createDevice(attrs: [DeviceAttributes], certificate: String, label: String!, templates: [Int]!): [DeviceCreatedList]
+  deleteDevice(id: String!): String
   "Updates existing information on database, or creates an entry if it doesn't exist. Returns success message if it works or error message if fails."
   updateConfig(config: String!, tenant: String!, user: String): String
 }
@@ -105,9 +121,10 @@ type Query {
   """
 
   Returns a list of devices that can be divided in pages, and the information about how many pages there are in total, along with which page is being shown.
-  @param sortBy: set sortBy to ordenate list (default 'label')
+  @param sortBy: set sortBy to sort list (default 'label')
   """
   getDevices(filter: FilterDeviceInput, page: PageInput, sortBy: String): DeviceListPage
+  "Returns a list of templates"
   getTemplates(page: PageInput): TemplatesListPage
   "Get a template by Id"
   template(id: Int!): Template
@@ -165,7 +182,21 @@ input ConfigInput {
 input ConfigsInput {
   "operationType corresponds to 0 (the last N histories, Number of most current values), 1 (minutes, the last N minutes), 2 (hours, the last N hours), 3 (days, the last N days), 4 (months, the last N months), 7 (to get devices by template)"
   operationType: Int
+  "corresponds to 0 (DEVICE) and 1 (TEMPLATE)"
   sourceType: Int
+  "corresponds to 0 (DEFAULT), 1 (MAP) and 2 (TABLE)"
+  widgetType: Int
+}
+
+"Attribute format for device creation#"
+input DeviceAttributes {
+  created: String
+  id: Int
+  label: String
+  static_value: String
+  template_id: String
+  type: String
+  value_type: String
 }
 
 "Return only devices that are named accordingly (prefix or suffix match)#"

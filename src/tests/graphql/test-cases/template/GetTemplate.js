@@ -82,7 +82,7 @@ const testGetTemplate = {
       created
     }
   }
-} 
+}
   `,
   variables: { id: 5 },
   context: {},
@@ -221,7 +221,7 @@ const testGetTemplate = {
     },
   },
   beforeTest() {
-    axios.mockImplementationOnce(() => Promise.resolve({ data: templateId5 }));
+    axios.get.mockImplementationOnce(() => Promise.resolve({ data: templateId5 }));
   },
 };
 

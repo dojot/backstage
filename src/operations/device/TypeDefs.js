@@ -4,6 +4,13 @@ type Device {
     id: String!
     label: String!
     attrs: [Attr]
+    created: String
+    updated: String
+    certificate: Certificate
+ }
+ type Certificate {
+    id: String
+    label: String
  }
  #Value types used by the platform#
  enum ValueType {
@@ -15,6 +22,7 @@ type Device {
  }
  #Necessary data about and attribute of a device#
  type Attr {
+    id: String
     label: String!
     valueType: ValueType!
     isDynamic: Boolean!
@@ -88,6 +96,21 @@ type Device {
     deviceID: String!
     label: String!
     attrs: [HistoryAttr]
+ }
+ #Attribute format for device creation#
+ input DeviceAttributes{
+    created: String
+    id: Int
+    label: String
+    static_value: String
+    template_id: String
+    type: String
+    value_type: String
+ }
+
+ type DeviceCreatedList{
+    id: String
+    label: String
  }
 `];
 

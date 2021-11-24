@@ -1,4 +1,4 @@
-const Resolver = require('../../../graphql/user/Resolvers');
+const Resolver = require('../../../operations/configuration/Resolvers');
 const { Pool } = require('pg');
 
 jest.mock('pg', () => {
@@ -54,8 +54,8 @@ it('should return an error on getConfig', () => {
 
   userPool.query.mockImplementation(() => Promise.resolve({"command": "SELECT", "rowCount": 0}));
 
-  return Resolver.Query.getConfig({}, params).then((output) => {
-    expect(output).toEqual('Could not complete operation');
+  return Resolver.Query.getConfig({}, params).catch((output) => {
+    expect(output).toEqual('Could not retrieve configuration from user admin in tenant admin');
   });
 });
 

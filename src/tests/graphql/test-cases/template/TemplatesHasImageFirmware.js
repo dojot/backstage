@@ -32,7 +32,7 @@ const testTemplatesHasImageFirmware = {
     },
   },
   beforeTest() {
-    axios.mockImplementationOnce(() => Promise.resolve({ data: templateId3 }))
+    axios.get.mockImplementationOnce(() => Promise.resolve({ data: templateId3 }))
       .mockImplementationOnce(() => Promise.resolve({ data: templateId4 }))
       .mockImplementationOnce(() => Promise.resolve({ data: templateId5 }));
   },

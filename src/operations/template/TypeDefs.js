@@ -63,6 +63,13 @@ const TypeDefs = [`
     label: String!
     attrs: [Attr]
  }
+
+ type MapStringToString {
+    #key
+    key: String
+    #value
+    value: String
+ }
 `];
 
 module.exports = TypeDefs;
