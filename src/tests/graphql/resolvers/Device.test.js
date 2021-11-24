@@ -371,26 +371,41 @@ it('Device - should return a device', () => {
 
   return Resolvers.Query.getDeviceById(root, params, context).then((output) => {
     expect(output).toEqual({
-      attrs: [
+      "attrs": [
         {
-          label: 'tag_temperature',
-          valueType: 'NUMBER',
+          id: 30,
+          isDynamic: true,
+          label: "tag_temperature",
+          staticValue: undefined,
+          valueType: "NUMBER"
         },
         {
-          label: 'tag_pressure',
-          valueType: 'NUMBER',
+          id: 31,
+          isDynamic: true,
+          label: "tag_pressure",
+          staticValue: undefined,
+          valueType: "NUMBER"
         },
         {
-          label: 'tag_led',
-          valueType: 'BOOLEAN',
+          id: 32,
+          isDynamic: true,
+          label: "tag_led",
+          staticValue: undefined,
+          valueType: "BOOLEAN"
         },
         {
-          label: 'tag_fan',
-          valueType: 'BOOLEAN',
-        },
+          id: 33,
+          isDynamic: true,
+          label: "tag_fan",
+          staticValue: undefined,
+          valueType: "BOOLEAN"
+        }
       ],
-      id: '10cf',
-      label: 'sensor-4',
+      certificate: {},
+      created: "2017-12-20T18:15:08.864677+00:00",
+      id: "10cf",
+      label: "sensor-4",
+      updated: ""
     });
   });
 });

@@ -10,7 +10,10 @@ const getDeviceById = async (root, { deviceId }, {token}) => {
     const device = {
       id: deviceData.id,
       label: deviceData.label,
-      attrs: []
+      attrs: [],
+      created: deviceData.created,
+      updated: deviceData.updated ? deviceData.updated : "",
+      certificate: {}
     }
     Object.keys(deviceData.attrs).forEach((key) => {
       deviceData.attrs[key].forEach((attr) => {
@@ -20,6 +23,9 @@ const getDeviceById = async (root, { deviceId }, {token}) => {
         device.attrs.push({
           label: attr.label,
           valueType: formatValueType(attr.value_type),
+          id: attr.id,
+          isDynamic: attr.type === 'dynamic',
+          staticValue: attr.static_value,
         });
       });
     });
