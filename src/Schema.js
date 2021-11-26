@@ -31,7 +31,7 @@ const query = [`
     #Updates existing information on database, or creates an entry if it doesn't exist. Returns success message if it works or error message if fails.
     updateConfig(user:String, tenant:String!, config: String!): String
     createDevice(label: String!, templates: [Int]!, attrs: [DeviceAttributes], certificate: String): [DeviceCreatedList]
-    deleteDevice(id: String!): String
+    deleteDevices(deviceIds: [String]!): String
   }
 `];
 

@@ -1,19 +1,19 @@
-const getDeviceById = require('./query.getDeviceById')
-const getDevices = require('./query.getDevices')
-const getDeviceHistoryForDashboard = require('./query.getDeviceHistoryForDashboard')
-const createDevice = require("./mutation.createDevice")
-const deleteDevice = require("./mutation.deleteDevice")
+const getDeviceById = require('./query.getDeviceById');
+const getDevices = require('./query.getDevices');
+const getDeviceHistoryForDashboard = require('./query.getDeviceHistoryForDashboard');
+const createDevice = require('./mutation.createDevice');
+const deleteDevices = require('./mutation.deleteDevices');
 
 const Resolvers = {
   Query: {
     getDeviceById,
     getDevices,
-    getDeviceHistoryForDashboard
+    getDeviceHistoryForDashboard,
   },
   Mutation: {
     createDevice,
-    deleteDevice
-  }
+    deleteDevices,
+  },
 };
 
 module.exports = Resolvers;

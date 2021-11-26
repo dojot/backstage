@@ -106,7 +106,7 @@ type Metadata {
 
 type Mutation {
   createDevice(attrs: [DeviceAttributes], certificate: String, label: String!, templates: [Int]!): [DeviceCreatedList]
-  deleteDevice(id: String!): String
+  deleteDevices(deviceIds: [String]!): String
   "Updates existing information on database, or creates an entry if it doesn't exist. Returns success message if it works or error message if fails."
   updateConfig(config: String!, tenant: String!, user: String): String
 }
