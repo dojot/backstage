@@ -17,14 +17,11 @@ const getDeviceById = async (root, { deviceId }, {token}) => {
     }
     Object.keys(deviceData.attrs).forEach((key) => {
       deviceData.attrs[key].forEach((attr) => {
-        if( attr.type !== 'dynamic' ) {
-          return;
-        }
         device.attrs.push({
           label: attr.label,
           valueType: formatValueType(attr.value_type),
           id: attr.id,
-          isDynamic: attr.type === 'dynamic',
+          isDynamic: attr.type,
           staticValue: attr.static_value,
         });
       });
