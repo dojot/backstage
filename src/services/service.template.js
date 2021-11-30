@@ -14,7 +14,23 @@ const getTemplateWithParams = (token, params) => {
   return axios.get(`${baseURL}/template?${params}`, getHeader(token))
 }
 
+const getTemplatesInfo = async (token, ids) => {
+  const promises = [];
+  const values = [];
+  ids.forEach(id => {
+    promises.push(axios.get(`${baseURL}/template/${id}`, getHeader(token)).then(response => {
+      if (!!response.data) {
+        const {data: {id, label}} = response;
+        values.push({id, label})
+      }
+    }).catch(() => Promise.resolve(null)))
+  })
+  await (Promise.all(promises));
+  return values;
+}
+
 module.exports = {
   getTemplateId,
-  getTemplateWithParams
+  getTemplateWithParams,
+  getTemplatesInfo
 };

@@ -7,10 +7,14 @@ type Device {
     created: String
     updated: String
     certificate: Certificate
-    templates: [Int]
+    templates: [TemplatesObj]
  }
  type Certificate {
     id: String
+    label: String
+ }
+ type TemplatesObj {
+    id: Int
     label: String
  }
  #Value types used by the platform#

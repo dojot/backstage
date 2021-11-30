@@ -1,6 +1,7 @@
 const {formatValueType} = require("./helpers");
 const LOG = require("../../utils/Log");
 const service = require('../../services/service.device')
+const template = require('../../services/service.template')
 
 const getDeviceById = async (root, { deviceId }, {token}) => {
 
@@ -13,7 +14,7 @@ const getDeviceById = async (root, { deviceId }, {token}) => {
       attrs: [],
       created: deviceData.created,
       updated: deviceData.updated ? deviceData.updated : "",
-      templates: deviceData.templates,
+      templates: await template.getTemplatesInfo(token, deviceData.templates),
       certificate: {}
     }
     Object.keys(deviceData.attrs).forEach((key) => {

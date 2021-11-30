@@ -50,7 +50,7 @@ type Device {
   created: String
   id: String!
   label: String!
-  templates: [Int]
+  templates: [TemplatesObj]
   updated: String
 }
 
@@ -164,6 +164,11 @@ type TemplatesListPage {
   currentPage: Int!
   templates: [TemplateList]
   totalPages: Int!
+}
+
+type TemplatesObj {
+  id: Int
+  label: String
 }
 
 "Value types used by the platform#"
