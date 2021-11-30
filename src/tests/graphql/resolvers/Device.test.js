@@ -298,114 +298,159 @@ const historyData = {
 
 it('Device - should return a device', () => {
   const root = {};
-  const params = { deviceId: '10cf' };
+  const params = {deviceId: '10cf'};
   const context = {};
 
-  axios.get.mockImplementationOnce(() => Promise.resolve({
-    data: {
-      attrs: {
-        4865: [
-          {
-            created: '2017-12-20T18:14:43.994796+00:00',
-            id: 30,
-            label: 'tag_temperature',
-            template_id: '4865',
-            type: 'dynamic',
-            value_type: 'integer',
-          },
-          {
-            created: '2017-12-20T18:14:44.014065+00:00',
-            id: 31,
-            label: 'tag_pressure',
-            template_id: '4865',
-            type: 'dynamic',
-            value_type: 'float',
-          },
-          {
-            created: '2017-12-20T18:14:44.015474+00:00',
-            id: 32,
-            label: 'tag_led',
-            template_id: '4865',
-            type: 'dynamic',
-            value_type: 'bool',
-          },
-          {
-            created: '2017-12-20T18:14:44.016804+00:00',
-            id: 33,
-            label: 'tag_fan',
-            template_id: '4865',
-            type: 'dynamic',
-            value_type: 'bool',
-          },
-          {
-            created: '2017-12-20T18:14:44.016804+00:00',
-            id: 34,
-            label: 'location',
-            template_id: '4865',
-            type: 'geo:point',
-          },
-          {
-            created: '2017-12-20T18:14:44.016804+00:00',
-            id: 34,
-            label: 'customName',
-            template_id: '4865',
-            type: 'string',
-          },
-          {
-            created: '2017-12-20T18:14:44.016804+00:00',
-            id: 34,
-            label: 'someact',
-            template_id: '4865',
-            type: 'actuator',
-          },
-        ],
+  axios.get.mockResolvedValue('default value')
+    .mockImplementationOnce(() => Promise.resolve({
+      data: {
+        attrs: {
+          18: [
+            {
+              created: "2021-08-24T18:00:58.619459+00:00",
+              id: 66,
+              is_static_overridden: true,
+              label: "coordenada",
+              static_value: "-22.814257, -47.070032",
+              template_id: "18",
+              type: "static",
+              value_type: "geo:point"
+            }
+          ],
+          19: [
+            {
+              created: "2021-08-24T18:00:58.619461+00:00",
+              id: 67,
+              is_static_overridden: false,
+              label: "timestamp",
+              static_value: "",
+              template_id: "19",
+              type: "dynamic",
+              value_type: "string"
+            }
+          ]
+        },
+        created: "2021-08-24T18:00:58.595191+00:00",
+        id: "e5d299",
+        label: "CS Teste",
+        templates: [
+          18,
+          19
+        ]
       },
-      created: '2017-12-20T18:15:08.864677+00:00',
-      id: '10cf',
-      label: 'sensor-4',
-      templates: [
-        '4865',
-      ],
-    },
-  }));
+    }))
+    .mockImplementationOnce(() => Promise.resolve({
+      data: {
+        "attrs": [
+          {
+            "created": "2021-08-24T18:00:58.619459+00:00",
+            "id": 66,
+            "label": "coordenada",
+            "static_value": "49.8397, 24.0287",
+            "template_id": "18",
+            "type": "static",
+            "value_type": "geo:point"
+          }
+        ],
+        "config_attrs": [],
+        "created": "2021-08-24T18:00:58.599570+00:00",
+        "data_attrs": [
+          {
+            "created": "2021-08-24T18:00:58.619459+00:00",
+            "id": 66,
+            "label": "coordenada",
+            "static_value": "49.8397, 24.0287",
+            "template_id": "18",
+            "type": "static",
+            "value_type": "geo:point"
+          }
+        ],
+        "id": 18,
+        "label": "Static Locale"
+      }
+    }))
+    .mockImplementationOnce(() => Promise.resolve({
+      data: {
+        "attrs": [
+          {
+            "created": "2021-08-24T18:00:58.619461+00:00",
+            "id": 67,
+            "label": "timestamp",
+            "static_value": "",
+            "template_id": "19",
+            "type": "dynamic",
+            "value_type": "string"
+          }
+        ],
+        "config_attrs": [],
+        "created": "2021-08-24T18:00:58.599573+00:00",
+        "data_attrs": [
+          {
+            "created": "2021-08-24T18:00:58.619461+00:00",
+            "id": 67,
+            "label": "timestamp",
+            "static_value": "",
+            "template_id": "19",
+            "type": "dynamic",
+            "value_type": "string"
+          }
+        ],
+        "id": 19,
+        "label": "timestamp"
+      }
+    }))
+    .mockImplementationOnce(() => Promise.resolve({
+      data: {
+        "coordenada": [],
+        "timestamp": []
+      }
+    }))
 
   return Resolvers.Query.getDeviceById(root, params, context).then((output) => {
     expect(output).toEqual({
       "attrs": [
         {
-          id: 30,
-          isDynamic: true,
-          label: "tag_temperature",
-          staticValue: undefined,
-          valueType: "NUMBER"
+          "id": 66,
+          "label": "coordenada",
+          "staticValue": "-22.814257, -47.070032",
+          "type": "static",
+          "valueType": "GEO"
         },
         {
-          id: 31,
-          isDynamic: true,
-          label: "tag_pressure",
-          staticValue: undefined,
-          valueType: "NUMBER"
-        },
-        {
-          id: 32,
-          isDynamic: true,
-          label: "tag_led",
-          staticValue: undefined,
-          valueType: "BOOLEAN"
-        },
-        {
-          id: 33,
-          isDynamic: true,
-          label: "tag_fan",
-          staticValue: undefined,
-          valueType: "BOOLEAN"
+          "id": 67,
+          "label": "timestamp",
+          "staticValue": "",
+          "type": "dynamic",
+          "valueType": "STRING"
         }
       ],
-      certificate: {},
-      created: "2017-12-20T18:15:08.864677+00:00",
-      id: "10cf",
-      label: "sensor-4",
-      updated: ""
+      "certificate": {},
+      "created": "2021-08-24T18:00:58.595191+00:00",
+      "id": "e5d299",
+      "label": "CS Teste",
+      "lastUpdate": [
+        {
+          "date": null,
+          "label": "coordenada",
+          "value": null
+        },
+        {
+          "date": null,
+          "label": "timestamp",
+          "value": null
+        }
+      ],
+      "templates": [
+        {
+          "id": 18,
+          "label": "Static Locale"
+        },
+        {
+          "id": 19,
+          "label": "timestamp"
+        }
+      ],
+      "updated": ""
     });
   });
 });
@@ -550,7 +595,7 @@ it('Device - should get a list of devices', () => {
     },
   });
   const root = {};
-  const params = { page: { number: 1, size: 4 }, filter: { label: 'd' } };
+  const params = {page: {number: 1, size: 4}, filter: {label: 'd'}};
 
   return Resolvers.Query.getDevices(root, params, {}).then((output) => {
     expect(output).toEqual(
@@ -740,11 +785,11 @@ it('Device - Consult the history for the last 3 records (dashboard)', async () =
 
   const params = {
     filter: {
-      devices: [{ deviceID: '0998', dynamicAttrs: ['temperature'] }, { deviceID: '8aa0f9', dynamicAttrs: ['hue'] }],
+      devices: [{deviceID: '0998', dynamicAttrs: ['temperature']}, {deviceID: '8aa0f9', dynamicAttrs: ['hue']}],
       templates: [],
       lastN: 3
     },
-    configs: { sourceType: 0, operationType: 0 }
+    configs: {sourceType: 0, operationType: 0}
   };
 
   const result = await Resolvers.Query.getDeviceHistoryForDashboard({}, params, {});
@@ -763,11 +808,11 @@ it('Device - Consult the history by time period (dashboard)', async () => {
 
   const params = {
     filter: {
-      devices: [{ deviceID: '0998', dynamicAttrs: ['temperature'] }, { deviceID: '8aa0f9', dynamicAttrs: ['hue'] }],
+      devices: [{deviceID: '0998', dynamicAttrs: ['temperature']}, {deviceID: '8aa0f9', dynamicAttrs: ['hue']}],
       dateFrom: "2020-07-20T15:00:00.000z",
       dateTo: "2020-07-20T17:00:00.000z",
     },
-    configs: { sourceType: 0, operationType: 0 }
+    configs: {sourceType: 0, operationType: 0}
   };
 
   const result = await Resolvers.Query.getDeviceHistoryForDashboard({}, params, {});
@@ -782,10 +827,10 @@ it('Device - should obtain a static coordinate point for the map', async () => {
 
   const params = {
     filter: {
-      devices: [{ deviceID: '44h7ff', dynamicAttrs: [], staticAttrs: ['location'] }],
+      devices: [{deviceID: '44h7ff', dynamicAttrs: [], staticAttrs: ['location']}],
       lastN: 1
     },
-    configs: { sourceType: 0, operationType: 0, widgetType: 8 }
+    configs: {sourceType: 0, operationType: 0, widgetType: 8}
   };
 
   const result = await Resolvers.Query.getDeviceHistoryForDashboard({}, params, {});
@@ -801,10 +846,10 @@ it('Device - should obtain a static and dynamic coordinates points for the map',
 
   const params = {
     filter: {
-      devices: [{ deviceID: '44h7ff', dynamicAttrs: ['coordinate'], staticAttrs: ['location'] }],
+      devices: [{deviceID: '44h7ff', dynamicAttrs: ['coordinate'], staticAttrs: ['location']}],
       lastN: 1
     },
-    configs: { sourceType: 0, operationType: 0, widgetType: 8 }
+    configs: {sourceType: 0, operationType: 0, widgetType: 8}
   };
 
   const result = await Resolvers.Query.getDeviceHistoryForDashboard({}, params, {});
@@ -819,10 +864,10 @@ it('Device - should obtain a empty responde', async () => {
 
   const params = {
     filter: {
-      devices: [{ deviceID: '44h7ff', dynamicAttrs: [], staticAttrs: ['location'] }],
+      devices: [{deviceID: '44h7ff', dynamicAttrs: [], staticAttrs: ['location']}],
       lastN: 1
     },
-    configs: { sourceType: 99, operationType: 0 }
+    configs: {sourceType: 99, operationType: 0}
   };
 
   const result = await Resolvers.Query.getDeviceHistoryForDashboard({}, params, {token: ''});
@@ -837,11 +882,11 @@ it('Template - should get the coordinates from three devices', async () => {
 
   const params = {
     filter: {
-      templates: [{ templateID: '3', dynamicAttrs: [], staticAttrs: ['location'] }],
+      templates: [{templateID: '3', dynamicAttrs: [], staticAttrs: ['location']}],
       devices: [],
       lastN: 1
     },
-    configs: { sourceType: 1, operationType: 0, widgetType: 8 }
+    configs: {sourceType: 1, operationType: 0, widgetType: 8}
   };
 
   const result = await Resolvers.Query.getDeviceHistoryForDashboard({}, params, {});

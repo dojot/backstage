@@ -1,5 +1,6 @@
 const axios = require("axios");
 const config = require("../config");
+const LOG = require("../utils/Log");
 
 const baseURL = config.base_local_url_graphql;
 const getHeader = (token) => ({
@@ -96,6 +97,27 @@ const deleteDevice = async (token, id) => {
   return axios.delete(`${baseURL}/device/${id}`, getHeader(token))
 }
 
+const getDeviceHistoricForAllAttrs = async (token, deviceId) => {
+  const values = [];
+  try {
+    const response = await axios.get(`${baseURL}/history/device/${deviceId}/history?lastN=1`, getHeader(token));
+    if (!!response.data) {
+      for (const key in response.data) {
+        values.push({
+          label: key,
+          value: response.data[key].length > 0 ? String(response.data[key][0].value) : null,
+          date: response.data[key].length > 0 ? response.data[key][0].ts : null,
+        })
+      }
+    }
+    return values;
+  } catch (error) {
+    LOG.error(error.stack || error);
+    throw error;
+  }
+
+}
+
 module.exports = {
   getDeviceById,
   getDeviceList,
@@ -103,5 +125,6 @@ module.exports = {
   getDevicesByTemplate,
   getDevicesWithFilter,
   createDevice,
-  deleteDevice
+  deleteDevice,
+  getDeviceHistoricForAllAttrs
 };

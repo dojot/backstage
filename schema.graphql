@@ -33,6 +33,12 @@ type Attributes {
   value_type: String
 }
 
+type AttributesData {
+  date: String
+  label: String
+  value: String
+}
+
 type Certificate {
   id: String
   label: String
@@ -50,6 +56,7 @@ type Device {
   created: String
   id: String!
   label: String!
+  lastUpdate: [AttributesData]
   templates: [TemplatesObj]
   updated: String
 }

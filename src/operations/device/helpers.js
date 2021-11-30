@@ -39,6 +39,9 @@ const formatValueType = (valType) => {
     case 'geo:point':
       valueType = 'GEO';
       break;
+    case 'object':
+      valueType = 'OBJECT';
+      break;
     default:
       valueType = 'UNDEFINED';
   }

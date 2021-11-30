@@ -8,6 +8,7 @@ type Device {
     updated: String
     certificate: Certificate
     templates: [TemplatesObj]
+    lastUpdate: [AttributesData]
  }
  type Certificate {
     id: String
@@ -17,12 +18,18 @@ type Device {
     id: Int
     label: String
  }
+ type AttributesData {
+    label: String
+    value: String
+    date: String
+ }
  #Value types used by the platform#
  enum ValueType {
     NUMBER
     STRING
     BOOLEAN
     GEO
+    OBJECT
     UNDEFINED
  }
  #Necessary data about and attribute of a device#

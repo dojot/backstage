@@ -15,7 +15,8 @@ const getDeviceById = async (root, { deviceId }, {token}) => {
       created: deviceData.created,
       updated: deviceData.updated ? deviceData.updated : "",
       templates: await template.getTemplatesInfo(token, deviceData.templates),
-      certificate: {}
+      certificate: {},
+      lastUpdate: await service.getDeviceHistoricForAllAttrs(token, deviceData.id)
     }
     Object.keys(deviceData.attrs).forEach((key) => {
       deviceData.attrs[key].forEach((attr) => {
