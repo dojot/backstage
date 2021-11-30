@@ -22,10 +22,10 @@ type Device {
  }
  #Necessary data about and attribute of a device#
  type Attr {
-    id: String
+    id: String!
+    type: String!
     label: String!
     valueType: ValueType!
-    isDynamic: Boolean!
     staticValue: String
  }
 
