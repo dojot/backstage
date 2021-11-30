@@ -1,27 +1,26 @@
-const {formatValueType} = require("./helpers");
-const service = require("../../services/service.device")
-const LOG = require("../../utils/Log");
+const service = require('../../services/service.device');
+const { formatValueType } = require('./helpers');
+const LOG = require('../../utils/Log');
 
-const getDevices = async (root, params, {token}) => {
-  // building the request string
+const getDevices = async (root, params, { token }) => {
   try {
     const requestParameters = {};
 
-    if( params.page ) {
-      if( params.page.size ) {
+    if (params.page) {
+      if (params.page.size) {
         requestParameters.page_size = params.page.size;
       } else {
         requestParameters.page_size = 20;
       }
-      if( params.page.number ) {
+      if (params.page.number) {
         requestParameters.page_num = params.page.number;
       } else {
         requestParameters.page_num = 1;
       }
     }
 
-    if( params.filter ) {
-      if( params.filter.label ) {
+    if (params.filter) {
+      if (params.filter.label) {
         requestParameters.label = params.filter.label;
       }
     }
@@ -32,41 +31,40 @@ const getDevices = async (root, params, {token}) => {
     const keys = Object.keys(requestParameters);
     const last = keys[keys.length - 1];
     keys.forEach((element) => {
-      if( element === last ) {
-        requestString += `${ element }=${ requestParameters[element] }`;
+      if (element === last) {
+        requestString += `${element}=${requestParameters[element]}`;
       } else {
-        requestString += `${ element }=${ requestParameters[element] }&`;
+        requestString += `${element}=${requestParameters[element]}&`;
       }
     });
 
     const { data: fetchedData } = await service.getDevicesWithFilter(token, requestString);
-    const devices = [];
 
+    const devices = [];
     fetchedData.devices.forEach((device) => {
       const attributes = [];
-      if( device.attrs ) {
+
+      if (device.attrs) {
         Object.keys(device.attrs).forEach((key) => {
           device.attrs[key].forEach((attr) => {
-            if( attr.type !== 'dynamic' && attr.value_type !== 'geo:point' ) {
-              return;
-            }
             attributes.push({
-              label: attr.label,
               id: attr.id,
-              valueType: formatValueType(attr.value_type),
-              isDynamic: attr.type === 'dynamic',
+              type: attr.type,
+              label: attr.label,
               staticValue: attr.static_value,
+              valueType: formatValueType(attr.value_type),
             });
           });
         });
       }
+
       devices.push({
         id: device.id,
         label: device.label,
         created: device.created,
-        updated: device.updated ? device.updated : "",
+        updated: device.updated ? device.updated : '',
         attrs: attributes,
-        certificate: {}
+        certificate: {},
       });
     });
 
@@ -75,10 +73,10 @@ const getDevices = async (root, params, {token}) => {
       currentPage: fetchedData.pagination.page,
       devices,
     });
-  } catch( error ) {
+  } catch (error) {
     LOG.error(error.stack || error);
     throw error;
   }
-}
+};
 
 module.exports = getDevices;
