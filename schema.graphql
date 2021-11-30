@@ -8,9 +8,9 @@ schema {
 "Necessary data about and attribute of a device#"
 type Attr {
   id: String
-  isDynamic: Boolean!
   label: String!
   staticValue: String
+  type: String!
   valueType: ValueType!
 }
 
@@ -50,6 +50,7 @@ type Device {
   created: String
   id: String!
   label: String!
+  templates: [Int]
   updated: String
 }
 

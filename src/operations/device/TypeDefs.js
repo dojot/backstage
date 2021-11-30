@@ -7,6 +7,7 @@ type Device {
     created: String
     updated: String
     certificate: Certificate
+    templates: [Int]
  }
  type Certificate {
     id: String
@@ -25,7 +26,7 @@ type Device {
     id: String
     label: String!
     valueType: ValueType!
-    isDynamic: Boolean!
+    type: String!
     staticValue: String
  }
 
