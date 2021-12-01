@@ -68,3 +68,5 @@ build.sh
 # Text files
 **/*.txt
 
+# Yarn files
+yarn.lock
