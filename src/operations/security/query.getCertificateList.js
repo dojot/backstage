@@ -9,8 +9,8 @@ const getCertificateList = async (root, {page}, {token}) => {
     const pagination = {
       page: paging.current.number,
       total: paging.totalPages,
-      has_next: paging.next ? paging.current.number !== paging.next.number : false,
-      next_page: paging.next ? paging.next.number : null,
+      hasNext: paging.next ? paging.current.number !== paging.next.number : false,
+      nextPage: paging.next ? paging.next.number : null,
       totalItems: paging.totalItems,
       limitPerPage: paging.limitPerPage
     }
