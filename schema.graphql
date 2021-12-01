@@ -7,9 +7,10 @@ schema {
 
 "Necessary data about and attribute of a device#"
 type Attr {
-  id: String!
+  id: String
   type: String!
   label: String!
+  isDynamic: Boolean!
   staticValue: String
   valueType: ValueType!
 }
@@ -33,6 +34,12 @@ type Attributes {
   value_type: String
 }
 
+type AttributesData {
+  date: String
+  label: String
+  value: String
+}
+
 type Certificate {
   id: String
   label: String
@@ -50,6 +57,8 @@ type Device {
   created: String
   id: String!
   label: String!
+  lastUpdate: [AttributesData]
+  templates: [TemplatesObj]
   updated: String
 }
 
@@ -163,6 +172,11 @@ type TemplatesListPage {
   currentPage: Int!
   templates: [TemplateList]
   totalPages: Int!
+}
+
+type TemplatesObj {
+  id: Int
+  label: String
 }
 
 "Value types used by the platform#"
