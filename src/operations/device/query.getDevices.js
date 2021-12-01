@@ -52,6 +52,7 @@ const getDevices = async (root, params, { token }) => {
               type: attr.type,
               label: attr.label,
               staticValue: attr.static_value,
+              isDynamic: attr.type === 'dynamic',
               valueType: formatValueType(attr.value_type),
             });
           });

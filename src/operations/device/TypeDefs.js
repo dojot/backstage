@@ -25,8 +25,9 @@ type Device {
     id: String!
     type: String!
     label: String!
-    valueType: ValueType!
+    isDynamic: Boolean!
     staticValue: String
+    valueType: ValueType!
  }
 
 #A paginated list of Devices.#
