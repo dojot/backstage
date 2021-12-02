@@ -6,6 +6,8 @@ const deviceTypeDefs = require('./operations/device/TypeDefs');
 const deviceResolvers = require('./operations/device/Resolvers');
 const userResolvers = require('./operations/configuration/Resolvers');
 const userTypeDefs = require('./operations/configuration/TypeDefs');
+const securityResolvers = require('./operations/security/Resolvers');
+const securityTypeDefs = require('./operations/security/TypeDefs');
 
 
 const query = [`
@@ -26,6 +28,8 @@ const query = [`
     getDeviceHistoryForDashboard(filter: HistoryInput!, configs: ConfigsInput): String
     #Retrieves dashboard configuration by user. Returns the information if successful or error message if it occurs.
     getConfig(user:String, tenant:String!): String
+    #Returns the list of certificates in paginated form.
+    getCertificateList(page: PageInput!): Certs
   }
   type Mutation {
     #Updates existing information on database, or creates an entry if it doesn't exist. Returns success message if it works or error message if fails.
@@ -37,8 +41,8 @@ const query = [`
 
 // Put schema together into one array of schema strings
 // and one map of resolvers, like makeExecutableSchema expects
-const typeDefs = [...query, ...templateTypeDefs, ...deviceTypeDefs, ...userTypeDefs];
-const resolvers = merge(templateResolvers, deviceResolvers, userResolvers);
+const typeDefs = [...query, ...templateTypeDefs, ...deviceTypeDefs, ...userTypeDefs, ...securityTypeDefs];
+const resolvers = merge(templateResolvers, deviceResolvers, userResolvers, securityResolvers);
 
 const executableSchema = makeExecutableSchema({ typeDefs, resolvers });
 
