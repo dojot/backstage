@@ -45,8 +45,8 @@ const certResponse = [{
   pagination: {
     page: 1,
     total: 1,
-    has_next: false,
-    next_page: null,
+    hasNext: false,
+    nextPage: null,
     limitPerPage: 10,
     totalItems: 2
   },

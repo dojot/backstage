@@ -3,8 +3,8 @@ const TypeDefs = [`
   type PaginationCerts {
     page: Int
     total: Int
-    has_next: Boolean
-    next_page: Boolean
+    hasNext: Boolean
+    nextPage: Boolean
     totalItems: Int
     limitPerPage: Int
   }
