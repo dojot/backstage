@@ -115,7 +115,10 @@ const getDeviceHistoricForAllAttrs = async (token, deviceId) => {
     LOG.error(error.stack || error);
     throw error;
   }
+}
 
+const editDevice = async (token, id, data) => {
+  return axios.put(`${baseURL}/device/${id}`, data, getHeader(token))
 }
 
 module.exports = {
@@ -126,5 +129,6 @@ module.exports = {
   getDevicesWithFilter,
   createDevice,
   deleteDevice,
-  getDeviceHistoricForAllAttrs
+  getDeviceHistoricForAllAttrs,
+  editDevice
 };

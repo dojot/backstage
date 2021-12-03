@@ -892,3 +892,30 @@ it('Template - should get the coordinates from three devices', async () => {
   const result = await Resolvers.Query.getDeviceHistoryForDashboard({}, params, {});
   expect(result).toEqual('{"44h7fflocation":{"value":[-22.902639983447763,-47.059749301405674],"timestamp":"2020-09-18T14:20:20.248Z","deviceLabel":"GPS - Marca C","templateKey":"3location"},"90bc2alocation":{"value":[-22.902639983447763,-47.059749301405674],"timestamp":"2020-09-18T14:20:20.248Z","deviceLabel":"GPS - Marca A","templateKey":"3location"},"ca19f8location":{"value":[-22.902639983447763,-47.059749301405674],"timestamp":"2020-09-18T14:20:20.248Z","deviceLabel":"GPS - Marca B","templateKey":"3location"}}')
 });
+
+it('Device - should edit a device', async () => {
+  jest.mock('axios');
+
+  const fakeDevice = {
+    id: 'abc123',
+    label: 'OLD DEVICE NAME',
+    templates: [{ id: 'template123' }]
+  }
+
+  const newFakeDevice = {
+    ...fakeDevice,
+    label: 'THE NEW NAME',
+  }
+
+  axios.put.mockResolvedValue('default value')
+    .mockResolvedValueOnce({ data: { device: newFakeDevice } })
+
+  const result = await Resolvers.Mutation.editDevice(
+    {}, 
+    newFakeDevice.id, 
+    newFakeDevice, 
+    { token: '' }
+  );
+
+  expect(result).toEqual(newFakeDevice)
+})

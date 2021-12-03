@@ -36,6 +36,7 @@ const query = [`
     updateConfig(user:String, tenant:String!, config: String!): String
     createDevice(label: String!, templates: [Int]!, attrs: [DeviceAttributes], certificate: String): [DeviceCreatedList]
     deleteDevices(deviceIds: [String]!): String
+    editDevice(id: String!, label: String!, templates: [Int]!, attrs: [DeviceAttributes]): DeviceCreatedList
   }
 `];
 
