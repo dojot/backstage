@@ -40,6 +40,7 @@ type Device {
     isDynamic: Boolean!
     staticValue: String
     valueType: ValueType!
+    templateId: String!
  }
 
 #A paginated list of Devices.#
