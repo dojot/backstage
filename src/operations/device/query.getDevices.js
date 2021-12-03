@@ -51,6 +51,7 @@ const getDevices = async (root, params, { token }) => {
               id: attr.id,
               type: attr.type,
               label: attr.label,
+              templateId: attr.template_id,
               staticValue: attr.static_value,
               isDynamic: attr.type === 'dynamic',
               valueType: formatValueType(attr.value_type),
