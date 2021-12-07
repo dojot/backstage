@@ -1,12 +1,23 @@
-const getTemplates = require('./query.getTemplates')
-const template = require('./query.template')
-const templatesHasImageFirmware = require('./query.templatesHasImageFirmware')
+const getTemplates = require('./query.getTemplates');
+const getTemplateById = require('./query.getTemplateById');
+const templatesHasImageFirmware = require('./query.templatesHasImageFirmware');
+
+const editTemplate = require('./mutation.editTemplate');
+const createTemplate = require('./mutation.createTemplate');
+const deleteTemplates = require('./mutation.deleteTemplates');
+const duplicateTemplate = require('./mutation.duplicateTemplate');
 
 const Resolvers = {
   Query: {
     getTemplates,
-    template,
-    templatesHasImageFirmware
+    getTemplateById,
+    templatesHasImageFirmware,
+  },
+  Mutation: {
+    editTemplate,
+    createTemplate,
+    deleteTemplates,
+    duplicateTemplate,
   },
 };
 

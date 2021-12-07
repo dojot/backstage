@@ -8,17 +8,19 @@ const userResolvers = require('./operations/configuration/Resolvers');
 const userTypeDefs = require('./operations/configuration/TypeDefs');
 const securityResolvers = require('./operations/security/Resolvers');
 const securityTypeDefs = require('./operations/security/TypeDefs');
+const templateAttrTypeDefs = require('./operations/templateAttr/TypeDefs');
+const templateAttrResolvers = require('./operations/templateAttr/Resolvers');
 
 
 const query = [`
   type Query {
     #Get a template by Id
-    template(id: Int!): Template
+    getTemplateById(templateId: String!): TemplateList
     #Checks if templates has Image Firmware and return a array with objects key-value, where key is a id template and value is a boolean.
     #The value is true if the template has image firmware.
     templatesHasImageFirmware(templatesId: [Int]!): [MapStringToString]
     #Returns a list of templates
-    getTemplates(page: PageInput): TemplatesListPage
+    getTemplates(page: PageInput, filter: FilterTemplateInput): TemplatesListPage
     #Returns a list of devices that can be divided in pages, and the information about how many pages there are in total, along with which page is being shown.
     #@param sortBy: set sortBy to sort list (default 'label')
     getDevices(page: PageInput, filter: FilterDeviceInput, sortBy: String): DeviceListPage
@@ -37,13 +39,34 @@ const query = [`
     createDevice(label: String!, templates: [Int]!, attrs: [DeviceAttributes], certificate: String): [DeviceCreatedList]
     deleteDevices(deviceIds: [String]!): String
     editDevice(id: String!, label: String!, templates: [Int]!, attrs: [DeviceAttributes]): DeviceCreatedList
+    deleteTemplates(templateIds: [String]!): String
+    duplicateTemplate(templateId: String!): TemplateList
+    createTemplate(label: String!, attrs: [TemplateAttr]!): TemplateList
+    editTemplate(id: String!, label: String!, attrs: [TemplateAttr]!): TemplateList
+    deleteTemplateAttrs(templateId: String!, attrIds: [String]!): TemplateList
+    createTemplateAttr(templateId: String!, attr: TemplateAttr!): TemplateList
+    editTemplateAttr(templateId: String!, attrId: String!, attr: TemplateAttr!): TemplateList
   }
 `];
 
 // Put schema together into one array of schema strings
 // and one map of resolvers, like makeExecutableSchema expects
-const typeDefs = [...query, ...templateTypeDefs, ...deviceTypeDefs, ...userTypeDefs, ...securityTypeDefs];
-const resolvers = merge(templateResolvers, deviceResolvers, userResolvers, securityResolvers);
+const typeDefs = [
+  ...query,
+  ...templateTypeDefs,
+  ...deviceTypeDefs,
+  ...userTypeDefs,
+  ...securityTypeDefs,
+  ...templateAttrTypeDefs,
+];
+
+const resolvers = merge(
+  templateResolvers,
+  deviceResolvers,
+  userResolvers,
+  securityResolvers,
+  templateAttrResolvers,
+);
 
 const executableSchema = makeExecutableSchema({ typeDefs, resolvers });
 

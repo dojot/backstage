@@ -1,19 +1,22 @@
 const service = require('../../services/service.template');
-const { formatValueType } = require('../device/helpers');
 
-const getTemplates = async (_, { page }, { token }) => {
-  let requestString = '';
+const getTemplates = async (_, { page, filter }, { token }) => {
+  const requestParameters = {};
 
   if (page) {
-    requestString += `page_size=${page.size || 20}&page_num=${
-      page.number || 1
-    }&sortBy=label`;
+    requestParameters.page_size = page.size || 20;
+    requestParameters.page_num = page.number || 1;
+  }
+
+  if (filter) {
+    requestParameters.label = filter.label;
   }
 
   const { data: fetchedData } = await service.getTemplateWithParams(
     token,
-    requestString,
+    new URLSearchParams(requestParameters).toString(),
   );
+
 
   const templates = fetchedData.templates.map((template) => {
     let attrs = [];
@@ -23,10 +26,10 @@ const getTemplates = async (_, { page }, { token }) => {
         id: attr.id,
         type: attr.type,
         label: attr.label,
+        valueType: attr.value_type,
         templateId: attr.template_id,
         staticValue: attr.static_value,
         isDynamic: attr.type === 'dynamic',
-        valueType: formatValueType(attr.value_type),
       }));
     }
 

@@ -1,4 +1,3 @@
-const { formatValueType } = require('./helpers');
 const LOG = require('../../utils/Log');
 const service = require('../../services/service.device');
 const template = require('../../services/service.template');
@@ -21,10 +20,10 @@ const getDeviceById = async (_, { deviceId }, { token }) => {
     Object.keys(deviceData.attrs).forEach((key) => {
       deviceData.attrs[key].forEach((attr) => {
         device.attrs.push({
-          label: attr.label,
-          valueType: formatValueType(attr.value_type),
           id: attr.id,
           type: attr.type,
+          label: attr.label,
+          valueType: attr.value_type,
           templateId: attr.template_id,
           staticValue: attr.static_value,
         });
