@@ -414,14 +414,16 @@ it('Device - should return a device', () => {
           "label": "coordenada",
           "staticValue": "-22.814257, -47.070032",
           "type": "static",
-          "valueType": "GEO"
+          "valueType": "GEO",
+          "templateId": "18"
         },
         {
           "id": 67,
           "label": "timestamp",
           "staticValue": "",
           "type": "dynamic",
-          "valueType": "STRING"
+          "valueType": "STRING",
+          "templateId": "19"
         }
       ],
       "certificate": {},
@@ -472,115 +474,11 @@ it('Device - should get a list of devices', () => {
                 type: 'dynamic',
                 value_type: 'float',
               },
-              {
-                created: '2020-05-14T18:15:47.306332+00:00',
-                id: 5,
-                is_static_overridden: false,
-                label: 'static',
-                static_value: 'true',
-                template_id: '2',
-                type: 'static',
-                value_type: 'bool',
-              },
-              {
-                created: '2020-05-14T18:15:47.305416+00:00',
-                id: 4,
-                is_static_overridden: false,
-                label: 'dinbool',
-                static_value: '',
-                template_id: '2',
-                type: 'dynamic',
-                value_type: 'bool',
-              },
             ],
           },
           created: '2020-05-14T18:18:34.401142+00:00',
           id: '1b32ee',
           label: 'device2',
-          templates: [
-            2,
-          ],
-        },
-        {
-          attrs: {
-            1: [
-              {
-                created: '2020-05-14T17:25:25.437877+00:00',
-                id: 1,
-                is_static_overridden: false,
-                label: 'din',
-                static_value: '',
-                template_id: '1',
-                type: 'dynamic',
-                value_type: 'string',
-              },
-              {
-                created: '2020-05-14T17:25:25.439239+00:00',
-                id: 2,
-                is_static_overridden: false,
-                label: 'static',
-                static_value: '20',
-                template_id: '1',
-                type: 'static',
-                value_type: 'float',
-              },
-              {
-                created: '2020-05-14T17:25:25.439943+00:00',
-                id: 3,
-                is_static_overridden: false,
-                label: 'actuate',
-                static_value: '',
-                template_id: '1',
-                type: 'actuator',
-                value_type: 'bool',
-              },
-            ],
-          },
-          created: '2020-05-14T17:25:38.646423+00:00',
-          id: '457be',
-          label: 'deviceMock',
-          templates: [
-            1,
-          ],
-        },
-        {
-          attrs: {
-            2: [
-              {
-                created: '2020-05-14T18:15:47.307374+00:00',
-                id: 6,
-                is_static_overridden: false,
-                label: 'dina2',
-                static_value: '',
-                template_id: '2',
-                type: 'dynamic',
-                value_type: 'float',
-              },
-              {
-                created: '2020-05-14T18:15:47.306332+00:00',
-                id: 5,
-                is_static_overridden: false,
-                label: 'static',
-                static_value: 'true',
-                template_id: '2',
-                type: 'static',
-                value_type: 'bool',
-              },
-              {
-                created: '2020-05-14T18:15:47.305416+00:00',
-                id: 4,
-                is_static_overridden: false,
-                label: 'dinbool',
-                static_value: '',
-                template_id: '2',
-                type: 'dynamic',
-                value_type: 'bool',
-              },
-            ],
-          },
-          created: '2020-05-14T18:18:07.802635+00:00',
-          id: 'd16fe3',
-          label: 'device2Mock',
           templates: [
             2,
           ],
@@ -601,6 +499,7 @@ it('Device - should get a list of devices', () => {
     expect(output).toEqual(
       {
         currentPage: 1,
+        totalPages: 1,
         devices: [
           {
             attrs: [
@@ -608,15 +507,10 @@ it('Device - should get a list of devices', () => {
                 id: 6,
                 isDynamic: true,
                 label: 'dina2',
+                templateId: '2',
                 valueType: 'NUMBER',
                 staticValue: "",
-              },
-              {
-                id: 4,
-                isDynamic: true,
-                label: 'dinbool',
-                valueType: 'BOOLEAN',
-                staticValue: "",
+                type: 'dynamic'
               },
             ],
             certificate: {},
@@ -625,47 +519,7 @@ it('Device - should get a list of devices', () => {
             label: 'device2',
             updated: "",
           },
-          {
-            attrs: [
-              {
-                id: 1,
-                isDynamic: true,
-                label: 'din',
-                valueType: 'STRING',
-                staticValue: "",
-              },
-            ],
-            certificate: {},
-            created: "2020-05-14T17:25:38.646423+00:00",
-            id: '457be',
-            label: 'deviceMock',
-            updated: "",
-          },
-          {
-            attrs: [
-              {
-                id: 6,
-                isDynamic: true,
-                label: 'dina2',
-                valueType: 'NUMBER',
-                staticValue: "",
-              },
-              {
-                id: 4,
-                isDynamic: true,
-                label: 'dinbool',
-                valueType: 'BOOLEAN',
-                staticValue: "",
-              },
-            ],
-            certificate: {},
-            created: "2020-05-14T18:18:07.802635+00:00",
-            id: 'd16fe3',
-            label: 'device2Mock',
-            updated: "",
-          },
         ],
-        totalPages: 1,
       },
     );
   });

@@ -69,3 +69,5 @@ schema.graphql
 # Text files
 **/*.txt
 
+# Yarn files
+yarn.lock

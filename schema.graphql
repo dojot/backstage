@@ -8,10 +8,10 @@ schema {
 "Necessary data about and attribute of a device#"
 type Attr {
   id: String
-  isDynamic: Boolean
-  label: String!
-  staticValue: String
   type: String!
+  label: String!
+  isDynamic: Boolean!
+  staticValue: String
   valueType: ValueType!
 }
 

@@ -34,11 +34,13 @@ type Device {
  }
  #Necessary data about and attribute of a device#
  type Attr {
-    id: String
-    label: String!
-    valueType: ValueType!
+    id: String!
     type: String!
+    label: String!
+    isDynamic: Boolean!
     staticValue: String
+    valueType: ValueType!
+    templateId: String!
  }
 
 #A paginated list of Devices.#
