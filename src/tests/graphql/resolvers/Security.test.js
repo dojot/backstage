@@ -41,35 +41,37 @@ const certRequest = [{
     ]
   }
 }];
-const certResponse = [{
-  pagination: {
-    page: 1,
-    total: 1,
-    hasNext: false,
-    nextPage: null,
-    limitPerPage: 10,
-    totalItems: 2
-  },
-  certificates: [
-    {
-      autoRegistered: false,
-      issuedByDojotPki: true,
-      subjectDN: "CN=e5d299, O=dojot IoT Platform",
-      pem: "-----BEGIN CERTIFICATE----------END CERTIFICATE-----",
-      fingerprint: "63:E3:AE:0A:FF:61:A1:5E:92:FF:41:FD:7B:B3:B7:01:5F:38:3B:29:C6:FE:3B:46:13:F0:D0:62:02:48:A6:83",
-      createdAt: "2021-11-26T12:00:00.000Z",
-      modifiedAt: "2021-11-26T12:00:00.000Z",
-      tenant: "admin",
-      belongsTo: {
-        device: "XXXXXX"
-      },
-      validity: {
-        notAfter: "2022-11-26T12:26:00.000Z",
-        notBefore: "2021-11-26T12:26:00.000Z"
+const certResponse = [
+  {
+    pagination: {
+      page: 1,
+      total: 1,
+      hasNext: false,
+      nextPage: null,
+      limitPerPage: 10,
+      totalItems: 2
+    },
+    certificates: [
+      {
+        autoRegistered: false,
+        issuedByDojotPki: true,
+        subjectDN: "CN=e5d299, O=dojot IoT Platform",
+        pem: "-----BEGIN CERTIFICATE----------END CERTIFICATE-----",
+        fingerprint: "63:E3:AE:0A:FF:61:A1:5E:92:FF:41:FD:7B:B3:B7:01:5F:38:3B:29:C6:FE:3B:46:13:F0:D0:62:02:48:A6:83",
+        createdAt: "2021-11-26T12:00:00.000Z",
+        modifiedAt: "2021-11-26T12:00:00.000Z",
+        tenant: "admin",
+        belongsTo: {
+          device: "XXXXXX"
+        },
+        validity: {
+          notAfter: "2022-11-26T12:26:00.000Z",
+          notBefore: "2021-11-26T12:26:00.000Z"
+        }
       }
-    }
-  ]
-}];
+    ]
+  },
+  ];
 
 it('Certificate - should return one certificate', () => {
   const root = {};
