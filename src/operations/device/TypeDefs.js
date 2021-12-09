@@ -113,13 +113,13 @@ type Device {
  }
  #Attribute format for device creation#
  input DeviceAttributes{
-    created: String
     id: Int
-    label: String
-    static_value: String
-    template_id: String
     type: String
-    value_type: String
+    label: String
+    created: String
+    valueType: String
+    templateId: String
+    staticValue: String
  }
 
  type DeviceCreatedList{
