@@ -1,5 +1,4 @@
 const service = require('../../services/service.device');
-const { formatValueType } = require('./helpers');
 const LOG = require('../../utils/Log');
 
 const getDevices = async (root, params, { token }) => {
@@ -54,7 +53,7 @@ const getDevices = async (root, params, { token }) => {
               templateId: attr.template_id,
               staticValue: attr.static_value,
               isDynamic: attr.type === 'dynamic',
-              valueType: formatValueType(attr.value_type),
+              valueType: attr.value_type,
             });
           });
         });

@@ -23,23 +23,14 @@ type Device {
     value: String
     date: String
  }
- #Value types used by the platform#
- enum ValueType {
-    NUMBER
-    STRING
-    BOOLEAN
-    GEO
-    OBJECT
-    UNDEFINED
- }
  #Necessary data about and attribute of a device#
  type Attr {
     id: String!
     type: String!
     label: String!
+    valueType: String!
     isDynamic: Boolean!
     staticValue: String
-    valueType: ValueType!
     templateId: String!
  }
 
@@ -101,8 +92,8 @@ type Device {
  #Historical reading from an attribute#
  type HistoryAttr {
     label: String!
-    valueType: ValueType!
     value: String!
+    valueType: String!
     timestamp: String!
  }
  #Historical reading from device#

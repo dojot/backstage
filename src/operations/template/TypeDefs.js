@@ -70,6 +70,19 @@ const TypeDefs = [`
     #value
     value: String
  }
+
+ # Return only templates that are named accordingly (prefix or suffix match)#
+ input FilterTemplateInput {
+    label: String
+ }
+
+ # Attribute format for template creation#
+ input TemplateAttr {
+    type: String!
+    label: String!
+    valueType: String!
+    staticValue: String
+ }
 `];
 
 module.exports = TypeDefs;
