@@ -1,10 +1,10 @@
 const TypeDefs = [`
   #Pagination data structure#
   type PaginationCerts {
-    page: Int
-    total: Int
-    hasNext: Boolean
-    nextPage: Boolean
+    currentPage: Int
+    totalPages: Int
+    hasNextPage: Boolean
+    nextPage: Int
     totalItems: Int
     limitPerPage: Int
   }
@@ -34,6 +34,10 @@ const TypeDefs = [`
     certificates: [Certificates]
     pagination: PaginationCerts
   }
+  # Input to filter certificates
+  input FilterCertificateInput {
+    fingerprint: String
+ }
 `];
 
 module.exports = TypeDefs;

@@ -1,8 +1,8 @@
-const getCertificateList = require('./query.getCertificateList')
+const getCertificateList = require('./query.getCertificateList');
 
 const Resolvers = {
   Query: {
-    getCertificateList
+    getCertificateList,
   },
 };
 
