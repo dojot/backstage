@@ -48,6 +48,8 @@ const query = [`
     editTemplateAttr(templateId: String!, attrId: String!, attr: TemplateAttr!): TemplateList
     createCertificate(commonName: String): CertKeys
     deleteCertificates(fingerprints: [String]!): String
+    associateDevice(fingerprint: String!, deviceId: String!): String
+    disassociateDevice(fingerprint: String!): String
   }
 `];
 

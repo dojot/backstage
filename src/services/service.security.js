@@ -20,7 +20,7 @@ const createCertificate = (token, csrPEM) => axios.post(`${baseURL}/x509/v1/cert
 
 const getCAChain = token => axios.get(`${baseURL}/x509/v1/ca`, getHeader(token));
 
-const associateCertificate = (token, fingerPrint, deviceId) => axios.patch(`${baseURL}/x509/v1/certificates/${fingerPrint}`, {
+const associateCertificate = (token, fingerprint, deviceId) => axios.patch(`${baseURL}/x509/v1/certificates/${fingerprint}`, {
   belongsTo: {
     device: deviceId,
   },
@@ -28,10 +28,13 @@ const associateCertificate = (token, fingerPrint, deviceId) => axios.patch(`${ba
 
 const deleteCertificate = async (token, fingerprint) => axios.delete(`${baseURL}/x509/v1/certificates/${fingerprint}`, getHeader(token));
 
+const disassociateCertificate = async (token, fingerprint) => axios.delete(`${baseURL}/x509/v1/certificates/${fingerprint}/belongsto`, getHeader(token));
+
 module.exports = {
   getAllCertificates,
   createCertificate,
   getCAChain,
   associateCertificate,
   deleteCertificate,
+  disassociateCertificate,
 };
