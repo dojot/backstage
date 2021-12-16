@@ -34,6 +34,12 @@ const TypeDefs = [`
     certificates: [Certificates]
     pagination: PaginationCerts
   }
+  type CertKeys {
+    certificatePem: String
+    certificateFingerprint: String
+    privateKeyPEM: String
+    publicKeyPEM: String
+  }
 `];
 
 module.exports = TypeDefs;

@@ -26,6 +26,8 @@
   ],
   "dependencies": {
     "@bbc/apache2-license-checker": "^1.1.4",
+    "@peculiar/webcrypto": "^1.2.3",
+    "asn1js": "^2.1.1",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
@@ -38,6 +40,8 @@
     "log4js": "^4.0.2",
     "moment": "^2.29.1",
     "pg": "^7.7.1",
+    "pkijs": "^2.2.1",
+    "pvutils": "^1.0.17",
     "querystring": "^0.2.0",
     "rimraf": "^2.6.2"
   },
