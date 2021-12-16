@@ -13,10 +13,12 @@ const getAllCertificates = (token, page, filter) => {
   if (page && page.number) queryParams.page = page.number;
   if (filter && filter.fingerprint) queryParams.fingerprint = filter.fingerprint;
   const queryParamsString = new URLSearchParams(queryParams).toString();
-
   return axios.get(`${baseURL}/x509/v1/certificates?${queryParamsString}`, getHeader(token));
 };
 
+const deleteCertificate = async (token, fingerprint) => axios.delete(`${baseURL}/x509/v1/certificates/${fingerprint}`, getHeader(token));
+
 module.exports = {
   getAllCertificates,
+  deleteCertificate,
 };
