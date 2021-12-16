@@ -16,9 +16,22 @@ const getAllCertificates = (token, page, filter) => {
   return axios.get(`${baseURL}/x509/v1/certificates?${queryParamsString}`, getHeader(token));
 };
 
+const createCertificate = (token, csrPEM) => axios.post(`${baseURL}/x509/v1/certificates`, { csr: csrPEM }, getHeader(token));
+
+const getCAChain = token => axios.get(`${baseURL}/x509/v1/ca`, getHeader(token));
+
+const associateCertificate = (token, fingerPrint, deviceId) => axios.patch(`${baseURL}/x509/v1/certificates/${fingerPrint}`, {
+  belongsTo: {
+    device: deviceId,
+  },
+}, getHeader(token));
+
 const deleteCertificate = async (token, fingerprint) => axios.delete(`${baseURL}/x509/v1/certificates/${fingerprint}`, getHeader(token));
 
 module.exports = {
   getAllCertificates,
+  createCertificate,
+  getCAChain,
+  associateCertificate,
   deleteCertificate,
 };

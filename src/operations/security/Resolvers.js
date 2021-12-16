@@ -1,4 +1,5 @@
 const getCertificateList = require('./query.getCertificateList');
+const createCertificate = require('./mutation.createCertificate');
 const deleteCertificates = require('./mutation.deleteCertificates');
 
 const Resolvers = {
@@ -6,6 +7,7 @@ const Resolvers = {
     getCertificateList,
   },
   Mutation: {
+    createCertificate,
     deleteCertificates,
   },
 };

@@ -34,10 +34,16 @@ const TypeDefs = [`
     certificates: [Certificates]
     pagination: PaginationCerts
   }
-  # Input to filter certificates
+  type CertKeys {
+    certificatePem: String
+    certificateFingerprint: String
+    privateKeyPEM: String
+    publicKeyPEM: String
+  }
+  #Input to filter certificates
   input FilterCertificateInput {
     fingerprint: String
- }
+  }
 `];
 
 module.exports = TypeDefs;
