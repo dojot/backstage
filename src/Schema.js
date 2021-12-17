@@ -32,12 +32,14 @@ const query = [`
     getConfig(user:String, tenant:String!): String
     #Returns the list of certificates in paginated form.
     getCertificateList(page: PageInput, filter: FilterCertificateInput): Certs
+    getCertificateById(page: PageInput, filter: FilterCertificateInput, id: String!): Certs
+    getCertificateByFingerprint(fingerprint: String!): Certificates
     getCertificationAuthorities(page: PageInput, filter: FilterCertificationAuthoritiesInput): CertificationAuthorityList
   }
   type Mutation {
     #Updates existing information on database, or creates an entry if it doesn't exist. Returns success message if it works or error message if fails.
     updateConfig(user:String, tenant:String!, config: String!): String
-    createDevice(label: String!, templates: [Int]!, attrs: [DeviceAttributes], certificate: String): [DeviceCreatedList]
+    createDevice(label: String!, templates: [Int]!, attrs: [DeviceAttributes], fingerprint: String): [DeviceCreatedList]
     deleteDevices(deviceIds: [String]!): String
     editDevice(id: String!, label: String!, templates: [Int]!, attrs: [DeviceAttributes]): DeviceCreatedList
     deleteTemplates(templateIds: [String]!): String

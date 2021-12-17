@@ -1,9 +1,11 @@
 const service = require('../../services/service.device');
+const securityService = require('../../services/service.security');
 const LOG = require('../../utils/Log');
 
 const getDevices = async (root, params, { token }) => {
   try {
     const requestParameters = {};
+    const promises = [];
 
     if (params.page) {
       if (params.page.size) {
@@ -59,16 +61,22 @@ const getDevices = async (root, params, { token }) => {
         });
       }
 
-      devices.push({
-        id: device.id,
-        label: device.label,
-        created: device.created,
-        updated: device.updated ? device.updated : '',
-        attrs: attributes,
-        certificate: {},
-      });
+      promises.push(securityService.getAllCertificates(token, undefined, undefined, device.id).then(response => {
+        const {data: {certificates}} = response;
+        const fingerprint = certificates[0] ? certificates[0].fingerprint : undefined;
+        devices.push({
+          id: device.id,
+          label: device.label,
+          created: device.created,
+          updated: device.updated ? device.updated : '',
+          attrs: attributes,
+          certificate: {fingerprint},
+        });
+      }))
+
     });
 
+    await (Promise.all(promises));
     return ({
       totalPages: fetchedData.pagination.total,
       currentPage: fetchedData.pagination.page,

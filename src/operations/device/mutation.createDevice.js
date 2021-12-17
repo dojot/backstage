@@ -1,12 +1,13 @@
 const { snakeCase } = require('lodash');
 const LOG = require('../../utils/Log');
 const service = require('../../services/service.device');
+const securityService = require('../../services/service.security');
 const { getObjectWithNewKeys } = require('../../utils/Object');
 
 const createDevice = async (_, device, { token }) => {
   try {
     const {
-      label = '', templates = [], attrs = [], certificate = '',
+      label = '', templates = [], attrs = [], fingerprint = '',
     } = device;
 
     const formattedAttrs = attrs
@@ -19,13 +20,10 @@ const createDevice = async (_, device, { token }) => {
       attrs: formattedAttrs,
     });
 
-    // Uncomment when the security service will be implemented
-    // eslint-disable-next-line no-console
-    console.log('Certificate:', certificate);
-    // if (certificate) {
-    //   const [device] = deviceRet.devices;
-    //   await securityService.associateCertificate(token, certificate, device.id)
-    // }
+    if (fingerprint) {
+      const [device] = data.devices;
+      await securityService.associateCertificate(token, fingerprint, device.id)
+    }
 
     return data.devices;
   } catch (error) {

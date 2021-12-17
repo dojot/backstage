@@ -173,7 +173,7 @@ const _formatPEM = (pemString, type) => {
   }
   return (
     `-----BEGIN ${type === 'public' ? publicStr :  privateStr}-----\r\n` +
-    toBase64(resultString) +
+    resultString +
     `\r\n-----END ${type === 'public' ? publicStr :  privateStr}-----`
   );
 }
@@ -197,8 +197,8 @@ const generateKeyPar = async (signAlgorithm, hashAlgorithm) => {
   } = keyPair;
 
 
-  const privateKeyPEM = _formatPEM(await _extractKeyStringKeyPar(crypto, privateKey, 'pkcs8'), 'private')
-  const publicKeyPEM = _formatPEM(await _extractKeyStringKeyPar(crypto, publicKey, 'spki'), 'public')
+  const privateKeyPEM = _formatPEM(toBase64(await _extractKeyStringKeyPar(crypto, privateKey, 'pkcs8')), 'private')
+  const publicKeyPEM = _formatPEM(toBase64(await _extractKeyStringKeyPar(crypto, publicKey, 'spki')), 'public')
 
   return {privateKeyPEM, privateKeyPkcs8: privateKey, publicKeyPEM, publicKeyPkcs8: publicKey}
 }
