@@ -31,7 +31,7 @@ const query = [`
     #Retrieves dashboard configuration by user. Returns the information if successful or error message if it occurs.
     getConfig(user:String, tenant:String!): String
     #Returns the list of certificates in paginated form.
-    getCertificateList(page: PageInput!): Certs
+    getCertificateList(page: PageInput, filter: FilterCertificateInput): Certs
   }
   type Mutation {
     #Updates existing information on database, or creates an entry if it doesn't exist. Returns success message if it works or error message if fails.
@@ -47,6 +47,9 @@ const query = [`
     createTemplateAttr(templateId: String!, attr: TemplateAttr!): TemplateList
     editTemplateAttr(templateId: String!, attrId: String!, attr: TemplateAttr!): TemplateList
     createCertificate(commonName: String): CertKeys
+    deleteCertificates(fingerprints: [String]!): String
+    associateDevice(fingerprint: String!, deviceId: String!): String
+    disassociateDevice(fingerprint: String!): String
   }
 `];
 

@@ -1,10 +1,10 @@
 const TypeDefs = [`
   #Pagination data structure#
   type PaginationCerts {
-    page: Int
-    total: Int
-    hasNext: Boolean
-    nextPage: Boolean
+    currentPage: Int
+    totalPages: Int
+    hasNextPage: Boolean
+    nextPage: Int
     totalItems: Int
     limitPerPage: Int
   }
@@ -39,6 +39,10 @@ const TypeDefs = [`
     certificateFingerprint: String
     privateKeyPEM: String
     publicKeyPEM: String
+  }
+  #Input to filter certificates
+  input FilterCertificateInput {
+    fingerprint: String
   }
 `];
 

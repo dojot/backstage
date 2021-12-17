@@ -1,9 +1,9 @@
 const LOG = require('../../utils/Log');
 const service = require('../../services/service.security');
 
-const associateDevice = async (_, { fingerprint, deviceId }, { token }) => {
+const disassociateDevice = async (_, { fingerprint }, { token }) => {
   try {
-    await service.associateCertificate(token, fingerprint, deviceId);
+    await service.disassociateCertificate(token, fingerprint);
     return 'ok';
   } catch (error) {
     LOG.error(error.stack || error);
@@ -11,4 +11,4 @@ const associateDevice = async (_, { fingerprint, deviceId }, { token }) => {
   }
 };
 
-module.exports = associateDevice;
+module.exports = disassociateDevice;
