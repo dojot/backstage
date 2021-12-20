@@ -1,6 +1,6 @@
 const TypeDefs = [`
   #Pagination data structure#
-  type PaginationCerts {
+  type SecurityPagination {
     currentPage: Int
     totalPages: Int
     hasNextPage: Boolean
@@ -32,7 +32,7 @@ const TypeDefs = [`
   #Certificate list with pagination#
   type Certs {
     certificates: [Certificates]
-    pagination: PaginationCerts
+    pagination: SecurityPagination
   }
   type CertKeys {
     certificatePem: String
@@ -43,6 +43,24 @@ const TypeDefs = [`
   #Input to filter certificates
   input FilterCertificateInput {
     fingerprint: String
+  }
+  #Input to filter certification authorities
+  input FilterCertificationAuthoritiesInput {
+    cafingerprint: String
+  }
+  type CertificationAuthority {
+    allowAutoRegistration: Boolean
+    caFingerprint: String
+    caPem: String
+    subjectDN: String
+    validity: Validity
+    tenant: String
+    createdAt: String
+    modifiedAt: String
+  }
+  type CertificationAuthorityList {
+    certificationAuthorities: [CertificationAuthority]
+    pagination: SecurityPagination
   }
 `];
 

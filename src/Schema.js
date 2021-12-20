@@ -32,6 +32,7 @@ const query = [`
     getConfig(user:String, tenant:String!): String
     #Returns the list of certificates in paginated form.
     getCertificateList(page: PageInput, filter: FilterCertificateInput): Certs
+    getCertificationAuthorities(page: PageInput, filter: FilterCertificationAuthoritiesInput): CertificationAuthorityList
   }
   type Mutation {
     #Updates existing information on database, or creates an entry if it doesn't exist. Returns success message if it works or error message if fails.
@@ -50,6 +51,7 @@ const query = [`
     deleteCertificates(fingerprints: [String]!): String
     associateDevice(fingerprint: String!, deviceId: String!): String
     disassociateDevice(fingerprint: String!): String
+    createCertificationAuthority(name: String!, caPem: String!): String
   }
 `];
 
