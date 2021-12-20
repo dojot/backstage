@@ -6,6 +6,7 @@ const createCertificate = require('./mutation.createCertificate');
 const deleteCertificates = require('./mutation.deleteCertificates');
 const disassociateDevice = require('./mutation.disassociateDevice');
 const createCertificationAuthority = require('./mutation.createCertificationAuthority');
+const deleteCertificationAuthorities = require('./mutation.deleteCertificationAuthorities');
 
 const Resolvers = {
   Query: {
@@ -18,6 +19,7 @@ const Resolvers = {
     deleteCertificates,
     disassociateDevice,
     createCertificationAuthority,
+    deleteCertificationAuthorities,
   },
 };
 

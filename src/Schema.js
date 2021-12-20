@@ -52,6 +52,7 @@ const query = [`
     associateDevice(fingerprint: String!, deviceId: String!): String
     disassociateDevice(fingerprint: String!): String
     createCertificationAuthority(name: String!, caPem: String!): String
+    deleteCertificationAuthorities(fingerprints: [String]!): String
   }
 `];
 

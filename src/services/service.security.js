@@ -41,6 +41,8 @@ const getCertificationAuthorities = async (token, page, filter) => {
   return axios.get(`${baseURL}/x509/v1/trusted-cas?${queryParamsString}`, getHeader(token));
 };
 
+const deleteCertificationAuthority = async (token, fingerprint) => axios.delete(`${baseURL}/x509/v1/trusted-cas/${fingerprint}`, getHeader(token));
+
 module.exports = {
   getAllCertificates,
   createCertificate,
@@ -50,4 +52,5 @@ module.exports = {
   disassociateCertificate,
   createCertificationAuthority,
   getCertificationAuthorities,
+  deleteCertificationAuthority,
 };
