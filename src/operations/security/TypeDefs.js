@@ -46,7 +46,7 @@ const TypeDefs = [`
   }
   #Input to filter certification authorities
   input FilterCertificationAuthoritiesInput {
-    cafingerprint: String
+    caFingerprint: String
   }
   type CertificationAuthority {
     allowAutoRegistration: Boolean
