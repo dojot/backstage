@@ -1,10 +1,9 @@
 const LOG = require('../../utils/Log');
 const service = require('../../services/service.security');
 
-const createCertificationAuthority = async (_, { name, caPem }, { token }) => {
+const createCertificationAuthority = async (_, { caPem }, { token }) => {
   try {
     await service.createCertificationAuthority(token, {
-      name,
       caPem,
       allowAutoRegistration: false,
     });
