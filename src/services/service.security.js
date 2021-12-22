@@ -30,6 +30,19 @@ const deleteCertificate = async (token, fingerprint) => axios.delete(`${baseURL}
 
 const disassociateCertificate = async (token, fingerprint) => axios.delete(`${baseURL}/x509/v1/certificates/${fingerprint}/belongsto`, getHeader(token));
 
+const createCertificationAuthority = async (token, { caPem, allowAutoRegistration }) => axios.post(`${baseURL}/x509/v1/trusted-cas`, { caPem, allowAutoRegistration }, getHeader(token));
+
+const getCertificationAuthorities = async (token, page, filter) => {
+  const queryParams = {};
+  if (page && page.size) queryParams.limit = page.size;
+  if (page && page.number) queryParams.page = page.number;
+  if (filter && filter.caFingerprint) queryParams.caFingerprint = filter.caFingerprint;
+  const queryParamsString = new URLSearchParams(queryParams).toString();
+  return axios.get(`${baseURL}/x509/v1/trusted-cas?${queryParamsString}`, getHeader(token));
+};
+
+const deleteCertificationAuthority = async (token, fingerprint) => axios.delete(`${baseURL}/x509/v1/trusted-cas/${fingerprint}`, getHeader(token));
+
 module.exports = {
   getAllCertificates,
   createCertificate,
@@ -37,4 +50,7 @@ module.exports = {
   associateCertificate,
   deleteCertificate,
   disassociateCertificate,
+  createCertificationAuthority,
+  getCertificationAuthorities,
+  deleteCertificationAuthority,
 };
