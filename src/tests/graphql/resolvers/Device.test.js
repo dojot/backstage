@@ -148,6 +148,40 @@ const deviceData = {
       templates: [3],
     },
   },
+  5: {
+    data: {
+      devices: [
+        {
+          attrs: {
+            2: [
+              {
+                created: '2020-05-14T18:15:47.307374+00:00',
+                id: 6,
+                is_static_overridden: false,
+                label: 'dina2',
+                static_value: '',
+                template_id: '2',
+                type: 'dynamic',
+                value_type: 'float',
+              },
+            ],
+          },
+          created: '2020-05-14T18:18:34.401142+00:00',
+          id: '1b32ee',
+          label: 'device2',
+          templates: [
+            2,
+          ],
+        },
+      ],
+      pagination: {
+        has_next: false,
+        next_page: null,
+        page: 1,
+        total: 1,
+      },
+    },
+  },
 };
 const devicesFromTemplateData = {
   data: {
@@ -303,6 +337,42 @@ const historyData = {
     }],
   },
 };
+const certificateData = {
+  0: {
+    data: {
+      'paging': {
+        'previous': null,
+        'current': {
+          'number': 1,
+          'url': '/api/v1/certificates?keyVal=belongsTo.device%3D3826c3&page=1&limit=25',
+        },
+        'next': null,
+        'totalItems': 1,
+        'totalPages': 1,
+        'limitPerPage': 25,
+      },
+      'certificates': [
+        {
+          'issuedByDojotPki': true,
+          'autoRegistered': false,
+          'fingerprint': '00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00',
+          'pem': '-----BEGIN CERTIFICATE----------END CERTIFICATE-----',
+          'belongsTo': {
+            'device': '1b32ee',
+          },
+          'subjectDN': 'CN=e5d299, O=dojot IoT Platform',
+          'validity': {
+            'notBefore': '2021-12-09T19:25:00.000Z',
+            'notAfter': '2022-12-09T19:25:00.000Z',
+          },
+          'tenant': 'admin',
+          'createdAt': '2021-12-09T19:25:26.894Z',
+          'modifiedAt': '2021-12-17T17:25:36.085Z',
+        },
+      ],
+    },
+  }
+}
 
 it('Device - should return a device', () => {
   const root = {};
@@ -466,40 +536,11 @@ it('Device - should return a device', () => {
 });
 
 it('Device - should get a list of devices', () => {
-  axios.get.mockResolvedValue({
-    data: {
-      devices: [
-        {
-          attrs: {
-            2: [
-              {
-                created: '2020-05-14T18:15:47.307374+00:00',
-                id: 6,
-                is_static_overridden: false,
-                label: 'dina2',
-                static_value: '',
-                template_id: '2',
-                type: 'dynamic',
-                value_type: 'float',
-              },
-            ],
-          },
-          created: '2020-05-14T18:18:34.401142+00:00',
-          id: '1b32ee',
-          label: 'device2',
-          templates: [
-            2,
-          ],
-        },
-      ],
-      pagination: {
-        has_next: false,
-        next_page: null,
-        page: 1,
-        total: 1,
-      },
-    },
-  });
+
+  axios.get.mockResolvedValue('default value')
+    .mockResolvedValueOnce(deviceData[5])
+    .mockResolvedValueOnce(certificateData[0]);
+
   const root = {};
   const params = { page: { number: 1, size: 4 }, filter: { label: 'd' } };
 
@@ -521,7 +562,9 @@ it('Device - should get a list of devices', () => {
                 type: 'dynamic',
               },
             ],
-            certificate: {},
+            certificate: {
+              fingerprint: '00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00',
+            },
             created: '2020-05-14T18:18:34.401142+00:00',
             id: '1b32ee',
             label: 'device2',

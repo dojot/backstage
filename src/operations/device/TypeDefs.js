@@ -11,8 +11,7 @@ type Device {
     lastUpdate: [AttributesData]
  }
  type Certificate {
-    id: String
-    label: String
+    fingerprint: String
  }
  type TemplatesObj {
     id: Int

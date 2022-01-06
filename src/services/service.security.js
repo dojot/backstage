@@ -7,14 +7,17 @@ const getHeader = token => ({
   headers: { 'content-type': 'application/json', Authorization: `${token}` },
 });
 
-const getAllCertificates = (token, page, filter) => {
+const getAllCertificates = (token, page, filter, id) => {
   const queryParams = {};
   if (page && page.size) queryParams.limit = page.size;
   if (page && page.number) queryParams.page = page.number;
   if (filter && filter.fingerprint) queryParams.fingerprint = filter.fingerprint;
+  if (id || id === null) queryParams.keyVal = `belongsTo.device=${id}`;
   const queryParamsString = new URLSearchParams(queryParams).toString();
   return axios.get(`${baseURL}/x509/v1/certificates?${queryParamsString}`, getHeader(token));
 };
+
+const getCertificateByFingerprint = (token, fingerprint) => axios.get(`${baseURL}/x509/v1/certificates/${fingerprint}`, getHeader(token));
 
 const createCertificate = (token, csrPEM) => axios.post(`${baseURL}/x509/v1/certificates`, { csr: csrPEM }, getHeader(token));
 
@@ -44,12 +47,13 @@ const getCertificationAuthorities = async (token, page, filter) => {
 const deleteCertificationAuthority = async (token, fingerprint) => axios.delete(`${baseURL}/x509/v1/trusted-cas/${fingerprint}`, getHeader(token));
 
 module.exports = {
+  getCertificateByFingerprint,
   getAllCertificates,
   createCertificate,
   getCAChain,
   associateCertificate,
-  deleteCertificate,
   disassociateCertificate,
+  deleteCertificate,
   createCertificationAuthority,
   getCertificationAuthorities,
   deleteCertificationAuthority,
