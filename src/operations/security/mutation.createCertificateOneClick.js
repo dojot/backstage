@@ -3,7 +3,7 @@ const helpers = require("./helpers");
 const LOG = require("../../utils/Log");
 
 
-const createCertificate = async (_, {commonName = 'dojot'}, {token}) => {
+const createCertificateOneClick = async (_, {commonName = 'dojot'}, {token}) => {
   const hashAlgorithm = 'SHA-256';
   const signAlgorithm = 'RSASSA-PKCS1-V1_5';
   let subjAltCSR = {
@@ -55,4 +55,4 @@ const createCertificate = async (_, {commonName = 'dojot'}, {token}) => {
   }
 }
 
-module.exports = createCertificate;
+module.exports = createCertificateOneClick;
