@@ -3,41 +3,15 @@ const helpers = require("./helpers");
 const LOG = require("../../utils/Log");
 
 
-const createCertificate = async (_, {commonName = 'dojot'}, {token}) => {
+const createCertificateCSR = async (_, {csrPEM}, {token}) => {
   const hashAlgorithm = 'SHA-256';
   const signAlgorithm = 'RSASSA-PKCS1-V1_5';
-  let subjAltCSR = {
-    // ex ['localhost', 'localhost2']
-    dns: [],
-    // ex ['192.168.1.1', '192.168.1.2', '192.168.1.3']
-    ip: [],
-    // ex ['email@address.com', 'email2@address.com']
-    email: [],
-  };
-  let typesAndValues = {
-    organizationUnit: '',
-    country: '',
-    state: '',
-    locality: '',
-    organization: '',
-  };
 
   try {
     const {
       privateKeyPEM,
       publicKeyPEM,
-      privateKeyPkcs8,
-      publicKeyPkcs8
     } = await helpers.generateKeyPar(signAlgorithm, hashAlgorithm);
-
-    const csrPEM = await helpers.createCSR(
-      commonName,
-      publicKeyPkcs8,
-      privateKeyPkcs8,
-      hashAlgorithm,
-      typesAndValues,
-      subjAltCSR
-    );
 
     const {data: {certificatePem, certificateFingerprint}} = await service.createCertificate(token, csrPEM);
 
@@ -55,4 +29,4 @@ const createCertificate = async (_, {commonName = 'dojot'}, {token}) => {
   }
 }
 
-module.exports = createCertificate;
+module.exports = createCertificateCSR;

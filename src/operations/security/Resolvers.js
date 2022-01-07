@@ -4,7 +4,9 @@ const getCertificateByFingerprint = require('./query.getCertificateByFingerprint
 const getCertificationAuthorities = require('./query.getCertificationAuthorities');
 
 const associateDevice = require('./mutation.associateDevice');
-const createCertificate = require('./mutation.createCertificate');
+const createCertificateOneClick = require('./mutation.createCertificateOneClick');
+const createCertificateCSR = require('./mutation.createCertificateCSR');
+const registerExternalCertificate = require('./mutation.registerExternalCertificate');
 const deleteCertificates = require('./mutation.deleteCertificates');
 const disassociateDevice = require('./mutation.disassociateDevice');
 const createCertificationAuthority = require('./mutation.createCertificationAuthority');
@@ -18,12 +20,14 @@ const Resolvers = {
     getCertificationAuthorities,
   },
   Mutation: {
-    createCertificate,
+    createCertificateOneClick,
+    createCertificateCSR,
     associateDevice,
     disassociateDevice,
     deleteCertificates,
     createCertificationAuthority,
     deleteCertificationAuthorities,
+    registerExternalCertificate,
   },
 };
 
