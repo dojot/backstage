@@ -51,6 +51,7 @@ const query = [`
     editTemplateAttr(templateId: String!, attrId: String!, attr: TemplateAttr!): TemplateList
     createCertificateOneClick(commonName: String): CertKeys
     createCertificateCSR(csrPEM: String): CertKeys
+    registerExternalCertificate(certificateChain: String!): externalCertRegistration
     deleteCertificates(fingerprints: [String]!): String
     associateDevice(fingerprint: String!, deviceId: String!): String
     disassociateDevice(fingerprint: String!): String

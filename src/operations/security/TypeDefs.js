@@ -62,6 +62,9 @@ const TypeDefs = [`
     certificationAuthorities: [CertificationAuthority]
     pagination: SecurityPagination
   }
+  type externalCertRegistration {
+    certificateFingerprint: String
+  }
 `];
 
 module.exports = TypeDefs;

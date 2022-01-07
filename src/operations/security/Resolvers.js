@@ -6,6 +6,7 @@ const getCertificationAuthorities = require('./query.getCertificationAuthorities
 const associateDevice = require('./mutation.associateDevice');
 const createCertificateOneClick = require('./mutation.createCertificateOneClick');
 const createCertificateCSR = require('./mutation.createCertificateCSR');
+const registerExternalCertificate = require('./mutation.registerExternalCertificate');
 const deleteCertificates = require('./mutation.deleteCertificates');
 const disassociateDevice = require('./mutation.disassociateDevice');
 const createCertificationAuthority = require('./mutation.createCertificationAuthority');
@@ -26,6 +27,7 @@ const Resolvers = {
     deleteCertificates,
     createCertificationAuthority,
     deleteCertificationAuthorities,
+    registerExternalCertificate,
   },
 };
 
