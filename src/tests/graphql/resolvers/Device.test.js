@@ -1,5 +1,5 @@
-const axios = require('axios');
-const Resolvers = require('../../../operations/device/Resolvers');
+import axios from 'axios';
+import Resolvers from '../../../operations/device/Resolvers';
 
 jest.mock('axios');
 

@@ -1,4 +1,4 @@
-const log4js = require('log4js');
+import log4js from 'log4js';
 
 log4js.configure({
   appenders: { out: { type: 'stdout', layout: { type: 'basic' } } },
@@ -6,4 +6,4 @@ log4js.configure({
 });
 const Log = log4js.getLogger('BackStage');
 
-module.exports = Log;
+export default Log;

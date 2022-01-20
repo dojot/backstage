@@ -65,6 +65,23 @@ const TypeDefs = [`
   type externalCertRegistration {
     certificateFingerprint: String
   }
+  type Query {
+    #Returns the list of certificates in paginated form.
+    getCertificateList(page: PageInput, filter: FilterCertificateInput): Certs
+    getCertificateById(page: PageInput, filter: FilterCertificateInput, id: String!): Certs
+    getCertificateByFingerprint(fingerprint: String!): Certificates
+    getCertificationAuthorities(page: PageInput, filter: FilterCertificationAuthoritiesInput): CertificationAuthorityList
+  }
+  type Mutation {
+    createCertificateOneClick(commonName: String): CertKeys
+    createCertificateCSR(csrPEM: String): CertKeys
+    registerExternalCertificate(certificateChain: String!): externalCertRegistration
+    deleteCertificates(fingerprints: [String]!): String
+    associateDevice(fingerprint: String!, deviceId: String!): String
+    disassociateDevice(fingerprint: String!): String
+    createCertificationAuthority(caPem: String!): String
+    deleteCertificationAuthorities(fingerprints: [String]!): String
+  }
 `];
 
-module.exports = TypeDefs;
+export default TypeDefs;

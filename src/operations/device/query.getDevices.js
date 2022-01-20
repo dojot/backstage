@@ -1,6 +1,6 @@
-const service = require('../../services/service.device');
-const securityService = require('../../services/service.security');
-const LOG = require('../../utils/Log');
+import * as service from '../../services/service.device.js';
+import * as securityService from '../../services/service.security.js';
+import LOG from '../../utils/Log.js';
 
 const getDevices = async (root, params, { token }) => {
   try {
@@ -88,4 +88,4 @@ const getDevices = async (root, params, { token }) => {
   }
 };
 
-module.exports = getDevices;
+export default getDevices;

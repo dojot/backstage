@@ -1,14 +1,14 @@
-const {
+import {
   getStaticAttributes,
   formatOutPut,
   reduceList,
   convertList
-} = require("./helpers");
-const service = require("../../services/service.device")
-const {OPERATION, SOURCE, WIDGET_TYPE} = require("../../constants")
-const moment = require("moment");
-const LOG = require("../../utils/Log");
-const _ = require("lodash");
+} from './helpers.js';
+import * as service from '../../services/service.device.js';
+import {OPERATION, SOURCE, WIDGET_TYPE} from '../../constants/index.js';
+import moment from 'moment';
+import LOG from '../../utils/Log.js';
+import lodash from 'lodash';
 
 
 const getDeviceHistoryForDashboard = async (
@@ -96,9 +96,9 @@ const getDeviceHistoryForDashboard = async (
     return JSON.stringify(historyObj);
   }
 
-  sortedHistory = _.orderBy(history, o => moment(o.timestamp).format('YYYYMMDDHHmmss'), ['asc']);
+  sortedHistory = lodash.orderBy(history, o => moment(o.timestamp).format('YYYYMMDDHHmmss'), ['asc']);
 
   return JSON.stringify(reduceList(convertList(sortedHistory)));
 }
 
-module.exports = getDeviceHistoryForDashboard;
+export default getDeviceHistoryForDashboard;

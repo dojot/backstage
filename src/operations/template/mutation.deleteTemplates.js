@@ -1,5 +1,5 @@
-const LOG = require('../../utils/Log');
-const service = require('../../services/service.template');
+import LOG from '../../utils/Log.js';
+import * as service from '../../services/service.template.js';
 
 const deleteTemplates = async (_, { templateIds }, { token }) => {
   try {
@@ -16,4 +16,4 @@ const deleteTemplates = async (_, { templateIds }, { token }) => {
   }
 };
 
-module.exports = deleteTemplates;
+export default deleteTemplates;

@@ -1,14 +1,14 @@
 /* jshint node: true */
 /* jshint esversion: 6 */
 
-const getToken = (tenant) => {
+export const getToken = (tenant) => {
   const payload = { service: tenant, username: 'backstage' };
   return `${Buffer.from('jwt schema', 'base64').toString()}.${
     Buffer.from(JSON.stringify(payload), 'base64').toString()}.${
     Buffer.from('dummy signature', 'base64').toString()}`;
 };
 
-const b64decode = (data) => {
+export const b64decode = (data) => {
   if (typeof Buffer.from === 'function') {
     return Buffer.from(data, 'base64').toString();
   }
@@ -27,7 +27,7 @@ class InvalidTokenError {
   }
 }
 
-function userDataByToken(rawToken) {
+export const userDataByToken = (rawToken) => {
   const tokenData = JSON.parse(b64decode(rawToken.split('.')[1]));
   return {
     username: tokenData.username,
@@ -37,7 +37,7 @@ function userDataByToken(rawToken) {
   };
 }
 
-const authParse = (req, res, next) => {
+export const authParse = (req, res, next) => {
   const rawToken = req.get('authorization');
   if (rawToken === undefined) {
     return next();
@@ -54,7 +54,7 @@ const authParse = (req, res, next) => {
   return next();
 };
 
-const authEnforce = (req, res, next) => {
+export const authEnforce = (req, res, next) => {
   if (req.path.match(/(\.png|svg$)|(keymap\.json$)/)) {
     console.log('will ignore ', req.path);
     return next();
@@ -73,6 +73,3 @@ const authEnforce = (req, res, next) => {
   return next();
 };
 
-module.exports = {
-  authParse, authEnforce, getToken, b64decode, userDataByToken,
-};

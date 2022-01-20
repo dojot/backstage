@@ -1,7 +1,7 @@
-const LOG = require('../../utils/Log');
-const service = require('../../services/service.security');
+import LOG from '../../utils/Log.js';
+import * as service from '../../services/service.security.js';
 
-const getCertificateById = async (_, { page, filter, id }, { token }) => {
+export const getCertificateById = async (_, { page, filter, id }, { token }) => {
   try {
     const ret = await service.getAllCertificates(token, page, filter, id);
     const { data: { paging, certificates } } = ret;
@@ -22,4 +22,4 @@ const getCertificateById = async (_, { page, filter, id }, { token }) => {
   }
 };
 
-module.exports = getCertificateById;
+export default getCertificateById;

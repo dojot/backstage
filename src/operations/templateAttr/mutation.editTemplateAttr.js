@@ -1,7 +1,7 @@
-const { snakeCase } = require('lodash');
-const LOG = require('../../utils/Log');
-const service = require('../../services/service.template');
-const { getObjectWithNewKeys } = require('../../utils/Object');
+import lodash from 'lodash';
+import LOG from '../../utils/Log.js';
+import * as service from '../../services/service.template.js';
+import { getObjectWithNewKeys } from '../../utils/Object.js';
 
 const editTemplateAttr = async (_, { templateId, attrId, attr }, { token }) => {
   try {
@@ -11,7 +11,7 @@ const editTemplateAttr = async (_, { templateId, attrId, attr }, { token }) => {
       ...template,
       attrs: template.attrs.map((currentAttr) => {
         if (String(currentAttr.id) === String(attrId)) {
-          const snakeCaseAttr = getObjectWithNewKeys(attr, snakeCase);
+          const snakeCaseAttr = getObjectWithNewKeys(attr, lodash.snakeCase);
           return { ...currentAttr, ...snakeCaseAttr };
         }
         return currentAttr;
@@ -31,4 +31,4 @@ const editTemplateAttr = async (_, { templateId, attrId, attr }, { token }) => {
   }
 };
 
-module.exports = editTemplateAttr;
+export default editTemplateAttr;

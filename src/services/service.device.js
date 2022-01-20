@@ -1,17 +1,17 @@
-const axios = require("axios");
-const config = require("../config");
-const LOG = require("../utils/Log");
+import axios from "axios";
+import config from "../config.js";
+import LOG from "../utils/Log.js";
 
 const baseURL = config.base_local_url_graphql;
 const getHeader = (token) => ({
   headers: {'content-type': 'application/json', Authorization: `${token}`},
 })
 
-const getDeviceById = (token, id) => {
+export const getDeviceById = (token, id) => {
   return axios.get(`${baseURL}/device/${id}`, getHeader(token))
 }
 
-const getDeviceList = async (token, ids) => {
+export const getDeviceList = async (token, ids) => {
   const promises = [];
   const values = {};
   ids.forEach(deviceId => {
@@ -28,11 +28,11 @@ const getDeviceList = async (token, ids) => {
   return values;
 }
 
-const getDevicesWithFilter = async (token, params) => {
+export const getDevicesWithFilter = async (token, params) => {
   return axios.get(`${baseURL}/device?${params}`, getHeader(token))
 }
 
-const getHistoryFromDevices = async (token, devices, params = '') => {
+export const getHistoryFromDevices = async (token, devices, params = '') => {
   const promises = [];
   const attributes = [];
   devices.forEach(({deviceID, dynamicAttrs}) => {
@@ -52,7 +52,7 @@ const getHistoryFromDevices = async (token, devices, params = '') => {
   return attributes;
 }
 
-const getDevicesByTemplate = async (token, templates) => {
+export const getDevicesByTemplate = async (token, templates) => {
   const promises = [];
   const values = {};
   const devicesIDs = [];
@@ -89,15 +89,15 @@ const getDevicesByTemplate = async (token, templates) => {
   return {values, devicesIDs, deviceDictionary};
 }
 
-const createDevice = async (token, data) => {
+export const createDevice = async (token, data) => {
   return axios.post(`${baseURL}/device`, data, getHeader(token))
 }
 
-const deleteDevice = async (token, id) => {
+export const deleteDevice = async (token, id) => {
   return axios.delete(`${baseURL}/device/${id}`, getHeader(token))
 }
 
-const getDeviceHistoricForAllAttrs = async (token, deviceId) => {
+export const getDeviceHistoricForAllAttrs = async (token, deviceId) => {
   const values = [];
   try {
     const response = await axios.get(`${baseURL}/history/device/${deviceId}/history?lastN=1`, getHeader(token));
@@ -117,18 +117,7 @@ const getDeviceHistoricForAllAttrs = async (token, deviceId) => {
   }
 }
 
-const editDevice = async (token, id, data) => {
+export const editDevice = async (token, id, data) => {
   return axios.put(`${baseURL}/device/${id}`, data, getHeader(token))
 }
 
-module.exports = {
-  getDeviceById,
-  getDeviceList,
-  getHistoryFromDevices,
-  getDevicesByTemplate,
-  getDevicesWithFilter,
-  createDevice,
-  deleteDevice,
-  getDeviceHistoricForAllAttrs,
-  editDevice
-};

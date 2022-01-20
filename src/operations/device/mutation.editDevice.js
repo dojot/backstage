@@ -1,7 +1,7 @@
-const { snakeCase } = require('lodash');
-const LOG = require('../../utils/Log');
-const service = require('../../services/service.device');
-const { getObjectWithNewKeys } = require('../../utils/Object');
+import lodash from 'lodash';
+import LOG from '../../utils/Log.js';
+import * as service from '../../services/service.device.js';
+import { getObjectWithNewKeys } from '../../utils/Object.js';
 
 const editDevice = async (_, device, { token }) => {
   try {
@@ -9,7 +9,7 @@ const editDevice = async (_, device, { token }) => {
       id, label, templates, attrs,
     } = device;
 
-    const formattedAttrs = attrs ? attrs.map(attr => getObjectWithNewKeys(attr, snakeCase)) : attrs;
+    const formattedAttrs = attrs ? attrs.map(attr => getObjectWithNewKeys(attr, lodash.snakeCase)) : attrs;
 
     const { data } = await service.editDevice(token, id, {
       label,
@@ -24,4 +24,4 @@ const editDevice = async (_, device, { token }) => {
   }
 };
 
-module.exports = editDevice;
+export default editDevice;

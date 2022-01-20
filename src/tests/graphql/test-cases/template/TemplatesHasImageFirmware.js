@@ -1,5 +1,5 @@
-const axios = require('axios');
-const { templateId3, templateId4, templateId5 } = require('../../../apiMock/template');
+import axios from 'axios';
+import { templateId3, templateId4, templateId5 } from '../../../apiMock/template';
 
 const testTemplatesHasImageFirmware = {
   id: 'templatesHasImageFirmware',
@@ -38,4 +38,4 @@ const testTemplatesHasImageFirmware = {
   },
 };
 
-module.exports = testTemplatesHasImageFirmware;
+export default testTemplatesHasImageFirmware;

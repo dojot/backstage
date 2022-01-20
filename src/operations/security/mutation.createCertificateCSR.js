@@ -1,5 +1,5 @@
-const service = require("../../services/service.security");
-const LOG = require("../../utils/Log");
+import * as service from "../../services/service.security.js";
+import LOG from '../../utils/Log.js';
 
 
 const createCertificateCSR = async (_, {csrPEM}, {token}) => {
@@ -18,4 +18,4 @@ const createCertificateCSR = async (_, {csrPEM}, {token}) => {
   }
 }
 
-module.exports = createCertificateCSR;
+export default createCertificateCSR;

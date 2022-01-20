@@ -1,4 +1,4 @@
-const templateId3 = {
+export const templateId3 = {
   attrs: [
     {
       created: '2019-02-13T13:10:51.821943+00:00',
@@ -67,7 +67,7 @@ const templateId3 = {
   label: 'teste',
 };
 
-const templateId4 = {
+export const templateId4 = {
   attrs: [
     {
       created: '2019-02-14T16:32:48.616461+00:00',
@@ -256,7 +256,7 @@ const templateId4 = {
   label: 'teste_novo',
 };
 
-const templateId5 = {
+export const templateId5 = {
   attrs: [
     {
       created: '2019-02-14T16:36:43.071583+00:00',
@@ -507,4 +507,3 @@ const templateId5 = {
   label: 'xxxxx',
 };
 
-module.exports = { templateId3, templateId4, templateId5 };

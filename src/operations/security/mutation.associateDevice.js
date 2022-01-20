@@ -1,5 +1,5 @@
-const service = require('../../services/service.security');
-const LOG = require('../../utils/Log');
+import * as service from '../../services/service.security.js';
+import LOG from '../../utils/Log.js';
 
 const associateDevice = async (_, { fingerprint, deviceId }, { token }) => {
   try {
@@ -12,4 +12,4 @@ const associateDevice = async (_, { fingerprint, deviceId }, { token }) => {
   }
 }
 
-module.exports = associateDevice;
+export default associateDevice;

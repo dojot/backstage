@@ -18,21 +18,21 @@ const TypeDefs = [`
 
   type Attributes {
     #Attribute ID
-     id: Int
-     #Attribute Label
-     label: String
-     #List of Metadatas associate to Attribute
-     metadata: [Metadata]
-     #Value when type is Static
-     static_value: String
-     #Primary key of a template
-     template_id: String
-     #Can be static, dynamic, etc.
-     type: String
-     #Can be String, Integer, Float, Geo, etc.
-     value_type: String
-     #Timestamp of create date
-     created: String
+    id: Int
+    #Attribute Label
+    label: String
+    #List of Metadatas associate to Attribute
+    metadata: [Metadata]
+    #Value when type is Static
+    static_value: String
+    #Primary key of a template
+    template_id: String
+    #Can be static, dynamic, etc.
+    type: String
+    #Can be String, Integer, Float, Geo, etc.
+    value_type: String
+    #Timestamp of create date
+    created: String
   }
 
   type Template {
@@ -56,33 +56,50 @@ const TypeDefs = [`
     totalPages: Int!
     currentPage: Int!
     templates: [TemplateList]
- }
+  }
 
- type TemplateList {
+  type TemplateList {
     id: String!
     label: String!
     attrs: [Attr]
- }
+  }
 
- type MapStringToString {
+  type MapStringToString {
     #key
     key: String
     #value
     value: String
- }
+    }
 
- # Return only templates that are named accordingly (prefix or suffix match)#
- input FilterTemplateInput {
+  # Return only templates that are named accordingly (prefix or suffix match)#
+  input FilterTemplateInput {
     label: String
- }
+  }
 
- # Attribute format for template creation#
- input TemplateAttr {
+  # Attribute format for template creation#
+  input TemplateAttr {
     type: String!
     label: String!
     valueType: String!
     staticValue: String
- }
+  }
+
+  type Query {
+    #Get a template by Id
+    getTemplateById(templateId: String!): TemplateList
+    #Checks if templates has Image Firmware and return a array with objects key-value, where key is a id template and value is a boolean.
+    #The value is true if the template has image firmware.
+    templatesHasImageFirmware(templatesId: [Int]!): [MapStringToString]
+    #Returns a list of templates
+    getTemplates(page: PageInput, filter: FilterTemplateInput): TemplatesListPage
+  }
+
+  type Mutation {
+    deleteTemplates(templateIds: [String]!): String
+    duplicateTemplate(templateId: String!): TemplateList
+    createTemplate(label: String!, attrs: [TemplateAttr]!): TemplateList
+    editTemplate(id: String!, label: String!, attrs: [TemplateAttr]!): TemplateList
+  }
 `];
 
-module.exports = TypeDefs;
+export default TypeDefs;

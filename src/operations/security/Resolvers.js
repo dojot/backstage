@@ -1,16 +1,16 @@
-const getCertificateList = require('./query.getCertificateList');
-const getCertificateById = require('./query.getCertificateById');
-const getCertificateByFingerprint = require('./query.getCertificateByFingerprint');
-const getCertificationAuthorities = require('./query.getCertificationAuthorities');
+import getCertificateList from './query.getCertificateList.js';
+import getCertificateById from './query.getCertificateById.js';
+import getCertificateByFingerprint from './query.getCertificateByFingerprint.js';
+import getCertificationAuthorities from './query.getCertificationAuthorities.js';
 
-const associateDevice = require('./mutation.associateDevice');
-const createCertificateOneClick = require('./mutation.createCertificateOneClick');
-const createCertificateCSR = require('./mutation.createCertificateCSR');
-const registerExternalCertificate = require('./mutation.registerExternalCertificate');
-const deleteCertificates = require('./mutation.deleteCertificates');
-const disassociateDevice = require('./mutation.disassociateDevice');
-const createCertificationAuthority = require('./mutation.createCertificationAuthority');
-const deleteCertificationAuthorities = require('./mutation.deleteCertificationAuthorities');
+import associateDevice from './mutation.associateDevice.js';
+import createCertificateOneClick from './mutation.createCertificateOneClick.js';
+import createCertificateCSR from './mutation.createCertificateCSR.js';
+import registerExternalCertificate from './mutation.registerExternalCertificate.js';
+import deleteCertificates from './mutation.deleteCertificates.js';
+import disassociateDevice from './mutation.disassociateDevice.js';
+import createCertificationAuthority from './mutation.createCertificationAuthority.js';
+import deleteCertificationAuthorities from './mutation.deleteCertificationAuthorities.js';
 
 const Resolvers = {
   Query: {
@@ -31,4 +31,4 @@ const Resolvers = {
   },
 };
 
-module.exports = Resolvers;
+export default Resolvers;

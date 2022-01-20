@@ -1,5 +1,5 @@
-const axios = require('axios');
-const { templateId5 } = require('../../../apiMock/template');
+import axios from 'axios';
+import { templateId5 } from '../../../apiMock/template';
 
 const testGetTemplate = {
   id: 'testGetTemplate',
@@ -84,4 +84,4 @@ const testGetTemplate = {
   },
 };
 
-module.exports = testGetTemplate;
+export default testGetTemplate;

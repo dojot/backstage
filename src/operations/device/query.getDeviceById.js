@@ -1,7 +1,7 @@
-const LOG = require('../../utils/Log');
-const template = require('../../services/service.template');
-const deviceService = require('../../services/service.device');
-const securityService = require('../../services/service.security');
+import LOG from '../../utils/Log.js';
+import * as deviceService from '../../services/service.device.js';
+import * as template from '../../services/service.template.js';
+import * as securityService from '../../services/service.security.js';
 
 const getDeviceById = async (_, { deviceId }, { token }) => {
   try {
@@ -51,4 +51,4 @@ const getDeviceById = async (_, { deviceId }, { token }) => {
   }
 };
 
-module.exports = getDeviceById;
+export default getDeviceById;

@@ -1,4 +1,4 @@
-const PermissionHelper = require('../operations/authentication/helpers/PermissionsHelper');
+import PermissionHelper from '../operations/authentication/helpers/PermissionsHelper';
 
 const permMockIn = {
   permissions: [

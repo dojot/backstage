@@ -1,4 +1,4 @@
-{
+export const mapPermissionsJson = {
   "/auth/user/(.*)": {
     "subject": "user",
     "(.*)": {

@@ -1,14 +1,14 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const config = require('./config');
-const templates = require('./routers/Templates');
-const graphQL = require('./routers/GraphQL');
-const authParse = require('./utils/auth');
+import express from 'express';
+import bodyParser from 'body-parser';
+import config from './config.js';
+import templates from './routers/Templates.js';
+import graphQL from './routers/GraphQL.js';
+import { authParse } from './utils/auth.js';
 
 const app = express();
 
 app.use(bodyParser.json());
-app.use(authParse.authParse);
+app.use(authParse);
 app.use(templates);
 app.use(graphQL);
 

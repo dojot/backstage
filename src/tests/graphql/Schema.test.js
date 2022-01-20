@@ -1,8 +1,8 @@
-const { graphql } = require('graphql');
-const axios = require('axios');
-const executableSchema = require('../../Schema');
-const testGetTemplate = require('./test-cases/template/GetTemplate');
-const testTemplatesHasImageFirmware = require('./test-cases/template/TemplatesHasImageFirmware');
+import { graphql } from 'graphql';
+import axios from 'axios';
+import executableSchema from '../../Schema';
+import testGetTemplate from './test-cases/template/GetTemplate';
+import testTemplatesHasImageFirmware from './test-cases/template/TemplatesHasImageFirmware';
 
 jest.mock('axios');
 

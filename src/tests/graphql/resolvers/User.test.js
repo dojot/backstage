@@ -1,5 +1,5 @@
-const Resolver = require('../../../operations/configuration/Resolvers');
-const { Pool } = require('pg');
+import Resolver from '../../../operations/configuration/Resolvers';
+import { Pool } from 'pg';
 
 jest.mock('pg', () => {
   const testPool = {

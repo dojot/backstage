@@ -1,7 +1,5 @@
-const templateService = require('../services/TemplatesService');
-const { pool } = require('../db/index');
-
-
+import { pool } from '../db/index';
+import * as templateService from '../services/TemplatesService';
 // eslint-disable-next-line no-undef
 test('Test the query functions', () => {
   // eslint-disable-next-line no-undef
@@ -17,7 +15,7 @@ test('Test the query functions', () => {
       { template_id: 1, conflict: 10 }],
   });
 
-  templateService.checkconflicts(1, 'admin')
+  templateService.checkConflicts(1, 'admin')
     .then((data) => {
       // eslint-disable-next-line no-undef
       expect(data).toMatchObject({
@@ -25,7 +23,7 @@ test('Test the query functions', () => {
       });
     });
 
-  templateService.checkconflicts(undefined, 'admin')
+  templateService.checkConflicts(undefined, 'admin')
     .then((data) => {
       // eslint-disable-next-line no-undef
       expect(data).toMatchObject({
@@ -39,7 +37,7 @@ test('Test the query functions', () => {
     query: 'data not found',
   });
 
-  templateService.checkconflicts(undefined, 'admin')
+  templateService.checkConflicts(undefined, 'admin')
     .catch((err) => {
       // eslint-disable-next-line no-undef
       expect(err).toMatchObject({
@@ -50,7 +48,7 @@ test('Test the query functions', () => {
   // eslint-disable-next-line no-undef
   pool.query = 1;
 
-  templateService.checkconflicts(undefined, 'admin')
+  templateService.checkConflicts(undefined, 'admin')
     .catch((err) => {
       // eslint-disable-next-line no-undef
       expect(err).toBeInstanceOf(Error);
