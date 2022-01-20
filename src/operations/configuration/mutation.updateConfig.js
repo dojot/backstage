@@ -52,6 +52,7 @@ const updateConfig = async (root, params) => {
       throw 'Failed to insert into database';
     }
   } catch (error) {
+    LOG.error(error);
     return error;
   }
 }
