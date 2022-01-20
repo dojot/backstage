@@ -16,7 +16,7 @@ import templateAttrResolvers from './operations/templateAttr/Resolvers.js';
 // Put schema together into one array of schema strings
 // and one map of resolvers, like makeExecutableSchema expects
 
-const typeDefs = mergeTypeDefs([
+export const typeDefs = mergeTypeDefs([
   templateTypeDefs,
   deviceTypeDefs,
   userTypeDefs,
