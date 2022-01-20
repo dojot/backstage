@@ -1,10 +1,12 @@
 import { graphql } from 'graphql';
 import axios from 'axios';
-import executableSchema from '../../Schema';
-import testGetTemplate from './test-cases/template/GetTemplate';
-import testTemplatesHasImageFirmware from './test-cases/template/TemplatesHasImageFirmware';
+import { jest } from '@jest/globals';
+import executableSchema from '../../Schema.js';
+import testGetTemplate from './test-cases/template/GetTemplate.js';
+import testTemplatesHasImageFirmware from './test-cases/template/TemplatesHasImageFirmware.js';
 
 jest.mock('axios');
+axios.get = jest.fn();
 
 afterEach(() => {
   axios.get.mockReset();

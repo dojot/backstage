@@ -4,7 +4,7 @@
   "description": "This repository is to get together all services can help GUI",
   "main": "index.js",
   "scripts": {
-    "test": "jest src/tests/.*.test.js  --coverage --runInBand --collectCoverage --detectOpenHandles && codecov",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js src/tests/.*.test.js --env=node  --coverage --runInBand --collectCoverage --detectOpenHandles && codecov",
     "dev": "node src/databaseCheck.js && nodemon src/index.js",
     "start": "node databaseCheck.js && node index.js",
     "check-licenses": "apache2-license-checker"
@@ -13,15 +13,16 @@
     "type": "git",
     "url": "https://github.com/dojot/backstage.git"
   },
-  "author": [
+  "contributors": [
     "Elias Reis <efreis@cpqd.com.br>",
-    "Julia M. @juliamourac"
+    "Julia M. @juliamourac",
+    "Luis Felipe Furlan Cruz"
   ],
   "license": "Apache-2.0",
   "licenses": [
     {
       "type": "Apache-2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0"
+      "url": "https://www.apache.org/licenses/LICENSE-2.0"
     }
   ],
   "type": "module",
@@ -29,6 +30,7 @@
     "@bbc/apache2-license-checker": "^1.1.4",
     "@graphql-tools/merge": "^8.2.1",
     "@graphql-tools/schema": "^8.3.1",
+    "@jest/globals": "^27.4.6",
     "@peculiar/webcrypto": "^1.2.3",
     "asn1js": "^2.2.0",
     "axios": "^0.24.0",
@@ -51,14 +53,16 @@
       "src/graphql/**/*.js",
       "src/routers/**/*.js",
       "!src/index.js "
-    ]
+    ],
+    "testEnvironment": "jest-environment-node",
+    "transform": {}
   },
   "devDependencies": {
     "codecov": "^3.7.0",
     "eslint": "^5.13.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
-    "jest": "^23.6.0",
-    "nodemon": "^1.18.9"
+    "jest": "^27.4.7",
+    "nodemon": "^2.0.15"
   }
 }

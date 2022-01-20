@@ -1,5 +1,9 @@
 import axios from 'axios';
-import { templateId5 } from '../../../apiMock/template';
+import { templateId5 } from '../../../apiMock/template.js';
+import { jest } from '@jest/globals';
+
+jest.mock('axios');
+axios.get = jest.fn();
 
 const testGetTemplate = {
   id: 'testGetTemplate',

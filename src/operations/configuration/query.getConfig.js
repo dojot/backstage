@@ -26,7 +26,6 @@ const getConfig = async (root, params) => {
 
     throw `Could not retrieve configuration from user ${params.user} in tenant ${params.tenant}`;
   } catch (error) {
-    LOG.error(error);
     throw error;
   }
 }

@@ -1,5 +1,6 @@
-import { pool } from '../db/index';
-import * as templateService from '../services/TemplatesService';
+import { pool } from '../db/index.js';
+import { jest } from '@jest/globals';
+import * as templateService from '../services/TemplatesService.js';
 // eslint-disable-next-line no-undef
 test('Test the query functions', () => {
   // eslint-disable-next-line no-undef

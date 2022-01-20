@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { templateId3, templateId4, templateId5 } from '../../../apiMock/template';
+import { templateId3, templateId4, templateId5 } from '../../../apiMock/template.js';
 
 const testTemplatesHasImageFirmware = {
   id: 'templatesHasImageFirmware',
