@@ -1,8 +1,8 @@
-const _ = require('lodash');
-const moment = require('moment');
-const { WIDGET_TYPE, SOURCE } = require('../../constants');
+import lodash from 'lodash';
+import moment from 'moment';
+import { WIDGET_TYPE, SOURCE } from '../../constants/index.js';
 
-const reduceList = (prop) => {
+export const reduceList = (prop) => {
   const array = [];
   Object.keys(prop).forEach((listKey) => {
     array.push(
@@ -18,22 +18,22 @@ const reduceList = (prop) => {
   return array;
 };
 
-const convertList = list => _.groupBy(list, item => item.timestamp);
+export const convertList = list => lodash.groupBy(list, item => item.timestamp);
 
-const parseGeo = (value) => {
+export const parseGeo = (value) => {
   const toParse = value || '[0, 0]';
   const [lat, long] = toParse.split(',');
   return [parseFloat(lat), parseFloat(long)];
 };
 
-const generateTemplateKey = (deviceDictionary, device, attr) => {
-  if (!_.isEmpty(deviceDictionary) && deviceDictionary[device]) {
+export const generateTemplateKey = (deviceDictionary, device, attr) => {
+  if (!lodash.isEmpty(deviceDictionary) && deviceDictionary[device]) {
     return deviceDictionary[device][attr] ? `${deviceDictionary[device][attr]}${attr}` : undefined;
   }
   return undefined;
 };
 
-const parseValue = (value) => {
+export const parseValue = (value) => {
   if (typeof value === 'boolean') {
     return value;
   }
@@ -43,7 +43,7 @@ const parseValue = (value) => {
   return parseFloat(value);
 };
 
-const formatOutPut = (dynamicAttributes, staticAttributes, dojotDevices, deviceDictionary, sourceType, widgetType) => {
+export const formatOutPut = (dynamicAttributes, staticAttributes, dojotDevices, deviceDictionary, sourceType, widgetType) => {
   const history = [];
   const historyObj = {};
   dynamicAttributes.forEach(({
@@ -87,7 +87,7 @@ const formatOutPut = (dynamicAttributes, staticAttributes, dojotDevices, deviceD
   return { history, historyObj };
 };
 
-const getStaticAttributes = (dojotDevices, requestedDevices) => {
+export const getStaticAttributes = (dojotDevices, requestedDevices) => {
   const auxStaticAttrs = {};
   requestedDevices.forEach(({ deviceID, staticAttrs = [] }) => {
     for (const template in dojotDevices[deviceID].attrs) {
@@ -107,10 +107,3 @@ const getStaticAttributes = (dojotDevices, requestedDevices) => {
   return auxStaticAttrs;
 };
 
-module.exports = {
-  reduceList,
-  convertList,
-  parseGeo,
-  formatOutPut,
-  getStaticAttributes,
-};

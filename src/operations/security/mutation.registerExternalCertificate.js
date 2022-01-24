@@ -1,5 +1,5 @@
-const service = require("../../services/service.security");
-const LOG = require("../../utils/Log");
+import * as service from "../../services/service.security.js";
+import LOG from '../../utils/Log.js';
 
 
 const registerExternalCertificate = async (_, {certificateChain}, {token}) => {
@@ -17,4 +17,4 @@ const registerExternalCertificate = async (_, {certificateChain}, {token}) => {
   }
 }
 
-module.exports = registerExternalCertificate;
+export default registerExternalCertificate;

@@ -1,10 +1,10 @@
-const { Router } = require('express');
-const templateService = require('../services/TemplatesService');
+import { Router } from 'express';
+import * as templateService from '../services/TemplatesService.js';
 
 const router = Router();
 
 router.get('/checkconflicts', (req, res) => {
-  templateService.checkconflicts(req.query.ids, req.user.service)
+  templateService.checkConflicts(req.query.ids, req.user.service)
     .then((data) => {
       res.send(data);
     })
@@ -13,4 +13,4 @@ router.get('/checkconflicts', (req, res) => {
     });
 });
 
-module.exports = router;
+export default router;

@@ -1,7 +1,11 @@
-const axios = require('axios');
-const Resolvers = require('../../../operations/device/Resolvers');
+import axios from 'axios';
+import { jest } from '@jest/globals';
+import Resolvers from '../../../operations/device/Resolvers';
 
 jest.mock('axios');
+
+axios.get = jest.fn();
+axios.put = jest.fn();
 
 afterEach(() => {
   axios.get.mockReset();
@@ -587,7 +591,6 @@ it('Device - should get a list of devices', () => {
 });
 
 it('Device - Consult the history for the last 3 records (dashboard)', async () => {
-  jest.mock('axios');
   const deviceData = {
     0: {
       data: {
@@ -714,7 +717,6 @@ it('Device - Consult the history for the last 3 records (dashboard)', async () =
 });
 
 it('Device - Consult the history by time period (dashboard)', async () => {
-  jest.mock('axios');
 
   axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(deviceData[0])
@@ -737,7 +739,6 @@ it('Device - Consult the history by time period (dashboard)', async () => {
 });
 
 it('Device - should obtain a static coordinate point for the map', async () => {
-  jest.mock('axios');
 
   axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(deviceData[2]);
@@ -755,7 +756,6 @@ it('Device - should obtain a static coordinate point for the map', async () => {
 });
 
 it('Device - should obtain a static and dynamic coordinates points for the map', async () => {
-  jest.mock('axios');
 
   axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(deviceData[2])
@@ -774,7 +774,6 @@ it('Device - should obtain a static and dynamic coordinates points for the map',
 });
 
 it('Device - should obtain a empty responde', async () => {
-  jest.mock('axios');
 
   axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(deviceData[2]);
@@ -792,7 +791,6 @@ it('Device - should obtain a empty responde', async () => {
 });
 
 it('Template - should get the coordinates from three devices', async () => {
-  jest.mock('axios');
 
   axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(devicesFromTemplateData);
@@ -811,8 +809,6 @@ it('Template - should get the coordinates from three devices', async () => {
 });
 
 it('Device - should edit a device', async () => {
-  jest.mock('axios');
-
   const fakeDevice = {
     id: 'abc123',
     label: 'OLD DEVICE NAME',

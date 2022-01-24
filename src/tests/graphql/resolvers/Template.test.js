@@ -1,11 +1,13 @@
-const axios = require('axios');
-const Resolvers = require('../../../operations/template/Resolvers');
-const { templateId3, templateId4, templateId5 } = require('../../apiMock/template');
+import axios from 'axios';
+import Resolvers from '../../../operations/template/Resolvers.js';
+import { templateId3, templateId4, templateId5 } from '../../apiMock/template.js';
+import { jest } from '@jest/globals';
 
 jest.mock('axios');
+axios.get = jest.fn();
 
 afterEach(() => {
-  axios.get.mockReset();
+  axios.get = jest.fn().mockReset();
 });
 
 it('templatesHasImageFirmware', () => {
