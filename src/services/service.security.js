@@ -1,5 +1,5 @@
-const axios = require('axios');
-const config = require('../config');
+import axios from 'axios';
+import config from '../config.js';
 
 const baseURL = config.base_local_url_graphql;
 
@@ -7,7 +7,7 @@ const getHeader = token => ({
   headers: { 'content-type': 'application/json', Authorization: `${token}` },
 });
 
-const getAllCertificates = (token, page, filter, id) => {
+export const getAllCertificates = (token, page, filter, id) => {
   const queryParams = {};
   if (page && page.size) queryParams.limit = page.size;
   if (page && page.number) queryParams.page = page.number;
@@ -17,27 +17,27 @@ const getAllCertificates = (token, page, filter, id) => {
   return axios.get(`${baseURL}/x509/v1/certificates?${queryParamsString}`, getHeader(token));
 };
 
-const getCertificateByFingerprint = (token, fingerprint) => axios.get(`${baseURL}/x509/v1/certificates/${fingerprint}`, getHeader(token));
+export const getCertificateByFingerprint = (token, fingerprint) => axios.get(`${baseURL}/x509/v1/certificates/${fingerprint}`, getHeader(token));
 
-const createCertificate = (token, csrPEM) => axios.post(`${baseURL}/x509/v1/certificates`, { csr: csrPEM }, getHeader(token));
+export const createCertificate = (token, csrPEM) => axios.post(`${baseURL}/x509/v1/certificates`, { csr: csrPEM }, getHeader(token));
 
-const registerExternalCertificate = (token, certificateChain) => axios.post(`${baseURL}/x509/v1/certificates`, { certificateChain }, getHeader(token));
+export const registerExternalCertificate = (token, certificateChain) => axios.post(`${baseURL}/x509/v1/certificates`, { certificateChain }, getHeader(token));
 
-const getCAChain = token => axios.get(`${baseURL}/x509/v1/ca`, getHeader(token));
+export const getCAChain = token => axios.get(`${baseURL}/x509/v1/ca`, getHeader(token));
 
-const associateCertificate = (token, fingerprint, deviceId) => axios.patch(`${baseURL}/x509/v1/certificates/${fingerprint}`, {
+export const associateCertificate = (token, fingerprint, deviceId) => axios.patch(`${baseURL}/x509/v1/certificates/${fingerprint}`, {
   belongsTo: {
     device: deviceId,
   },
 }, getHeader(token));
 
-const deleteCertificate = async (token, fingerprint) => axios.delete(`${baseURL}/x509/v1/certificates/${fingerprint}`, getHeader(token));
+export const deleteCertificate = async (token, fingerprint) => axios.delete(`${baseURL}/x509/v1/certificates/${fingerprint}`, getHeader(token));
 
-const disassociateCertificate = async (token, fingerprint) => axios.delete(`${baseURL}/x509/v1/certificates/${fingerprint}/belongsto`, getHeader(token));
+export const disassociateCertificate = async (token, fingerprint) => axios.delete(`${baseURL}/x509/v1/certificates/${fingerprint}/belongsto`, getHeader(token));
 
-const createCertificationAuthority = async (token, { caPem, allowAutoRegistration }) => axios.post(`${baseURL}/x509/v1/trusted-cas`, { caPem, allowAutoRegistration }, getHeader(token));
+export const createCertificationAuthority = async (token, { caPem, allowAutoRegistration }) => axios.post(`${baseURL}/x509/v1/trusted-cas`, { caPem, allowAutoRegistration }, getHeader(token));
 
-const getCertificationAuthorities = async (token, page, filter) => {
+export const getCertificationAuthorities = async (token, page, filter) => {
   const queryParams = {};
   if (page && page.size) queryParams.limit = page.size;
   if (page && page.number) queryParams.page = page.number;
@@ -46,18 +46,4 @@ const getCertificationAuthorities = async (token, page, filter) => {
   return axios.get(`${baseURL}/x509/v1/trusted-cas?${queryParamsString}`, getHeader(token));
 };
 
-const deleteCertificationAuthority = async (token, fingerprint) => axios.delete(`${baseURL}/x509/v1/trusted-cas/${fingerprint}`, getHeader(token));
-
-module.exports = {
-  getCertificateByFingerprint,
-  getAllCertificates,
-  createCertificate,
-  getCAChain,
-  associateCertificate,
-  disassociateCertificate,
-  deleteCertificate,
-  createCertificationAuthority,
-  getCertificationAuthorities,
-  deleteCertificationAuthority,
-  registerExternalCertificate,
-};
+export const deleteCertificationAuthority = async (token, fingerprint) => axios.delete(`${baseURL}/x509/v1/trusted-cas/${fingerprint}`, getHeader(token));;

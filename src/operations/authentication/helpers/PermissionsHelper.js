@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const mapPermissionsJson = require('./MapPermissions.json');
+import lodash from 'lodash';
+import { mapPermissionsJson } from './MapPermissions.js';
 
 class PermissionsHelper {
   /**
@@ -9,7 +9,7 @@ class PermissionsHelper {
    * * */
   static parsePermissionsFromAuthBack(permissions) {
     const arrayPermissions = [];
-    const permissionsGroupByPath = _.groupBy(permissions, 'path');
+    const permissionsGroupByPath = lodash.groupBy(permissions, 'path');
     Object.keys(permissionsGroupByPath).forEach((key) => {
       if (mapPermissionsJson[key]) {
         arrayPermissions.push({
@@ -22,7 +22,7 @@ class PermissionsHelper {
   }
 
   static getPermissionIdFromAuthBack(path, method, arrPermissionsFromAuthBack) {
-    const permissionsSystemByPath = _.groupBy(arrPermissionsFromAuthBack, 'path');
+    const permissionsSystemByPath = lodash.groupBy(arrPermissionsFromAuthBack, 'path');
     return permissionsSystemByPath[path].find(g => g.action === method && g.permission === 'permit').id;
   }
 
@@ -56,4 +56,4 @@ class PermissionsHelper {
   }
 }
 
-module.exports = PermissionsHelper;
+export default PermissionsHelper;

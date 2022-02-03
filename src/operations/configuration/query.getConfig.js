@@ -1,5 +1,5 @@
-const {userPool} = require("../../db");
-const LOG = require("../../utils/Log");
+import {userPool} from "../../db/index.js";
+import LOG from "../../utils/Log.js";
 
 const getConfig = async (root, params) => {
   let query = {};
@@ -31,4 +31,4 @@ const getConfig = async (root, params) => {
   }
 }
 
-module.exports = getConfig;
+export default getConfig;

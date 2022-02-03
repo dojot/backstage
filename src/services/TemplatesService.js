@@ -1,6 +1,6 @@
-const { pool } = require('../db');
+import { pool } from '../db/index.js';
 
-const checkconflicts = (id, tenant) => new Promise((resolve, reject) => {
+export const checkConflicts = (id, tenant) => new Promise((resolve, reject) => {
   try {
     let query;
     if (id !== undefined) {
@@ -31,4 +31,3 @@ const checkconflicts = (id, tenant) => new Promise((resolve, reject) => {
     reject(e);
   }
 });
-module.exports = { checkconflicts };

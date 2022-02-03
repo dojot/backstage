@@ -1,10 +1,15 @@
-const LOG = require('../../utils/Log');
-const service = require('../../services/service.device');
-const template = require('../../services/service.template');
+import LOG from '../../utils/Log.js';
+import * as deviceService from '../../services/service.device.js';
+import * as template from '../../services/service.template.js';
+import * as securityService from '../../services/service.security.js';
 
 const getDeviceById = async (_, { deviceId }, { token }) => {
   try {
-    const { data: deviceData } = await service.getDeviceById(token, deviceId);
+    const { data: deviceData } = await deviceService.getDeviceById(token, deviceId);
+
+    const { data: certificateData } = await securityService.getAllCertificates(
+      token, undefined, undefined, deviceId,
+    );
 
     const device = {
       id: deviceData.id,
@@ -13,9 +18,18 @@ const getDeviceById = async (_, { deviceId }, { token }) => {
       created: deviceData.created,
       updated: deviceData.updated ? deviceData.updated : '',
       templates: await template.getTemplatesInfo(token, deviceData.templates),
-      certificate: {},
-      lastUpdate: await service.getDeviceHistoricForAllAttrs(token, deviceData.id),
+      lastUpdate: await deviceService.getDeviceHistoricForAllAttrs(token, deviceData.id),
+      certificate: {
+        fingerprint: undefined,
+      },
     };
+
+    if (certificateData && certificateData.certificates) {
+      const { certificates } = certificateData;
+      device.certificate.fingerprint = certificates[0]
+        ? certificates[0].fingerprint
+        : undefined;
+    }
 
     Object.keys(deviceData.attrs).forEach((key) => {
       deviceData.attrs[key].forEach((attr) => {
@@ -37,4 +51,4 @@ const getDeviceById = async (_, { deviceId }, { token }) => {
   }
 };
 
-module.exports = getDeviceById;
+export default getDeviceById;

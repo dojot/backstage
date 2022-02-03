@@ -1,5 +1,5 @@
-const getConfig = require('./query.getConfig')
-const updateConfig = require('./mutation.updateConfig')
+import getConfig from './query.getConfig.js';
+import updateConfig from './mutation.updateConfig.js';
 
 const Resolvers = {
   Query: {
@@ -10,4 +10,4 @@ const Resolvers = {
   }
 };
 
-module.exports = Resolvers;
+export default Resolvers;

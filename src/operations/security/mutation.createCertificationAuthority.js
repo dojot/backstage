@@ -1,5 +1,5 @@
-const LOG = require('../../utils/Log');
-const service = require('../../services/service.security');
+import LOG from '../../utils/Log.js';
+import * as service from '../../services/service.security.js';
 
 const createCertificationAuthority = async (_, { caPem }, { token }) => {
   try {
@@ -15,4 +15,4 @@ const createCertificationAuthority = async (_, { caPem }, { token }) => {
   }
 };
 
-module.exports = createCertificationAuthority;
+export default createCertificationAuthority;

@@ -1,5 +1,5 @@
-const LOG = require('../../utils/Log');
-const service = require('../../services/service.device');
+import LOG from '../../utils/Log.js';
+import * as service from '../../services/service.device.js';
 
 const deleteDevices = async (_, { deviceIds }, { token }) => {
   try {
@@ -16,4 +16,4 @@ const deleteDevices = async (_, { deviceIds }, { token }) => {
   }
 };
 
-module.exports = deleteDevices;
+export default deleteDevices;

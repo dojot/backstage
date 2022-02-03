@@ -1,6 +1,6 @@
-const { pool, userPool } = require('./db');
-const LOG = require('./utils/Log');
-const config = require('./config');
+import { pool, userPool } from './db/index.js';
+import LOG from './utils/Log.js';
+import config from './config.js';
 
 // check if database exists
 async function checkDatabase(database_name) {

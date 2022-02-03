@@ -1,7 +1,7 @@
-const { Pool } = require('pg');
-const config = require('../config');
+import pkg from 'pg';
+import config from '../config.js';
 
-const pool = new Pool({
+export const pool = new pkg.Pool({
   user: config.postgres_user,
   host: config.postgres_host,
   database: config.postgres_database,
@@ -9,7 +9,7 @@ const pool = new Pool({
   port: config.postgres_port,
 });
 
-const userPool = new Pool({
+export const userPool = new pkg.Pool({
   user: config.postgres_backstage_user,
   host: config.postgres_backstage_host,
   database: config.postgres_backstage_databases,
@@ -17,4 +17,3 @@ const userPool = new Pool({
   port: config.postgres_backstage_port,
 });
 
-module.exports = {pool, userPool};

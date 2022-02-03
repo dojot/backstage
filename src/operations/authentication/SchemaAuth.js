@@ -1,12 +1,12 @@
-const {
+import {
   GraphQLList, GraphQLObjectType, GraphQLSchema, GraphQLString, GraphQLInt, GraphQLInputObjectType,
-} = require('graphql');
-const axios = require('axios');
-const _ = require('lodash');
-const PermissionsHelper = require('./helpers/PermissionsHelper');
-const UTIL = require('./helpers/AxiosUtils');
-const { userDataByToken } = require('../../utils/auth');
-const config = require('../../config');
+} from 'graphql';
+import axios from 'axios';
+import lodash from 'lodash';
+import PermissionsHelper from './helpers/PermissionsHelper.js';
+import UTIL from './helpers/AxiosUtils.js';
+import { userDataByToken } from '../../utils/auth.js';
+import config from '../../config.js';
 
 const params = {
   token: null,
@@ -220,15 +220,15 @@ const PermissionsMutationResolve = async (parentValue, { permissions, group }, c
   return initPermissions(group).then(async () => {
     const responses = [];
     const promises = [];
-    const permissionsGroupOld = _.groupBy(params.permissionsGroupOld, 'path');
+    const permissionsGroupOld = lodash.groupBy(params.permissionsGroupOld, 'path');
     params.permissionsSystem.forEach((item) => {
       if (PermissionsHelper.patchExist(item.path)) {
         const subjectAlias = PermissionsHelper.getSubjectAlias(item.path);
         const actionAlias = PermissionsHelper.getActionAlias(item.path, item.method);
 
-        const permOld = _.find(permissionsGroupOld[item.path], g => g.method === item.method && g.permission === 'permit');
-        const permNew = _.find(permissions,
-          g => g.subject === subjectAlias && _.find(g.actions, h => h === actionAlias));
+        const permOld = lodash.find(permissionsGroupOld[item.path], g => g.method === item.method && g.permission === 'permit');
+        const permNew = lodash.find(permissions,
+          g => g.subject === subjectAlias && lodash.find(g.actions, h => h === actionAlias));
         if (permOld && permNew) {
           return;
         }
@@ -313,7 +313,7 @@ const LoginRootQuery = new GraphQLObjectType({
  *  Create obj GraphQLSchema for Login
  * @type {GraphQLSchema}
  */
-const schemaLogin = new GraphQLSchema({
+export const schemaLogin = new GraphQLSchema({
   description: 'Test',
   mutation: LoginMutation,
   query: LoginRootQuery,
@@ -323,8 +323,7 @@ const schemaLogin = new GraphQLSchema({
  * Create obj GraphQLSchema for Permissions
  * @type {GraphQLSchema}
  */
-const schemaPermission = new GraphQLSchema({
+export const schemaPermission = new GraphQLSchema({
   mutation: PermissionsMutation,
   query: PermissionsRootQuery,
 });
-module.exports = { schemaLogin, schemaPermission };

@@ -116,6 +116,22 @@ type Device {
     id: String
     label: String
  }
+
+  type Query {
+    #Returns a list of devices that can be divided in pages, and the information about how many pages there are in total, along with which page is being shown.
+    #@param sortBy: set sortBy to sort list (default 'label')
+    getDevices(page: PageInput, filter: FilterDeviceInput, sortBy: String): DeviceListPage
+    #Finds device information by id
+    getDeviceById(deviceId: String!): Device
+    #Returns historical data in the format used by the Dashboard
+    getDeviceHistoryForDashboard(filter: HistoryInput!, configs: ConfigsInput): String
+  }
+
+  type Mutation {
+    createDevice(label: String!, templates: [Int]!, attrs: [DeviceAttributes], fingerprint: String): [DeviceCreatedList]
+    deleteDevices(deviceIds: [String]!): String
+    editDevice(id: String!, label: String!, templates: [Int]!, attrs: [DeviceAttributes]): DeviceCreatedList
+  }
 `];
 
-module.exports = TypeDefs;
+export default TypeDefs;

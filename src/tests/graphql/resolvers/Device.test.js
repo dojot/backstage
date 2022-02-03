@@ -1,7 +1,11 @@
-const axios = require('axios');
-const Resolvers = require('../../../operations/device/Resolvers');
+import axios from 'axios';
+import { jest } from '@jest/globals';
+import Resolvers from '../../../operations/device/Resolvers';
 
 jest.mock('axios');
+
+axios.get = jest.fn();
+axios.put = jest.fn();
 
 afterEach(() => {
   axios.get.mockReset();
@@ -340,44 +344,46 @@ const historyData = {
 const certificateData = {
   0: {
     data: {
-      'paging': {
-        'previous': null,
-        'current': {
-          'number': 1,
-          'url': '/api/v1/certificates?keyVal=belongsTo.device%3D3826c3&page=1&limit=25',
+      paging: {
+        previous: null,
+        current: {
+          number: 1,
+          url: '/api/v1/certificates?keyVal=belongsTo.device%3D3826c3&page=1&limit=25',
         },
-        'next': null,
-        'totalItems': 1,
-        'totalPages': 1,
-        'limitPerPage': 25,
+        next: null,
+        totalItems: 1,
+        totalPages: 1,
+        limitPerPage: 25,
       },
-      'certificates': [
+      certificates: [
         {
-          'issuedByDojotPki': true,
-          'autoRegistered': false,
-          'fingerprint': '00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00',
-          'pem': '-----BEGIN CERTIFICATE----------END CERTIFICATE-----',
-          'belongsTo': {
-            'device': '1b32ee',
+          issuedByDojotPki: true,
+          autoRegistered: false,
+          fingerprint: '00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00',
+          pem: '-----BEGIN CERTIFICATE----------END CERTIFICATE-----',
+          belongsTo: {
+            device: '1b32ee',
           },
-          'subjectDN': 'CN=e5d299, O=dojot IoT Platform',
-          'validity': {
-            'notBefore': '2021-12-09T19:25:00.000Z',
-            'notAfter': '2022-12-09T19:25:00.000Z',
+          subjectDN: 'CN=e5d299, O=dojot IoT Platform',
+          validity: {
+            notBefore: '2021-12-09T19:25:00.000Z',
+            notAfter: '2022-12-09T19:25:00.000Z',
           },
-          'tenant': 'admin',
-          'createdAt': '2021-12-09T19:25:26.894Z',
-          'modifiedAt': '2021-12-17T17:25:36.085Z',
+          tenant: 'admin',
+          createdAt: '2021-12-09T19:25:26.894Z',
+          modifiedAt: '2021-12-17T17:25:36.085Z',
         },
       ],
     },
-  }
-}
+  },
+};
 
 it('Device - should return a device', () => {
   const root = {};
   const params = { deviceId: '10cf' };
   const context = {};
+
+  const fakeFingerprint = 'E3:28:1A:03:09:7B:87:24:AB:3A:0D:8E:2A:B1:EA:F8:17:65:54:9E:D7:7C:AE:38:96:0F:54:06:07:88:BD:CD';
 
   axios.get.mockResolvedValue('default value')
     .mockImplementationOnce(() => Promise.resolve({
@@ -414,6 +420,13 @@ it('Device - should return a device', () => {
         templates: [
           18,
           19,
+        ],
+      },
+    }))
+    .mockImplementationOnce(() => Promise.resolve({
+      data: {
+        certificates: [
+          { fingerprint: fakeFingerprint },
         ],
       },
     }))
@@ -504,7 +517,9 @@ it('Device - should return a device', () => {
           templateId: '19',
         },
       ],
-      certificate: {},
+      certificate: {
+        fingerprint: fakeFingerprint,
+      },
       created: '2021-08-24T18:00:58.595191+00:00',
       id: 'e5d299',
       label: 'CS Teste',
@@ -536,7 +551,6 @@ it('Device - should return a device', () => {
 });
 
 it('Device - should get a list of devices', () => {
-
   axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(deviceData[5])
     .mockResolvedValueOnce(certificateData[0]);
@@ -577,7 +591,6 @@ it('Device - should get a list of devices', () => {
 });
 
 it('Device - Consult the history for the last 3 records (dashboard)', async () => {
-  jest.mock('axios');
   const deviceData = {
     0: {
       data: {
@@ -704,7 +717,6 @@ it('Device - Consult the history for the last 3 records (dashboard)', async () =
 });
 
 it('Device - Consult the history by time period (dashboard)', async () => {
-  jest.mock('axios');
 
   axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(deviceData[0])
@@ -727,7 +739,6 @@ it('Device - Consult the history by time period (dashboard)', async () => {
 });
 
 it('Device - should obtain a static coordinate point for the map', async () => {
-  jest.mock('axios');
 
   axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(deviceData[2]);
@@ -745,7 +756,6 @@ it('Device - should obtain a static coordinate point for the map', async () => {
 });
 
 it('Device - should obtain a static and dynamic coordinates points for the map', async () => {
-  jest.mock('axios');
 
   axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(deviceData[2])
@@ -764,7 +774,6 @@ it('Device - should obtain a static and dynamic coordinates points for the map',
 });
 
 it('Device - should obtain a empty responde', async () => {
-  jest.mock('axios');
 
   axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(deviceData[2]);
@@ -782,7 +791,6 @@ it('Device - should obtain a empty responde', async () => {
 });
 
 it('Template - should get the coordinates from three devices', async () => {
-  jest.mock('axios');
 
   axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(devicesFromTemplateData);
@@ -801,8 +809,6 @@ it('Template - should get the coordinates from three devices', async () => {
 });
 
 it('Device - should edit a device', async () => {
-  jest.mock('axios');
-
   const fakeDevice = {
     id: 'abc123',
     label: 'OLD DEVICE NAME',

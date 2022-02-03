@@ -1,7 +1,9 @@
-const axios = require('axios');
-const Resolvers = require('../../../operations/security/Resolvers');
+import axios from 'axios';
+import Resolvers from '../../../operations/security/Resolvers.js';
+import { jest } from '@jest/globals';
 
 jest.mock('axios');
+axios.get = jest.fn();
 
 afterEach(() => {
   axios.get.mockReset();

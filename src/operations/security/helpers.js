@@ -1,6 +1,6 @@
-const asn1js = require('asn1js');
-const {arrayBufferToString, toBase64} = require('pvutils');
-const {
+import asn1js from 'asn1js';
+import {arrayBufferToString, toBase64} from 'pvutils';
+import {
   CertificationRequest,
   Attribute,
   AttributeTypeAndValue,
@@ -13,11 +13,11 @@ const {
   getCrypto,
   setEngine,
   CryptoEngine
-} = require('pkijs');
-const LOG = require("../../utils/Log");
-const {Crypto} = require("@peculiar/webcrypto");
-const webcrypto = new Crypto();
-setEngine("newEngine", webcrypto, new CryptoEngine({name: "", crypto: webcrypto, subtle: webcrypto.subtle}));
+} from 'pkijs';
+import LOG from "../../utils/Log.js";
+import {Crypto} from "@peculiar/webcrypto";
+const webCrypto = new Crypto();
+setEngine("newEngine", webCrypto, new CryptoEngine({name: "", crypto: webCrypto, subtle: webCrypto.subtle}));
 
 const _subjectAltNameCSR = (subjAltCSR) => {
   if (!((subjAltCSR.email && subjAltCSR.email.length > 0)
@@ -178,7 +178,7 @@ const _formatPEM = (pemString, type) => {
   );
 }
 
-const generateKeyPar = async (signAlgorithm, hashAlgorithm) => {
+export const generateKeyPar = async (signAlgorithm, hashAlgorithm) => {
   const crypto = getCrypto();
   if (!crypto) {
     throw new Error('No crypto');
@@ -203,7 +203,7 @@ const generateKeyPar = async (signAlgorithm, hashAlgorithm) => {
   return {privateKeyPEM, privateKeyPkcs8: privateKey, publicKeyPEM, publicKeyPkcs8: publicKey}
 }
 
-const createCSR = async (commonName, publicKeyPkcs8, privateKeyPkcs8, hashAlgorithm, typesAndValues, subjAltCSR) => {
+export const createCSR = async (commonName, publicKeyPkcs8, privateKeyPkcs8, hashAlgorithm, typesAndValues, subjAltCSR) => {
   const pkcs10 = new CertificationRequest();
   pkcs10.attributes = [];
   pkcs10.version = 0;
@@ -227,6 +227,3 @@ const createCSR = async (commonName, publicKeyPkcs8, privateKeyPkcs8, hashAlgori
 
   return _formatPEM(toBase64(arrayBufferToString(_csrRaw)))
 }
-
-
-module.exports = {generateKeyPar, createCSR}

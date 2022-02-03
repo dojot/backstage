@@ -1,9 +1,9 @@
-const getDeviceById = require('./query.getDeviceById');
-const getDevices = require('./query.getDevices');
-const getDeviceHistoryForDashboard = require('./query.getDeviceHistoryForDashboard');
-const createDevice = require('./mutation.createDevice');
-const deleteDevices = require('./mutation.deleteDevices');
-const editDevice = require('./mutation.editDevice');
+import getDeviceById from './query.getDeviceById.js';
+import getDevices from './query.getDevices.js';
+import getDeviceHistoryForDashboard from './query.getDeviceHistoryForDashboard.js';
+import createDevice from './mutation.createDevice.js';
+import deleteDevices from './mutation.deleteDevices.js';
+import editDevice from './mutation.editDevice.js';
 
 const Resolvers = {
   Query: {
@@ -18,4 +18,4 @@ const Resolvers = {
   },
 };
 
-module.exports = Resolvers;
+export default Resolvers;

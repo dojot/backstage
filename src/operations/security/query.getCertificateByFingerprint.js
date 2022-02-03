@@ -1,5 +1,5 @@
-const LOG = require('../../utils/Log');
-const service = require('../../services/service.security');
+import LOG from '../../utils/Log.js';
+import * as service from '../../services/service.security.js';
 
 const getCertificateByFingerprint = async (_, { fingerprint }, { token }) => {
   try {
@@ -11,4 +11,4 @@ const getCertificateByFingerprint = async (_, { fingerprint }, { token }) => {
   }
 };
 
-module.exports = getCertificateByFingerprint;
+export default getCertificateByFingerprint;

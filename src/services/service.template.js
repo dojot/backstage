@@ -1,16 +1,16 @@
-const axios = require('axios');
-const config = require('../config');
+import axios from 'axios';
+import config from '../config.js';
 
 const baseURL = config.base_local_url_graphql;
 const getHeader = token => ({
   headers: { 'content-type': 'application/json', Authorization: `${token}` },
 });
 
-const getTemplateById = (token, id) => axios.get(`${baseURL}/template/${id}`, getHeader(token));
+export const getTemplateById = (token, id) => axios.get(`${baseURL}/template/${id}`, getHeader(token));
 
-const getTemplateWithParams = (token, params) => axios.get(`${baseURL}/template?${params}`, getHeader(token));
+export const getTemplateWithParams = (token, params) => axios.get(`${baseURL}/template?${params}`, getHeader(token));
 
-const getTemplatesInfo = async (token, ids) => {
+export const getTemplatesInfo = async (token, ids) => {
   const promises = [];
   const values = [];
   ids.forEach((id) => {
@@ -26,17 +26,8 @@ const getTemplatesInfo = async (token, ids) => {
 };
 
 
-const deleteTemplate = async (token, id) => axios.delete(`${baseURL}/template/${id}`, getHeader(token));
+export const deleteTemplate = async (token, id) => axios.delete(`${baseURL}/template/${id}`, getHeader(token));
 
-const createTemplate = async (token, template) => axios.post(`${baseURL}/template`, template, getHeader(token));
+export const createTemplate = async (token, template) => axios.post(`${baseURL}/template`, template, getHeader(token));
 
-const editTemplate = async (token, id, template) => axios.put(`${baseURL}/template/${id}`, template, getHeader(token));
-
-module.exports = {
-  getTemplateById,
-  getTemplateWithParams,
-  getTemplatesInfo,
-  deleteTemplate,
-  createTemplate,
-  editTemplate,
-};
+export const editTemplate = async (token, id, template) => axios.put(`${baseURL}/template/${id}`, template, getHeader(token));

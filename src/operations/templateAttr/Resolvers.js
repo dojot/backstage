@@ -1,6 +1,6 @@
-const createTemplateAttr = require('./mutation.createTemplateAttr');
-const deleteTemplateAttrs = require('./mutation.deleteTemplateAttrs');
-const editTemplateAttr = require('./mutation.editTemplateAttr');
+import createTemplateAttr from './mutation.createTemplateAttr.js';
+import deleteTemplateAttrs from './mutation.deleteTemplateAttrs.js';
+import editTemplateAttr from './mutation.editTemplateAttr.js';
 
 const Resolvers = {
   Mutation: {
@@ -10,4 +10,4 @@ const Resolvers = {
   },
 };
 
-module.exports = Resolvers;
+export default Resolvers;
