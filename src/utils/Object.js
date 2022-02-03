@@ -7,7 +7,7 @@
  * @param {object} options.recursive Transform keys of nested objects
  * @returns {object} The same object with transformed keys
  */
-const getObjectWithNewKeys = (object, transformKeys, options = { recursive: true }) => {
+export const getObjectWithNewKeys = (object, transformKeys, options = { recursive: true }) => {
   const isNotObject = typeof object !== 'object';
   if (!object || isNotObject || !transformKeys) return object;
 
@@ -28,6 +28,3 @@ const getObjectWithNewKeys = (object, transformKeys, options = { recursive: true
   return formattedObject;
 };
 
-module.exports = {
-  getObjectWithNewKeys,
-};

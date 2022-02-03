@@ -1,5 +1,5 @@
-const LOG = require('../../utils/Log');
-const service = require('../../services/service.template');
+import LOG from '../../utils/Log.js';
+import * as service from '../../services/service.template.js';
 
 const duplicateTemplate = async (_, { templateId }, { token }) => {
   try {
@@ -28,4 +28,4 @@ const duplicateTemplate = async (_, { templateId }, { token }) => {
   }
 };
 
-module.exports = duplicateTemplate;
+export default duplicateTemplate;

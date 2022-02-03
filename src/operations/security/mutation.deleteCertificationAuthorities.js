@@ -1,5 +1,5 @@
-const LOG = require('../../utils/Log');
-const service = require('../../services/service.security');
+import LOG from '../../utils/Log.js';
+import * as service from '../../services/service.security.js';
 
 const deleteCertificationAuthorities = async (_, { fingerprints }, { token }) => {
   try {
@@ -16,4 +16,4 @@ const deleteCertificationAuthorities = async (_, { fingerprints }, { token }) =>
   }
 };
 
-module.exports = deleteCertificationAuthorities;
+export default deleteCertificationAuthorities;

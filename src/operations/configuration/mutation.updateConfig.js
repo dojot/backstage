@@ -1,5 +1,5 @@
-const {userPool} = require("../../db");
-const LOG = require("../../utils/Log");
+import { userPool } from '../../db/index.js';
+import LOG from '../../utils/Log.js';
 
 const updateConfig = async (root, params) => {
   const genUser = '**generic_user**';
@@ -53,8 +53,8 @@ const updateConfig = async (root, params) => {
     }
   } catch (error) {
     LOG.error(error);
-    return 'Could not complete operation';
+    return error;
   }
 }
 
-module.exports = updateConfig;
+export default updateConfig;

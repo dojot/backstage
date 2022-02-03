@@ -1,11 +1,11 @@
-const getTemplates = require('./query.getTemplates');
-const getTemplateById = require('./query.getTemplateById');
-const templatesHasImageFirmware = require('./query.templatesHasImageFirmware');
+import getTemplates from './query.getTemplates.js';
+import getTemplateById from './query.getTemplateById.js';
+import templatesHasImageFirmware from './query.templatesHasImageFirmware.js';
 
-const editTemplate = require('./mutation.editTemplate');
-const createTemplate = require('./mutation.createTemplate');
-const deleteTemplates = require('./mutation.deleteTemplates');
-const duplicateTemplate = require('./mutation.duplicateTemplate');
+import editTemplate from './mutation.editTemplate.js';
+import createTemplate from './mutation.createTemplate.js';
+import deleteTemplates from './mutation.deleteTemplates.js';
+import duplicateTemplate from './mutation.duplicateTemplate.js';
 
 const Resolvers = {
   Query: {
@@ -21,4 +21,4 @@ const Resolvers = {
   },
 };
 
-module.exports = Resolvers;
+export default Resolvers;

@@ -1,7 +1,7 @@
-const { snakeCase } = require('lodash');
-const LOG = require('../../utils/Log');
-const service = require('../../services/service.template');
-const { getObjectWithNewKeys } = require('../../utils/Object');
+import lodash from 'lodash';
+import LOG from '../../utils/Log.js';
+import * as service from '../../services/service.template.js';
+import { getObjectWithNewKeys } from '../../utils/Object.js';
 
 const createTemplateAttr = async (_, { templateId, attr }, { token }) => {
   try {
@@ -9,7 +9,7 @@ const createTemplateAttr = async (_, { templateId, attr }, { token }) => {
 
     const dataToSave = {
       ...template,
-      attrs: [...template.attrs, getObjectWithNewKeys(attr, snakeCase)],
+      attrs: [...template.attrs, getObjectWithNewKeys(attr, lodash.snakeCase)],
     };
 
     const { data: editedTemplate } = await service.editTemplate(
@@ -25,4 +25,4 @@ const createTemplateAttr = async (_, { templateId, attr }, { token }) => {
   }
 };
 
-module.exports = createTemplateAttr;
+export default createTemplateAttr;

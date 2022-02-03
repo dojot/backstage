@@ -1,6 +1,6 @@
-const {RESERVED_LABEL_IMG} = require("../../constants")
+import { RESERVED_LABEL_IMG } from '../../constants';
 
-const hasReservedLabelImg = ((attr) => {
+export const hasReservedLabelImg = ((attr) => {
   if( attr.metadata && attr.metadata.length > 0 ) {
     if( attr.metadata.find(meta => RESERVED_LABEL_IMG.includes(meta.label)) ) {
       return true;
@@ -9,6 +9,3 @@ const hasReservedLabelImg = ((attr) => {
   return false;
 });
 
-module.exports = {
-  hasReservedLabelImg
-}

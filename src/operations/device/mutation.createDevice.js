@@ -1,8 +1,8 @@
-const { snakeCase } = require('lodash');
-const LOG = require('../../utils/Log');
-const service = require('../../services/service.device');
-const securityService = require('../../services/service.security');
-const { getObjectWithNewKeys } = require('../../utils/Object');
+import lodash from 'lodash';
+import LOG from '../../utils/Log.js';
+import * as service from '../../services/service.device.js';
+import * as securityService from '../../services/service.security.js';
+import { getObjectWithNewKeys } from '../../utils/Object.js';
 
 const createDevice = async (_, device, { token }) => {
   try {
@@ -11,7 +11,7 @@ const createDevice = async (_, device, { token }) => {
     } = device;
 
     const formattedAttrs = attrs
-      ? attrs.map(attr => getObjectWithNewKeys(attr, snakeCase))
+      ? attrs.map(attr => getObjectWithNewKeys(attr, lodash.snakeCase))
       : attrs;
 
     const { data } = await service.createDevice(token, {
@@ -32,4 +32,4 @@ const createDevice = async (_, device, { token }) => {
   }
 };
 
-module.exports = createDevice;
+export default createDevice;

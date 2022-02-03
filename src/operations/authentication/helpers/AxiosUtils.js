@@ -1,4 +1,4 @@
-const config = require('../../../config');
+import config from '../../../config.js';
 
 class AxiosUtils {
   static get GET() {
@@ -22,4 +22,4 @@ class AxiosUtils {
   }
 }
 
-module.exports = AxiosUtils;
+export default AxiosUtils;

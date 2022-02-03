@@ -1,4 +1,4 @@
-const service = require('../../services/service.template');
+import * as service from '../../services/service.template.js';
 
 const getTemplates = async (_, { page, filter }, { token }) => {
   const requestParameters = {};
@@ -47,4 +47,4 @@ const getTemplates = async (_, { page, filter }, { token }) => {
   };
 };
 
-module.exports = getTemplates;
+export default getTemplates;

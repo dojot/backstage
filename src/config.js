@@ -20,4 +20,4 @@ const config = {
   postgres_backstage_port: process.env.BACKSTAGE_DASHBOARD_DB_PORT || 5432,
 };
 
-module.exports = config;
+export default config;

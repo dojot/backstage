@@ -1,12 +1,12 @@
-const { snakeCase } = require('lodash');
-const LOG = require('../../utils/Log');
-const service = require('../../services/service.template');
-const { getObjectWithNewKeys } = require('../../utils/Object');
+import lodash from 'lodash';
+import LOG from '../../utils/Log.js';
+import * as service from '../../services/service.template.js';
+import { getObjectWithNewKeys } from '../../utils/Object.js';
 
 const createTemplate = async (_, { label, attrs }, { token }) => {
   try {
     const formattedAttrs = attrs
-      ? attrs.map(attr => getObjectWithNewKeys(attr, snakeCase))
+      ? attrs.map(attr => getObjectWithNewKeys(attr, lodash.snakeCase))
       : [];
 
     const { data } = await service.createTemplate(token, {
@@ -21,4 +21,4 @@ const createTemplate = async (_, { label, attrs }, { token }) => {
   }
 };
 
-module.exports = createTemplate;
+export default createTemplate;

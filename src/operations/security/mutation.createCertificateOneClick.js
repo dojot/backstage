@@ -1,6 +1,6 @@
-const service = require("../../services/service.security");
-const helpers = require("./helpers");
-const LOG = require("../../utils/Log");
+import * as service from "../../services/service.security.js";
+import * as helpers from "./helpers.js";
+import LOG from "../../utils/Log.js";
 
 
 const createCertificateOneClick = async (_, {commonName = 'dojot'}, {token}) => {
@@ -55,4 +55,4 @@ const createCertificateOneClick = async (_, {commonName = 'dojot'}, {token}) => 
   }
 }
 
-module.exports = createCertificateOneClick;
+export default createCertificateOneClick;
