@@ -11,12 +11,13 @@ const deleteDevices = async (_, { deviceIds }, { token }) => {
         );
 
         const { certificates } = certificateData;
-        const certificateFingerprint = certificates[0].fingerprint;
 
-        await securityService.disassociateCertificate(token, certificateFingerprint);
+        certificates.forEach(async (certificate) => await securityService.disassociateCertificate(token, certificate.fingerprint));
+
         await service.deleteDevice(token, deviceId);
       },
     );
+    
     await Promise.all(promises);
     return 'ok';
   } catch (error) {
