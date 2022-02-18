@@ -13,10 +13,10 @@ const deleteDevices = async (_, { deviceIds }, { token }) => {
           deviceId,
         );
       const { certificates } = certificateData;
-      const disassociateLinkedCertificates = certificates.map(async (certificate) => securityService
-        .disassociateCertificate(token, certificate.fingerprint),
-      );
-      Promise.all(disassociateLinkedCertificates);
+      const disassociateLinkedCertificates = certificates.map(async (certificate) => {
+        await securityService.disassociateCertificate(token, certificate.fingerprint);
+      });
+      await Promise.all(disassociateLinkedCertificates);
     });
     const deleteDevicesPromise = deviceIds.map(async (deviceId) => {
       await service.deleteDevice(token, deviceId);
