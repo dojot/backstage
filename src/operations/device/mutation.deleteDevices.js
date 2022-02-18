@@ -5,24 +5,14 @@ import * as securityService from "../../services/service.security";
 const deleteDevices = async (_, { deviceIds }, { token }) => {
   try {
     const promises = deviceIds.map(async (deviceId) => {
-      const { data: certificateData } =
-        await securityService.getAllCertificates(
-          token,
-          undefined,
-          undefined,
-          deviceId
-        );
-
+      const { data: certificateData } = await securityService.getAllCertificates(token, undefined, undefined, deviceId);
       const { certificates } = certificateData;
-
-      certificates.forEach(
-        async (certificate) =>
-          await securityService.disassociateCertificate(
-            token,
-            certificate.fingerprint
-          )
+      certificates.forEach((certificate) =>
+        securityService.disassociateCertificate(
+          token,
+          certificate.fingerprint,
+        )
       );
-
       await service.deleteDevice(token, deviceId);
     });
 
