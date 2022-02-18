@@ -1,25 +1,33 @@
-import LOG from '../../utils/Log.js';
-import * as service from '../../services/service.device.js';
-import * as securityService from '../../services/service.security';
+import LOG from "../../utils/Log.js";
+import * as service from "../../services/service.device.js";
+import * as securityService from "../../services/service.security";
 
 const deleteDevices = async (_, { deviceIds }, { token }) => {
   try {
-    const promises = deviceIds.map(
-      async (deviceId) => {
-        const { data: certificateData } = await securityService.getAllCertificates(
-          token, undefined, undefined, deviceId,
+    const promises = deviceIds.map(async (deviceId) => {
+      const { data: certificateData } =
+        await securityService.getAllCertificates(
+          token,
+          undefined,
+          undefined,
+          deviceId
         );
 
-        const { certificates } = certificateData;
+      const { certificates } = certificateData;
 
-        certificates.forEach(async (certificate) => await securityService.disassociateCertificate(token, certificate.fingerprint));
+      certificates.forEach(
+        async (certificate) =>
+          await securityService.disassociateCertificate(
+            token,
+            certificate.fingerprint
+          )
+      );
 
-        await service.deleteDevice(token, deviceId);
-      },
-    );
-    
+      await service.deleteDevice(token, deviceId);
+    });
+
     await Promise.all(promises);
-    return 'ok';
+    return "ok";
   } catch (error) {
     LOG.error(error.stack || error);
     throw error;
