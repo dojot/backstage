@@ -12,6 +12,7 @@ const deleteDevices = async (_, { deviceIds }, { token }) => {
           undefined,
           deviceId,
         );
+
       const { certificates } = certificateData;
       certificates.map(async (certificate) => securityService
         .disassociateCertificate(token, certificate.fingerprint),
