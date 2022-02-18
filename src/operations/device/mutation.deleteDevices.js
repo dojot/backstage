@@ -4,22 +4,25 @@ import * as securityService from "../../services/service.security";
 
 const deleteDevices = async (_, { deviceIds }, { token }) => {
   try {
-    const promises = deviceIds.map(async (deviceId) => {
+    const disassociateCertificates = deviceIds.map(async (deviceId) => {
       const { data: certificateData } = await securityService
         .getAllCertificates(
           token,
           undefined,
           undefined,
-          deviceId
+          deviceId,
         );
       const { certificates } = certificateData;
-      certificates.forEach((certificate) => securityService
+      certificates.map(async (certificate) => securityService
         .disassociateCertificate(token, certificate.fingerprint),
       );
-      await service.deleteDevice(token, deviceId);
     });
 
-    await Promise.all(promises);
+    const deleteDevices = deviceIds.map(async (deviceId) => {
+      await service.deleteDevice(token, deviceId);
+    });
+    await Promise.all(disassociateCertificates)
+    await Promise.all(deleteDevices);
     return "ok";
   } catch (error) {
     LOG.error(error.stack || error);
