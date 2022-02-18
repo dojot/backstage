@@ -13,8 +13,8 @@ const deleteDevices = async (_, { deviceIds }, { token }) => {
           deviceId
         );
       const { certificates } = certificateData;
-      certificates.forEach((certificate) =>
-        securityService.disassociateCertificate(token, certificate.fingerprint)
+      certificates.forEach((certificate) => securityService
+        .disassociateCertificate(token, certificate.fingerprint),
       );
       await service.deleteDevice(token, deviceId);
     });
