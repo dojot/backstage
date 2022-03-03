@@ -1,17 +1,14 @@
 import axios from 'axios';
+
 import config from '../config.js';
+import { getKeycloakUrl } from '../utils/Keycloak.js';
 
 const baseURL = config.keycloak_internal_url;
-
-const getUrl = (tenant, ...pathSegments) => {
-  const segmentsStr = pathSegments.join('/');
-  return `${baseURL}/realms/${tenant}/protocol/openid-connect/${segmentsStr}`;
-};
 
 export const getTokenByAuthorizationCode = ({
   tenant, authorizationCode, codeVerifier, urlToReturn,
 }) => {
-  const url = getUrl(tenant);
+  const url = getKeycloakUrl({ baseURL, tenant });
 
   const params = new URLSearchParams({
     client_id: config.keycloak_client_id,
@@ -27,7 +24,7 @@ export const getTokenByAuthorizationCode = ({
 export const getTokenByRefreshToken = ({
   tenant, refreshToken,
 }) => {
-  const url = getUrl(tenant);
+  const url = getKeycloakUrl({ baseURL, tenant });
 
   const params = new URLSearchParams({
     client_id: config.keycloak_client_id,
@@ -41,7 +38,7 @@ export const getTokenByRefreshToken = ({
 export const getPermissionsByToken = ({
   tenant, accessToken,
 }) => {
-  const url = getUrl(tenant);
+  const url = getKeycloakUrl({ baseURL, tenant });
 
   const params = new URLSearchParams({
     grant_type: 'urn:ietf:params:oauth:grant-type:uma-ticket',
@@ -60,9 +57,9 @@ export const getPermissionsByToken = ({
 export const getUserInfoByToken = ({
   tenant, accessToken,
 }) => {
-  const url = getUrl(tenant, 'userinfo');
+  const url = getKeycloakUrl({ baseURL, tenant, pathSegments: ['userinfo'] });
 
-  return axios.post(url, undefined, {
+  return axios.get(url, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       'content-type': 'application/x-www-form-urlencoded',
@@ -73,7 +70,7 @@ export const getUserInfoByToken = ({
 export const logout = ({
   tenant, accessToken, refreshToken,
 }) => {
-  const url = getUrl(tenant, 'logout');
+  const url = getKeycloakUrl({ baseURL, tenant, pathSegments: ['logout'] });
 
   const params = new URLSearchParams({
     client_id: config.keycloak_client_id,

@@ -5,6 +5,7 @@ import templates from './routers/Templates.js';
 import graphQL from './routers/GraphQL.js';
 import keycloak from './routers/Keycloak.js';
 import { authParse } from './utils/auth.js';
+import sessionMiddleware from './keycloak/session/sessionMiddleware.js';
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(authParse);
 app.use(templates);
 app.use(graphQL);
 app.use(keycloak);
+app.use(sessionMiddleware);
 
 app.listen(config.port, () => {
   console.log(`Server running on port ${config.port}`);

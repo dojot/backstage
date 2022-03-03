@@ -4,6 +4,7 @@ const configGraphQL = {
   auth_internal_url: process.env.AUTH_INTERNAL_URL || 'http://auth',
   auth_internal_port: process.env.AUTH_INTERNAL_PORT || '5000',
 };
+
 const config = {
   port: process.env.PORT || 3005,
   postgres_user: process.env.DEVICE_MANAGER_POSTGRES_USER || 'postgres',
@@ -19,6 +20,8 @@ const config = {
   postgres_backstage_host: process.env.BACKSTAGE_DASHBOARD_DB_HOST || 'postgres',
   postgres_backstage_port: process.env.BACKSTAGE_DASHBOARD_DB_PORT || 5432,
   keycloak_internal_url: 'http://apigw:8000/auth',
+  keycloak_external_url: 'http://localhost:8000/auth',
+  keycloak_code_challenge_method: 'S256',
   keycloak_client_id: 'gui',
 };
 
