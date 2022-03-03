@@ -18,6 +18,8 @@ const config = {
   postgres_backstage_pwd: process.env.BACKSTAGE_DASHBOARD_DB_PASSWORD || 'postgres',
   postgres_backstage_host: process.env.BACKSTAGE_DASHBOARD_DB_HOST || 'postgres',
   postgres_backstage_port: process.env.BACKSTAGE_DASHBOARD_DB_PORT || 5432,
+  keycloak_internal_url: 'http://apigw:8000/auth',
+  keycloak_client_id: 'gui',
 };
 
 export default config;
