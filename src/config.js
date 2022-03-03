@@ -23,6 +23,7 @@ const config = {
   keycloak_external_url: 'http://localhost:8000/auth',
   keycloak_code_challenge_method: 'S256',
   keycloak_client_id: 'gui',
+  backstage_base_url: 'http://localhost:8000',
 };
 
 export default config;

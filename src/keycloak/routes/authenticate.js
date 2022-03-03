@@ -24,7 +24,7 @@ const authenticate = async (req, res) => {
       response_type: 'code',
       code_challenge: codeChallenge,
       client_id: config.keycloak_client_id,
-      redirect_uri: 'http://localhost:8000/auth/return', // TODO: put in config.js
+      redirect_uri: `${config.backstage_base_url}/auth/return`,
       code_challenge_method: config.keycloak_code_challenge_method,
     });
 
