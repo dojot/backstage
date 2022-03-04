@@ -44,3 +44,29 @@ export const createPKCEChallenge = (hash = 'sha256', codeVerifierSize = 128) => 
     codeVerifier,
   };
 };
+
+/**
+ * Format the return path
+ *
+ * @param {string} returnPath Return path
+ * @returns {string} Return path formatted
+ */
+export const getFormattedReturnPath = (returnPath) => {
+  const newReturnPath = returnPath || '/';
+  if (newReturnPath.charAt(0) === '/') return newReturnPath;
+  return `/${newReturnPath}`;
+};
+
+
+/**
+ * Build the Keycloak account URL
+ *
+ * @param {object} options
+ * @param {string} options.baseUrl Start URL
+ * @param {string} options.tenant Tenant
+ * @returns {string} Keycloak account URL
+ */
+export const getKeycloakAccountUrl = ({
+  baseUrl,
+  tenant,
+}) => `${baseUrl}/realms/${tenant}/account`;

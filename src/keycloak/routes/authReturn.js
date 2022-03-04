@@ -1,10 +1,11 @@
 import config from '../../config.js';
-import * as keycloakService from '../../services/service.keycloak.js';
 import Log from '../../utils/Log.js';
+import * as keycloakService from '../../services/service.keycloak.js';
 
 const authReturn = async (req, res) => {
-  // TODO: Improve error handling
-  if (!req.session) throw new Error('There is no valid session.');
+  if (!req.session) {
+    return res.status(403).send('There is no valid session');
+  }
 
   const {
     state: sessionState, tenant, codeVerifier, returnPath,
@@ -13,8 +14,9 @@ const authReturn = async (req, res) => {
   const { state: receivedState, code: authorizationCode } = req.query;
 
   // TODO: Check if this is necessary
-  // TODO: Improve error handling
-  if (sessionState !== receivedState) throw new Error('States are different. Aborting...');
+  if (sessionState !== receivedState) {
+    return res.status(403).send('Received state do not match the saved one. Aborting...');
+  }
 
   const redirectUrl = new URL(`${config.backstage_base_url}${returnPath}`);
   redirectUrl.searchParams.append('state', sessionState);

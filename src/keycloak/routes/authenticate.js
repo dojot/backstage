@@ -2,20 +2,19 @@ import randomstring from 'randomstring';
 
 import LOG from '../../utils/Log.js';
 import config from '../../config.js';
-import { createPKCEChallenge, getKeycloakUrl } from '../../utils/Keycloak.js';
+import {
+  getKeycloakUrl,
+  createPKCEChallenge,
+  getFormattedReturnPath,
+} from '../../utils/Keycloak.js';
 
-const getFormattedReturnPath = (returnPath) => {
-  const newReturnPath = returnPath || '/';
-  if (newReturnPath.charAt(0) === '/') return newReturnPath;
-  return `/${newReturnPath}`;
-};
 
 const authenticate = async (req, res) => {
   try {
     const { tenant, returnPath } = req.query;
+    const formattedReturnPath = getFormattedReturnPath(returnPath);
 
     const state = randomstring.generate(64);
-    const formattedReturnPath = getFormattedReturnPath(returnPath);
     const { codeVerifier, codeChallenge } = createPKCEChallenge();
 
     const searchParams = new URLSearchParams({
@@ -46,7 +45,7 @@ const authenticate = async (req, res) => {
     return res.redirect(303, keycloakUrl);
   } catch (error) {
     LOG.error(error.stack || error);
-    throw error; // TODO: Improve error handling
+    return res.status(500).send(error.message);
   }
 };
 
