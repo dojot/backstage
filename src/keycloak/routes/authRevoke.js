@@ -1,5 +1,5 @@
 import config from '../../config.js';
-import Log from '../../utils/Log.js';
+import LOG from '../../utils/Log.js';
 import { getFormattedReturnPath, getKeycloakUrl } from '../../utils/Keycloak.js';
 
 const authRevoke = async (req, res) => {
@@ -14,18 +14,21 @@ const authRevoke = async (req, res) => {
     }
 
     const { tenant } = req.session;
+
     req.session.destroy((sessionError) => {
-      if (sessionError) Log.error(sessionError);
+      if (sessionError) LOG.error(sessionError);
     });
 
     const keycloakUrl = getKeycloakUrl({
       tenant,
+      pathSegments: ['logout'],
       baseURL: config.keycloak_external_url,
       searchParams: new URLSearchParams({ redirect_uri: redirectUrl.href }),
     });
 
     return res.redirect(303, keycloakUrl);
   } catch (error) {
+    LOG.error(error.stack || error);
     return res.redirect(303, redirectUrl.href);
   }
 };

@@ -23,15 +23,16 @@ const authenticate = async (req, res) => {
       response_type: 'code',
       code_challenge: codeChallenge,
       client_id: config.keycloak_client_id,
-      redirect_uri: `${config.backstage_base_url}/auth/return`,
+      redirect_uri: `${config.backstage_base_url}/backstage/v1/auth/return`,
       code_challenge_method: config.keycloak_code_challenge_method,
     });
 
     const keycloakUrl = getKeycloakUrl(
       {
-        baseURL: config.keycloak_external_url,
         tenant,
         searchParams,
+        pathSegments: ['auth'],
+        baseURL: config.keycloak_external_url,
       },
     );
 

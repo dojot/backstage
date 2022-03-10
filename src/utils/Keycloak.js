@@ -62,11 +62,11 @@ export const getFormattedReturnPath = (returnPath) => {
  * Build the Keycloak account URL
  *
  * @param {object} options
- * @param {string} options.baseUrl Start URL
+ * @param {string} options.baseURL Start URL
  * @param {string} options.tenant Tenant
  * @returns {string} Keycloak account URL
  */
 export const getKeycloakAccountUrl = ({
-  baseUrl,
+  baseURL,
   tenant,
-}) => `${baseUrl}/realms/${tenant}/account`;
+}) => `${baseURL}/realms/${tenant}/account`;

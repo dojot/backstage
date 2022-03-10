@@ -13,7 +13,6 @@ const authReturn = async (req, res) => {
 
   const { state: receivedState, code: authorizationCode } = req.query;
 
-  // TODO: Check if this is necessary
   if (sessionState !== receivedState) {
     return res.status(403).send('Received state do not match the saved one. Aborting...');
   }
@@ -29,7 +28,7 @@ const authReturn = async (req, res) => {
         tenant,
         codeVerifier,
         authorizationCode,
-        urlToReturn: `${config.backstage_base_url}/auth/return`,
+        urlToReturn: `${config.backstage_base_url}/backstage/v1/auth/return`,
       },
     );
 
@@ -51,7 +50,7 @@ const authReturn = async (req, res) => {
       if (sessionError) Log.error(sessionError);
     });
 
-    redirectUrl.append('error', error.message);
+    redirectUrl.searchParams.append('error', error.message);
 
     return res.redirect(303, redirectUrl.href);
   }

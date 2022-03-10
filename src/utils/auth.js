@@ -35,7 +35,7 @@ export const userDataByToken = (rawToken) => {
     profile: tokenData.profile,
     service: tokenData.service,
   };
-}
+};
 
 export const authParse = (req, res, next) => {
   const rawToken = req.get('authorization');
@@ -72,4 +72,3 @@ export const authEnforce = (req, res, next) => {
   }
   return next();
 };
-

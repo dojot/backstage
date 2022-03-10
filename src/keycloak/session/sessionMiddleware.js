@@ -1,10 +1,21 @@
 import session from 'express-session';
 
+// TODO: use from config
+// import config from '../../config.js';
+
 const sessionMiddleware = session({
-  secret: 'the_secret',
+  secret: 'secret',
+  name: 'backstage_cookie',
+  domain: 'localhost',
+  proxy: true,
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true },
+  saveUninitialized: false,
+  cookie: {
+    path: '/',
+    httpOnly: true,
+    secure: false,
+    sameSite: 'strict',
+  },
 });
 
 export default sessionMiddleware;
