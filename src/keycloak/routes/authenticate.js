@@ -12,6 +12,8 @@ import {
 const authenticate = async (req, res) => {
   try {
     const { tenant, returnPath } = req.query;
+
+    LOG.info('Authenticating Tenant:', tenant);
     const formattedReturnPath = getFormattedReturnPath(returnPath);
 
     const state = randomstring.generate(64);
@@ -42,6 +44,8 @@ const authenticate = async (req, res) => {
     req.session.codeVerifier = codeVerifier;
     req.session.codeChallenge = codeChallenge;
     req.session.returnPath = formattedReturnPath;
+
+    LOG.info('Session created. Redirecting to login...');
 
     return res.redirect(303, keycloakUrl);
   } catch (error) {

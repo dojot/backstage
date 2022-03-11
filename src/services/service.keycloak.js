@@ -8,23 +8,31 @@ const baseURL = config.keycloak_internal_url;
 export const getTokenByAuthorizationCode = ({
   tenant, authorizationCode, codeVerifier, urlToReturn,
 }) => {
-  const url = getKeycloakUrl({ baseURL, tenant });
+  const url = getKeycloakUrl({
+    baseURL,
+    tenant,
+    pathSegments: ['token'],
+  });
 
   const params = new URLSearchParams({
     client_id: config.keycloak_client_id,
     grant_type: 'authorization_code',
-    authorizationCode,
-    codeVerifier,
-    urlToReturn,
+    code_verifier: codeVerifier,
+    redirect_uri: urlToReturn,
+    code: authorizationCode,
   });
 
-  return axios.post(`${url}?${params}`, undefined, { maxRedirects: 0 });
+  return axios.post(url, params.toString(), { maxRedirects: 0 });
 };
 
 export const getTokenByRefreshToken = ({
   tenant, refreshToken,
 }) => {
-  const url = getKeycloakUrl({ baseURL, tenant });
+  const url = getKeycloakUrl({
+    baseURL,
+    tenant,
+    pathSegments: ['token'],
+  });
 
   const params = new URLSearchParams({
     client_id: config.keycloak_client_id,
@@ -32,13 +40,17 @@ export const getTokenByRefreshToken = ({
     refresh_token: refreshToken,
   });
 
-  return axios.post(`${url}?${params}`);
+  return axios.post(url, params.toString());
 };
 
 export const getPermissionsByToken = ({
   tenant, accessToken,
 }) => {
-  const url = getKeycloakUrl({ baseURL, tenant });
+  const url = getKeycloakUrl({
+    baseURL,
+    tenant,
+    pathSegments: ['token'],
+  });
 
   const params = new URLSearchParams({
     grant_type: 'urn:ietf:params:oauth:grant-type:uma-ticket',
@@ -46,10 +58,9 @@ export const getPermissionsByToken = ({
     audience: 'kong',
   });
 
-  return axios.post(`${url}?${params}`, undefined, {
+  return axios.post(url, params.toString(), {
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      'content-type': 'application/x-www-form-urlencoded',
     },
   });
 };
@@ -62,7 +73,6 @@ export const getUserInfoByToken = ({
   return axios.get(url, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      'content-type': 'application/x-www-form-urlencoded',
     },
   });
 };
@@ -70,17 +80,20 @@ export const getUserInfoByToken = ({
 export const logout = ({
   tenant, accessToken, refreshToken,
 }) => {
-  const url = getKeycloakUrl({ baseURL, tenant, pathSegments: ['logout'] });
+  const url = getKeycloakUrl({
+    baseURL,
+    tenant,
+    pathSegments: ['logout'],
+  });
 
   const params = new URLSearchParams({
     client_id: config.keycloak_client_id,
     refresh_token: refreshToken,
   });
 
-  return axios.post(`${url}?${params}`, undefined, {
+  return axios.post(url, params.toString(), {
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      'content-type': 'application/x-www-form-urlencoded',
     },
   });
 };
