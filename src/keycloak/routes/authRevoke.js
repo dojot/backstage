@@ -10,7 +10,7 @@ const authRevoke = async (req, res) => {
   const redirectUrl = new URL(`${config.backstage_base_url}${formattedReturnPath}`);
 
   try {
-    if (!req.session) {
+    if (!req.session.tenant) {
       redirectUrl.searchParams.append('error', 'There is no active session');
       return res.redirect(303, redirectUrl.href);
     }

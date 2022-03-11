@@ -5,9 +5,11 @@ import * as keycloakService from '../../services/service.keycloak.js';
 
 const getUserInfo = async (req, res) => {
   try {
-    if (!req.session) {
-      return res.status(403).send('There is no active session');
+    if (!req.session.tenant) {
+      return res.status(401).send('There is no active session');
     }
+
+    console.log(req.session);
 
     const { tenant, accessToken } = req.session;
 
