@@ -16,4 +16,3 @@ export const userPool = new pkg.Pool({
   password: config.postgres_backstage_pwd,
   port: config.postgres_backstage_port,
 });
-

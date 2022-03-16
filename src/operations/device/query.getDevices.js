@@ -61,8 +61,8 @@ const getDevices = async (root, params, { token }) => {
         });
       }
 
-      promises.push(securityService.getAllCertificates(token, undefined, undefined, device.id).then(response => {
-        const {data: {certificates}} = response;
+      promises.push(securityService.getAllCertificates(token, undefined, undefined, device.id).then((response) => {
+        const { data: { certificates } } = response;
         const fingerprint = certificates[0] ? certificates[0].fingerprint : undefined;
         devices.push({
           id: device.id,
@@ -70,10 +70,9 @@ const getDevices = async (root, params, { token }) => {
           created: device.created,
           updated: device.updated ? device.updated : '',
           attrs: attributes,
-          certificate: {fingerprint},
+          certificate: { fingerprint },
         });
-      }))
-
+      }));
     });
 
     await (Promise.all(promises));

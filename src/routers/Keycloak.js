@@ -7,9 +7,9 @@ import authenticate from '../keycloak/routes/authenticate.js';
 
 const router = Router();
 
-router.get('/backstage/v1/auth', authenticate);
-router.get('/backstage/v1/auth/return', authReturn);
-router.get('/backstage/v1/auth/revoke', authRevoke);
-router.get('/backstage/v1/auth/user-info', getUserInfo);
+router.get('/backstage/auth', authenticate);
+router.get('/backstage/auth/return', authReturn);
+router.get('/backstage/auth/revoke', authRevoke);
+router.get('/backstage/auth/user-info', getUserInfo);
 
 export default router;

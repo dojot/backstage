@@ -3,7 +3,7 @@ import config from '../config.js';
 
 const baseURL = config.base_local_url_graphql;
 const getHeader = token => ({
-  headers: { 'content-type': 'application/json', Authorization: `${token}` },
+  headers: { 'content-type': 'application/json', Authorization: `Bearer ${token}` },
 });
 
 export const getTemplateById = (token, id) => axios.get(`${baseURL}/template/${id}`, getHeader(token));

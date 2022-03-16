@@ -33,7 +33,7 @@ const authReturn = async (req, res) => {
         tenant,
         codeVerifier,
         authorizationCode,
-        urlToReturn: `${config.backstage_base_url}/backstage/v1/auth/return`,
+        urlToReturn: `${config.backstage_base_url}/backstage/auth/return`,
       },
     );
 

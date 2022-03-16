@@ -3,9 +3,9 @@ import session from 'express-session';
 // TODO: use from config
 // import config from '../../config.js';
 
-const sessionMiddleware = session({
+const sessionConfig = session({
   secret: 'secret',
-  name: 'backstage_cookie',
+  name: 'dojot-backstage-cookie',
   domain: 'localhost',
   proxy: true,
   resave: false,
@@ -18,4 +18,4 @@ const sessionMiddleware = session({
   },
 });
 
-export default sessionMiddleware;
+export default sessionConfig;

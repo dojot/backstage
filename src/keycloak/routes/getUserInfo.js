@@ -9,8 +9,6 @@ const getUserInfo = async (req, res) => {
       return res.status(401).send('There is no active session');
     }
 
-    console.log(req.session);
-
     const { tenant, accessToken } = req.session;
 
     LOG.info('Trying to get the user info. Tenant:', tenant);
