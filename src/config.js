@@ -1,3 +1,4 @@
+
 const config = {
   port: process.env.BS_PORT || 3005,
   backstage_base_url: process.env.BS_BASE_URL || 'http://localhost:8000',
