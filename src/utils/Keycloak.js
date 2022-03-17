@@ -70,3 +70,16 @@ export const getKeycloakAccountUrl = ({
   baseURL,
   tenant,
 }) => `${baseURL}/realms/${tenant}/account`;
+
+/**
+ * Check if token is expired
+ *
+ * @param {number} tokenCreationTime Token creation time (milliseconds)
+ * @param {number} tokenExpirationInSeconds Token expiration in seconds
+ * @returns
+ */
+export const isTokenExpired = (tokenCreationTime, tokenExpirationInSeconds) => {
+  const tokenExpirationInMilliseconds = tokenExpirationInSeconds * 1000;
+  const tokenExpirationTime = tokenCreationTime + tokenExpirationInMilliseconds;
+  return Date.now() >= tokenExpirationTime;
+};

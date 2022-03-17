@@ -8,6 +8,11 @@ const sessionValidator = (req, res, next) => {
     next();
   } else {
     LOG.info('Token does not exists. There is no valid session');
+
+    req.session.destroy((sessionError) => {
+      if (sessionError) LOG.error('Session Destroy Error', sessionError);
+    });
+
     res.status(401).send({ message: 'There is no valid session' });
   }
 };

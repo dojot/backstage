@@ -37,17 +37,11 @@ const authReturn = async (req, res) => {
       },
     );
 
-    const {
-      access_token: accessToken,
-      refresh_token: refreshToken,
-      expires_in: accessTokenExpiresIn,
-      refresh_expires_in: refreshExpiresIn,
-    } = data;
-
-    req.session.accessToken = accessToken;
-    req.session.refreshToken = refreshToken;
-    req.session.refreshExpiresIn = refreshExpiresIn;
-    req.session.accessTokenExpiresIn = accessTokenExpiresIn;
+    req.session.tokenCreationTime = Date.now();
+    req.session.accessToken = data.access_token;
+    req.session.refreshToken = data.refresh_token;
+    req.session.accessTokenExpiresIn = data.expires_in;
+    req.session.refreshExpiresIn = data.refresh_expires_in;
 
     LOG.info('Tokens stored in session. Redirecting back to the app...');
 
