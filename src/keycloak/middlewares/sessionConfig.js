@@ -1,20 +1,19 @@
 import session from 'express-session';
 
-// TODO: use from config
-// import config from '../../config.js';
+import config from '../../config.js';
 
 const sessionConfig = session({
-  secret: 'secret',
-  name: 'dojot-backstage-cookie',
-  domain: 'localhost',
-  proxy: true,
+  secret: config.session_secret,
+  name: config.session_cookie_name,
+  domain: config.session_domain,
+  proxy: config.session_proxy,
   resave: false,
   saveUninitialized: false,
   cookie: {
     path: '/',
     httpOnly: true,
-    secure: false,
     sameSite: 'strict',
+    secure: config.session_cookie_https,
   },
 });
 

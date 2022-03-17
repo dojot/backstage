@@ -2,7 +2,7 @@ import axios from "axios";
 import config from "../config.js";
 import LOG from "../utils/Log.js";
 
-const baseURL = config.base_local_url_graphql;
+const baseURL = config.graphql_base_url;
 const getHeader = (token) => ({
   headers: {'content-type': 'application/json', Authorization: `Bearer ${token}`},
 })

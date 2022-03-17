@@ -1,4 +1,4 @@
-import { pool, userPool } from './db/index.js';
+import { userPool } from './db/index.js';
 import LOG from './utils/Log.js';
 import config from './config.js';
 
@@ -10,13 +10,13 @@ async function checkDatabase(database_name) {
   };
 
   try {
-    const result = await pool.query(query);
+    const result = await userPool.query(query);
     if (!result.rowCount) {
       LOG.info('Database does not exist.');
       query = {
         text: `CREATE DATABASE ${database_name}`,
       };
-      await pool.query(query);
+      await userPool.query(query);
       LOG.info('Successfully created database, proceeding to check table existence.');
     } else {
       LOG.info(`Database ${database_name} already exists, proceeding to check table existence.`);
@@ -26,7 +26,6 @@ async function checkDatabase(database_name) {
     LOG.error(err);
     process.exit(1);
   } finally {
-    pool.end();
     userPool.end();
   }
 }
@@ -64,10 +63,10 @@ async function checkTable(table_name) {
 }
 
 
-pool.query('SELECT NOW()', (err, res) => {
+userPool.query('SELECT NOW()', (err, res) => {
   if (err) {
     LOG.error(`Erro: ${err} ${res}`);
-    pool.end();
+    userPool.end();
     process.exit(1);
   }
 });
