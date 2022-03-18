@@ -19,7 +19,12 @@ const config = {
   session_secret: process.env.BS_SESSION_SECRET || 'secret',
   session_proxy: process.env.BS_SESSION_PROXY === 'true' || true,
   session_cookie_name: process.env.BS_SESSION_COOKIE_NAME || 'dojot-backstage-cookie',
+  session_cookie_path: process.env.BS_SESSION_COOKIE_PATH || '/',
   session_cookie_https: process.env.BS_SESSION_COOKIE_HTTPS === 'true' || false,
+
+  redis_host: process.env.BS_REDIS_HOST || 'redis://backstage-redis',
+  redis_port: process.env.BS_REDIS_PORT || 6379,
+  redis_timeout: process.env.BS_REDIS_TIMEOUT || 3600000,
 };
 
 export default config;
