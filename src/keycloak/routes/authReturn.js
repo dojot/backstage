@@ -4,7 +4,7 @@ import * as keycloakService from '../../services/service.keycloak.js';
 
 const authReturn = async (req, res) => {
   if (!req.session.tenant) {
-    return res.status(401).send('There is no valid session');
+    return res.status(401).send({ message: 'There is no valid session' });
   }
 
   const {
