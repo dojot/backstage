@@ -21,10 +21,12 @@ const config = {
   session_cookie_name: process.env.BS_SESSION_COOKIE_NAME || 'dojot-backstage-cookie',
   session_cookie_path: process.env.BS_SESSION_COOKIE_PATH || '/',
   session_cookie_https: process.env.BS_SESSION_COOKIE_HTTPS === 'true' || false,
+  session_cookie_max_age: process.env.BS_SESSION_COOKIE_MAX_AGE || 1800000, // 30m in milliseconds
+  session_redis_prefix: process.env.BS_SESSION_REDIS_PREFIX || 'session:',
 
   redis_host: process.env.BS_REDIS_HOST || 'redis://backstage-redis',
   redis_port: process.env.BS_REDIS_PORT || 6379,
-  redis_timeout: process.env.BS_REDIS_TIMEOUT || 3600000,
+  redis_ttl: process.env.BS_REDIS_TTL || 86400, // 1 Day in seconds
 };
 
 export default config;

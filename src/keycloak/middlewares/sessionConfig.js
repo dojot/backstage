@@ -11,13 +11,19 @@ const sessionConfig = sessionRedisClient => session({
   domain: config.session_domain,
   proxy: config.session_proxy,
   resave: false,
-  saveUninitialized: false,
-  store: new RedisStore({ client: sessionRedisClient }),
+  rolling: true, // Makes the cookie.maxAge resets on every response
+  saveUninitialized: true,
+  store: new RedisStore({
+    client: sessionRedisClient,
+    ttl: config.redis_ttl, // Redis session Time To Live
+    prefix: config.session_redis_prefix,
+  }),
   cookie: {
     httpOnly: true,
     sameSite: 'strict',
     path: config.session_cookie_path,
     secure: config.session_cookie_https,
+    maxAge: config.session_cookie_max_age,
   },
 });
 
