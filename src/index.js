@@ -20,8 +20,11 @@ app.use(sessionTokenRefresher);
 app.use(sessionTokenGetter);
 app.use(graphQLRoutes);
 
-app.listen(config.port, () => {
+const server = app.listen(config.port, () => {
   console.log(`Server running on port ${config.port}`);
 });
 
-sessionRedisClient.connect().catch(console.error);
+sessionRedisClient.connect().catch((error) => {
+  console.error(error);
+  server.close(); // Closes the express server if fails to connect to redis
+});
