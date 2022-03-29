@@ -3,6 +3,7 @@ const TypeDefs = [`
 type Device {
     id: String!
     label: String!
+    favorite: Boolean
     attrs: [Attr]
     created: String
     updated: String
@@ -131,7 +132,8 @@ type Device {
     createDevice(label: String!, templates: [Int]!, attrs: [DeviceAttributes], fingerprint: String): [DeviceCreatedList]
     deleteDevices(deviceIds: [String]!): String
     editDevice(id: String!, label: String!, templates: [Int]!, attrs: [DeviceAttributes]): DeviceCreatedList
-  }
+    favoriteDevices(deviceIds: [String]!): String
+   }
 `];
 
 export default TypeDefs;

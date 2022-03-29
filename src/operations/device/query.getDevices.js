@@ -1,5 +1,6 @@
 import * as service from '../../services/service.device.js';
 import * as securityService from '../../services/service.security.js';
+import * as favoriteDeviceService from '../../services/service.favoriteDevice.js';
 import LOG from '../../utils/Log.js';
 
 const getDevices = async (root, params, { token }) => {
@@ -42,8 +43,12 @@ const getDevices = async (root, params, { token }) => {
     const { data: fetchedData } = await service.getDevicesWithFilter(token, requestString);
 
     const devices = [];
+    const devicesIds = [];
+
     fetchedData.devices.forEach((device) => {
       const attributes = [];
+
+      devicesIds.push(device.id)
 
       if (device.attrs) {
         Object.keys(device.attrs).forEach((key) => {
@@ -76,11 +81,25 @@ const getDevices = async (root, params, { token }) => {
 
     });
 
-    await (Promise.all(promises));
+    await Promise.all(promises);
+    
+    const favoriteDevices = await favoriteDeviceService.getFavoriteDevices(devicesIds)
+
+    const favoriteDevicesObj = {}
+    
+    favoriteDevices.forEach((favorite) => {
+      favoriteDevicesObj[favorite.device_id] = true
+    })
+
+    const devicesWithFavorites = devices.map((device) => {
+      const favorite = !!favoriteDevicesObj[device.id]
+      return {...device, favorite}
+    })
+
     return ({
       totalPages: fetchedData.pagination.total,
       currentPage: fetchedData.pagination.page,
-      devices,
+      devices: devicesWithFavorites,
     });
   } catch (error) {
     LOG.error(error.stack || error);

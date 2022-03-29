@@ -21,7 +21,24 @@ async function checkDatabase(database_name) {
     } else {
       LOG.info(`Database ${database_name} already exists, proceeding to check table existence.`);
     }
-    checkTable('user_config');
+
+    await checkTable(
+      'favorite_devices',
+      'CREATE TABLE favorite_devices ( \
+        id serial NOT NULL PRIMARY KEY, \
+        device_id varchar(255) NOT NULL \
+      );'
+    );
+    await checkTable(
+      'user_config',
+      'CREATE TABLE user_config ( \
+        tenant varchar(255) NOT NULL, \
+        username varchar(255) NOT NULL, \
+        configuration json NOT NULL, \
+        last_update timestamp WITH time zone DEFAULT CURRENT_TIMESTAMP, \
+        CONSTRAINT unique_user PRIMARY KEY (tenant, username) \
+      );'
+    );
   } catch (err) {
     LOG.error(err);
     process.exit(1);
@@ -32,7 +49,7 @@ async function checkDatabase(database_name) {
 }
 
 // check if table exists
-async function checkTable(table_name) {
+async function checkTable(table_name, queryText) {
   let query = {
     text: 'SELECT * FROM information_schema.tables WHERE table_name=$1;',
     values: [table_name],
@@ -43,13 +60,7 @@ async function checkTable(table_name) {
     if (!result.rowCount) {
       LOG.info(`Table ${table_name} not found.`);
       query = {
-        text: 'CREATE TABLE user_config ( \
-                    tenant varchar(255) NOT NULL, \
-                    username varchar(255) NOT NULL, \
-                    configuration json NOT NULL, \
-                    last_update timestamp WITH time zone DEFAULT CURRENT_TIMESTAMP, \
-                    CONSTRAINT unique_user PRIMARY KEY (tenant, username) \
-                 );',
+        text: queryText
       };
       await client.query(query);
     } else {
