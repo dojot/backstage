@@ -18,12 +18,12 @@ const getFavoriteDevicesList = async (_, { user, tenant }, { token }) => {
           .getDeviceById(token, favorite.device_id)
           .then((response) => {
             favoriteDevicesForList.push(response.data);
-          })
+          }),
       );
     });
 
     await Promise.all(promises);
-    
+
     return favoriteDevicesForList;
   } catch (error) {
     LOG.error(error.stack || error);
