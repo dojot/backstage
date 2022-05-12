@@ -159,9 +159,8 @@ const _extractKeyStringKeyPar = async (crypto, key, format) => {
 }
 
 const _formatPEM = (pemString, type) => {
-  const publicStr = 'PUBLIC KEY'
-  const privateStr = 'CERTIFICATE REQUEST'
   let resultString = '';
+  let strType;
   if (pemString) {
     for (let i = 0, count = 0; i < pemString.length; i += 1, count += 1) {
       if (count > 63) {
@@ -171,10 +170,25 @@ const _formatPEM = (pemString, type) => {
       resultString = `${resultString}${pemString[i]}`;
     }
   }
+
+  switch (type){
+    case 'public':
+      strType = 'PUBLIC KEY';
+      break;
+    case 'private':
+      strType = 'PRIVATE KEY';
+      break;
+    case 'csr':
+      strType = 'CERTIFICATE REQUEST';
+      break;
+    default:
+      strType = 'UNKNOWN'
+  }
+
   return (
-    `-----BEGIN ${type === 'public' ? publicStr :  privateStr}-----\r\n` +
+    `-----BEGIN ${strType}-----\r\n` +
     resultString +
-    `\r\n-----END ${type === 'public' ? publicStr :  privateStr}-----`
+    `\r\n-----END ${strType}-----`
   );
 }
 
@@ -225,5 +239,5 @@ export const createCSR = async (commonName, publicKeyPkcs8, privateKeyPkcs8, has
   await pkcs10.sign(privateKeyPkcs8, hashAlgorithm);
   const _csrRaw = pkcs10.toSchema().toBER(false);
 
-  return _formatPEM(toBase64(arrayBufferToString(_csrRaw)))
+  return _formatPEM(toBase64(arrayBufferToString(_csrRaw)), 'csr')
 }

@@ -5,10 +5,11 @@ import LOG from '../../utils/Log.js';
 const createCertificateCSR = async (_, {csrPEM}, {token}) => {
   try {
     const {data: {certificatePem, certificateFingerprint}} = await service.createCertificate(token, csrPEM);
-
+    const {data: {caPem}} = await service.getCACertificate(token);
     return {
       certificatePem,
       certificateFingerprint,
+      caPem
     }
 
   } catch (e) {

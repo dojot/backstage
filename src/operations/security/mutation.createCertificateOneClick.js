@@ -41,11 +41,14 @@ const createCertificateOneClick = async (_, {commonName = 'dojot'}, {token}) => 
 
     const {data: {certificatePem, certificateFingerprint}} = await service.createCertificate(token, csrPEM);
 
+    const {data: {caPem}} = await service.getCACertificate(token);
+
     return {
       certificatePem,
       certificateFingerprint,
       privateKeyPEM,
-      publicKeyPEM
+      publicKeyPEM,
+      caPem
     }
 
   } catch (e) {
