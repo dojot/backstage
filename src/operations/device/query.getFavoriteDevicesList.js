@@ -12,15 +12,14 @@ const getFavoriteDevicesList = async (_, { user, tenant }, { token }) => {
       tenant
     );
 
-    favoriteDevices.map((favorite) => {
-      promises.push(
+    favoriteDevices.map((favorite) => promises.push(
         deviceService
           .getDeviceById(token, favorite.device_id)
           .then((response) => {
             favoriteDevicesForList.push(response.data);
           }),
-      );
-    });
+      )
+    );
 
     await Promise.all(promises);
 
