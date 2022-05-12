@@ -83,7 +83,7 @@ const getDevices = async (root, params, { token }) => {
 
     await Promise.all(promises);
     
-    const favoriteDevices = await favoriteDeviceService.getFavoriteDevices(devicesIds)
+    const favoriteDevices = await favoriteDeviceService.getFavoriteDevicesForDevicesPage(devicesIds)
 
     const favoriteDevicesObj = {}
     

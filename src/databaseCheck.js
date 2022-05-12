@@ -26,7 +26,9 @@ async function checkDatabase(database_name) {
       'favorite_devices',
       'CREATE TABLE favorite_devices ( \
         id serial NOT NULL PRIMARY KEY, \
-        device_id varchar(255) NOT NULL \
+        device_id varchar(255) NOT NULL, \
+        user_name varchar(255) NOT NULL, \
+        tenant varchar(255) NOT NULL \
       );'
     );
     await checkTable(

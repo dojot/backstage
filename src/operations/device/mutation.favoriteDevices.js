@@ -2,11 +2,11 @@ import lodash from 'lodash';
 import LOG from '../../utils/Log.js';
 import * as service from '../../services/service.favoriteDevice.js';
 
-const favoriteDevices = async (_, { deviceIds }) => {
+const favoriteDevices = async (_, { deviceIds, userName, tenant }) => {
   try {
     const promises = deviceIds.map(
       async (deviceId) => {
-        await service.favoriteDevice(deviceId);
+        await service.favoriteDevice(deviceId, userName, tenant);
       },
     );
 
