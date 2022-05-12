@@ -1,4 +1,3 @@
-import lodash from 'lodash';
 import LOG from '../../utils/Log.js';
 import * as service from '../../services/service.favoriteDevice.js';
 
