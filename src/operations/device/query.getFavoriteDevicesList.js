@@ -9,7 +9,7 @@ const getFavoriteDevicesList = async (_, { user, tenant }, { token }) => {
 
     const favoriteDevices = await favoriteDeviceService.getAllFavoriteDevices(
       user,
-      tenant
+      tenant,
     );
 
     favoriteDevices.map((favorite) => promises.push(
@@ -18,7 +18,7 @@ const getFavoriteDevicesList = async (_, { user, tenant }, { token }) => {
           .then((response) => {
             favoriteDevicesForList.push(response.data);
           }),
-      )
+      ),
     );
 
     await Promise.all(promises);

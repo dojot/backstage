@@ -2,11 +2,37 @@ import { pool, userPool } from "./db/index.js";
 import LOG from "./utils/Log.js";
 import config from "./config.js";
 
+// check if table exists
+async function checkTable(tableName, queryText) {
+  let query = {
+    text: "SELECT * FROM information_schema.tables WHERE table_name=$1;",
+    values: [tableName],
+  };
+  try {
+    const client = await userPool.connect();
+    const result = await client.query(query);
+    if (!result.rowCount) {
+      LOG.info(`Table ${tableName} not found.`);
+      query = {
+        text: queryText,
+      };
+      await client.query(query);
+    } else {
+      LOG.info(`Table ${tableName}  already exists.`);
+    }
+    LOG.info(`Table ${tableName} is available to use.`);
+    process.exit();
+  } catch (err) {
+    LOG.error(`Erro: ${err}`);
+    throw err;
+  }
+}
+
 // check if database exists
-async function checkDatabase(database_name) {
+async function checkDatabase(databaseName) {
   let query = {
     text: "SELECT * FROM pg_catalog.pg_database WHERE datname=$1;",
-    values: [database_name],
+    values: [databaseName],
   };
 
   try {
@@ -14,7 +40,7 @@ async function checkDatabase(database_name) {
     if (!result.rowCount) {
       LOG.info("Database does not exist.");
       query = {
-        text: `CREATE DATABASE ${database_name}`,
+        text: `CREATE DATABASE ${databaseName}`,
       };
       await pool.query(query);
       LOG.info(
@@ -22,7 +48,7 @@ async function checkDatabase(database_name) {
       );
     } else {
       LOG.info(
-        `Database ${database_name} already exists, proceeding to check table existence.`
+        `Database ${databaseName} already exists, proceeding to check table existence.`,
       );
     }
 
@@ -51,32 +77,6 @@ async function checkDatabase(database_name) {
   } finally {
     pool.end();
     userPool.end();
-  }
-}
-
-// check if table exists
-async function checkTable(table_name, queryText) {
-  let query = {
-    text: "SELECT * FROM information_schema.tables WHERE table_name=$1;",
-    values: [table_name],
-  };
-  try {
-    const client = await userPool.connect();
-    const result = await client.query(query);
-    if (!result.rowCount) {
-      LOG.info(`Table ${table_name} not found.`);
-      query = {
-        text: queryText,
-      };
-      await client.query(query);
-    } else {
-      LOG.info(`Table ${table_name}  already exists.`);
-    }
-    LOG.info(`Table ${table_name} is available to use.`);
-    process.exit();
-  } catch (err) {
-    LOG.error(`Erro: ${err}`);
-    throw err;
   }
 }
 
