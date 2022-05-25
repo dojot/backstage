@@ -25,12 +25,11 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
 
-    - name: npm install, build, test and check licenses
+    - name: install, test and check licenses
       run: |
-        npm install
-        npm run build --if-present
-        npm test
-        npm run check-licenses
+        yarn
+        yarn test
+        yarn check-licenses
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
