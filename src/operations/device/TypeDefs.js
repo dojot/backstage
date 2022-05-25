@@ -128,7 +128,7 @@ type Device {
   }
 
   type Mutation {
-    createDevice(label: String!, templates: [Int]!, attrs: [DeviceAttributes], fingerprint: String): [DeviceCreatedList]
+    createDevice(label: String!, id: String, templates: [Int]!, attrs: [DeviceAttributes], fingerprint: String): [DeviceCreatedList]
     deleteDevices(deviceIds: [String]!): String
     editDevice(id: String!, label: String!, templates: [Int]!, attrs: [DeviceAttributes]): DeviceCreatedList
   }

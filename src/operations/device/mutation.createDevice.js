@@ -7,7 +7,7 @@ import { getObjectWithNewKeys } from '../../utils/Object.js';
 const createDevice = async (_, device, { token }) => {
   try {
     const {
-      label = '', templates = [], attrs = [], fingerprint = '',
+      label = '', id = null, templates = [], attrs = [], fingerprint = '',
     } = device;
 
     const formattedAttrs = attrs
@@ -16,6 +16,7 @@ const createDevice = async (_, device, { token }) => {
 
     const { data } = await service.createDevice(token, {
       label,
+      id,
       templates,
       attrs: formattedAttrs,
     });
