@@ -39,6 +39,7 @@ const TypeDefs = [`
     certificateFingerprint: String
     privateKeyPEM: String
     publicKeyPEM: String
+    caPem: String
   }
   #Input to filter certificates
   input FilterCertificateInput {
