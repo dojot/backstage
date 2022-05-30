@@ -1,6 +1,6 @@
 import LOG from "../../utils/Log.js";
 import * as service from "../../services/service.device.js";
-import * as securityService from "../../services/service.security";
+import * as securityService from "../../services/service.security.js";
 
 const deleteDevices = async (_, { deviceIds }, { token }) => {
   try {
