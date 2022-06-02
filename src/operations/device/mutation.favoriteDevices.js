@@ -6,10 +6,10 @@ const favoriteDevices = async (_, { deviceIds, userName, tenant }) => {
     let result;
     const promises = deviceIds.map(
       async (deviceId) => {
-        const favoriteDevice = await service.favoriteDevice(deviceId, userName, tenant)
+        const favoriteDevice = await service.favoriteDevice(deviceId, userName, tenant);
 
-        return result = favoriteDevice;
-      }
+        return favoriteDevice;
+      },
     );
 
     await Promise.all(promises);

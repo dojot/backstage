@@ -1,7 +1,7 @@
-import * as service from "../../services/service.device.js";
-import * as securityService from "../../services/service.security.js";
-import * as favoriteDeviceService from "../../services/service.favoriteDevice.js";
-import LOG from "../../utils/Log.js";
+import * as service from '../../services/service.device.js';
+import * as securityService from '../../services/service.security.js';
+import * as favoriteDeviceService from '../../services/service.favoriteDevice.js';
+import LOG from '../../utils/Log.js';
 
 const getDevices = async (root, params, { token }) => {
   try {
@@ -27,9 +27,9 @@ const getDevices = async (root, params, { token }) => {
       }
     }
 
-    requestParameters.sortBy = params.sortBy || "label";
+    requestParameters.sortBy = params.sortBy || 'label';
 
-    let requestString = "";
+    let requestString = '';
     const keys = Object.keys(requestParameters);
     const last = keys[keys.length - 1];
     keys.forEach((element) => {
@@ -42,7 +42,7 @@ const getDevices = async (root, params, { token }) => {
 
     const { data: fetchedData } = await service.getDevicesWithFilter(
       token,
-      requestString
+      requestString,
     );
 
     const devices = [];
@@ -62,7 +62,7 @@ const getDevices = async (root, params, { token }) => {
               label: attr.label,
               templateId: attr.template_id,
               staticValue: attr.static_value,
-              isDynamic: attr.type === "dynamic",
+              isDynamic: attr.type === 'dynamic',
               valueType: attr.value_type,
             });
           });
@@ -83,18 +83,18 @@ const getDevices = async (root, params, { token }) => {
               id: device.id,
               label: device.label,
               created: device.created,
-              updated: device.updated ? device.updated : "",
+              updated: device.updated ? device.updated : '',
               attrs: attributes,
               certificate: { fingerprint },
             });
-          })
+          }),
       );
     });
 
     await Promise.all(promises);
 
-    const favoriteDevices =
-      await favoriteDeviceService.getFavoriteDevicesForDevicesPage(devicesIds);
+    const favoriteDevices = await favoriteDeviceService
+      .getFavoriteDevicesForDevicesPage(devicesIds);
 
     const favoriteDevicesObj = {};
 

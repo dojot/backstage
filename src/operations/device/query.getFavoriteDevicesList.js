@@ -1,6 +1,6 @@
-import LOG from "../../utils/Log.js";
-import * as deviceService from "../../services/service.device.js";
-import * as favoriteDeviceService from "../../services/service.favoriteDevice.js";
+import LOG from '../../utils/Log.js';
+import * as deviceService from '../../services/service.device.js';
+import * as favoriteDeviceService from '../../services/service.favoriteDevice.js';
 
 const getFavoriteDevicesList = async (_, { user, tenant }, { token }) => {
   try {
@@ -12,14 +12,13 @@ const getFavoriteDevicesList = async (_, { user, tenant }, { token }) => {
       tenant,
     );
 
-    favoriteDevices.map((favorite) => promises.push(
-        deviceService
-          .getDeviceById(token, favorite.device_id)
-          .then((response) => {
-            favoriteDevicesForList.push(response.data);
-          }),
-      ),
-    );
+    favoriteDevices.map(favorite => promises.push(
+      deviceService
+        .getDeviceById(token, favorite.device_id)
+        .then((response) => {
+          favoriteDevicesForList.push(response.data);
+        }),
+    ));
 
     await Promise.all(promises);
 

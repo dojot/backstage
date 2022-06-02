@@ -1,5 +1,5 @@
 import asn1js from 'asn1js';
-import {arrayBufferToString, toBase64} from 'pvutils';
+import { arrayBufferToString, toBase64 } from 'pvutils';
 import {
   CertificationRequest,
   Attribute,
@@ -12,12 +12,13 @@ import {
   getAlgorithmParameters,
   getCrypto,
   setEngine,
-  CryptoEngine
+  CryptoEngine,
 } from 'pkijs';
-import LOG from "../../utils/Log.js";
-import {Crypto} from "@peculiar/webcrypto";
+import { Crypto } from '@peculiar/webcrypto';
+import LOG from '../../utils/Log.js';
+
 const webCrypto = new Crypto();
-setEngine("newEngine", webCrypto, new CryptoEngine({name: "", crypto: webCrypto, subtle: webCrypto.subtle}));
+setEngine('newEngine', webCrypto, new CryptoEngine({ name: '', crypto: webCrypto, subtle: webCrypto.subtle }));
 
 const _subjectAltNameCSR = (subjAltCSR) => {
   if (!((subjAltCSR.email && subjAltCSR.email.length > 0)
@@ -26,24 +27,24 @@ const _subjectAltNameCSR = (subjAltCSR) => {
     return null;
   }
 
-  const emailAlt = subjAltCSR.email.map((email) => new GeneralName({
+  const emailAlt = subjAltCSR.email.map(email => new GeneralName({
     type: 1, // rfc822Name
     value: email,
   }));
 
-  const dnsAlt = subjAltCSR.dns.map((dns) => new GeneralName({
+  const dnsAlt = subjAltCSR.dns.map(dns => new GeneralName({
     type: 2, // dNSName
     value: dns,
   }));
 
-  const ipsAlt = subjAltCSR.ip.map((ip) => new GeneralName({
+  const ipsAlt = subjAltCSR.ip.map(ip => new GeneralName({
     type: 7, // iPAddress
-    value: new asn1js.OctetString({valueHex: (new Uint8Array(ip.split('.'))).buffer}),
+    value: new asn1js.OctetString({ valueHex: (new Uint8Array(ip.split('.'))).buffer }),
   }));
 
 
-  return new GeneralNames({names: [...emailAlt, ...dnsAlt, ...ipsAlt]});
-}
+  return new GeneralNames({ names: [...emailAlt, ...dnsAlt, ...ipsAlt] });
+};
 
 const _setExtensionsCSR = (pkcs10, subjAltCSR) => {
   const bitArray = new ArrayBuffer(1);
@@ -65,7 +66,7 @@ const _setExtensionsCSR = (pkcs10, subjAltCSR) => {
       extnID: '2.5.29.15', // KeyUsage
       critical: false,
       extnValue:
-        (new asn1js.BitString({valueHex: bitArray})).toBER(false),
+        (new asn1js.BitString({ valueHex: bitArray })).toBER(false),
     }),
     new Extension({
       extnID: '2.5.29.19', // BasicConstraints
@@ -96,7 +97,7 @@ const _setExtensionsCSR = (pkcs10, subjAltCSR) => {
       extensions,
     })).toSchema()],
   }));
-}
+};
 
 const _optionalTypesAndValuesCSR = (pkcs10, typesAndValues) => {
   if (typesAndValues.country) {
@@ -143,7 +144,7 @@ const _optionalTypesAndValuesCSR = (pkcs10, typesAndValues) => {
       }),
     }));
   }
-}
+};
 
 const _extractKeyStringKeyPar = async (crypto, key, format) => {
   try {
@@ -156,12 +157,11 @@ const _extractKeyStringKeyPar = async (crypto, key, format) => {
     LOG.error(error);
     throw error;
   }
-}
+};
 
 const _formatPEM = (pemString, type) => {
-  const publicStr = 'PUBLIC KEY'
-  const privateStr = 'CERTIFICATE REQUEST'
   let resultString = '';
+  let strType;
   if (pemString) {
     for (let i = 0, count = 0; i < pemString.length; i += 1, count += 1) {
       if (count > 63) {
@@ -171,12 +171,27 @@ const _formatPEM = (pemString, type) => {
       resultString = `${resultString}${pemString[i]}`;
     }
   }
+
+  switch (type) {
+    case 'public':
+      strType = 'PUBLIC KEY';
+      break;
+    case 'private':
+      strType = 'PRIVATE KEY';
+      break;
+    case 'csr':
+      strType = 'CERTIFICATE REQUEST';
+      break;
+    default:
+      strType = 'UNKNOWN';
+  }
+
   return (
-    `-----BEGIN ${type === 'public' ? publicStr :  privateStr}-----\r\n` +
-    resultString +
-    `\r\n-----END ${type === 'public' ? publicStr :  privateStr}-----`
+    `-----BEGIN ${strType}-----\r\n${
+      resultString
+    }\r\n-----END ${strType}-----`
   );
-}
+};
 
 export const generateKeyPar = async (signAlgorithm, hashAlgorithm) => {
   const crypto = getCrypto();
@@ -197,11 +212,13 @@ export const generateKeyPar = async (signAlgorithm, hashAlgorithm) => {
   } = keyPair;
 
 
-  const privateKeyPEM = _formatPEM(toBase64(await _extractKeyStringKeyPar(crypto, privateKey, 'pkcs8')), 'private')
-  const publicKeyPEM = _formatPEM(toBase64(await _extractKeyStringKeyPar(crypto, publicKey, 'spki')), 'public')
+  const privateKeyPEM = _formatPEM(toBase64(await _extractKeyStringKeyPar(crypto, privateKey, 'pkcs8')), 'private');
+  const publicKeyPEM = _formatPEM(toBase64(await _extractKeyStringKeyPar(crypto, publicKey, 'spki')), 'public');
 
-  return {privateKeyPEM, privateKeyPkcs8: privateKey, publicKeyPEM, publicKeyPkcs8: publicKey}
-}
+  return {
+    privateKeyPEM, privateKeyPkcs8: privateKey, publicKeyPEM, publicKeyPkcs8: publicKey,
+  };
+};
 
 export const createCSR = async (commonName, publicKeyPkcs8, privateKeyPkcs8, hashAlgorithm, typesAndValues, subjAltCSR) => {
   const pkcs10 = new CertificationRequest();
@@ -225,5 +242,5 @@ export const createCSR = async (commonName, publicKeyPkcs8, privateKeyPkcs8, has
   await pkcs10.sign(privateKeyPkcs8, hashAlgorithm);
   const _csrRaw = pkcs10.toSchema().toBER(false);
 
-  return _formatPEM(toBase64(arrayBufferToString(_csrRaw)))
-}
+  return _formatPEM(toBase64(arrayBufferToString(_csrRaw)), 'csr');
+};
