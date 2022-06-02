@@ -8,7 +8,7 @@ const favoriteDevices = async (_, { deviceIds, userName, tenant }) => {
       async (deviceId) => {
         const favoriteDevice = await service.favoriteDevice(deviceId, userName, tenant);
 
-        return favoriteDevice;
+        result = favoriteDevice;
       },
     );
 
