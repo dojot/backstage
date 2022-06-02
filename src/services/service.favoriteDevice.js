@@ -26,12 +26,16 @@ export const favoriteDevice = async (deviceId, userName, tenant) => {
 export const getFavoriteDevicesForDevicesPage = async (deviceIds) => {
   const params = deviceIds.map((_, index) => `$${index + 1}`);
 
-  const result = await userPool.query(
-    `SELECT * FROM favorite_devices WHERE device_id IN (${params})`,
-    deviceIds,
-  );
+  if(params.length > 0) {
+    const result = await userPool.query(
+      `SELECT * FROM favorite_devices WHERE device_id IN (${params})`,
+      deviceIds,
+    );
 
-  return result.rows;
+    return result.rows
+  }
+
+  return [];
 };
 
 export const getAllFavoriteDevices = async (user, tenant) => {
@@ -42,3 +46,24 @@ export const getAllFavoriteDevices = async (user, tenant) => {
 
   return result.rows;
 };
+
+
+export const removeFavorite = async (userName, tenant, deviceId) => {
+  const favoriteDevice = await userPool.query(
+    "SELECT * FROM favorite_devices WHERE device_id = $1 AND user_name = $2 AND tenant = $3",
+    [deviceId, userName, tenant],
+  );
+
+  if (favoriteDevice.rowCount) {
+    const favoriteId = favoriteDevice.rows[0].id;
+    await userPool.query("DELETE FROM favorite_devices WHERE id = $1 AND user_name = $2 AND tenant = $3", [
+      favoriteId,
+      userName,
+      tenant,
+    ]);
+
+    return false;
+  }
+
+  return false
+}
