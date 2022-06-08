@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { beforeAll, jest } from '@jest/globals';
-import * as favoriteDeviceService from '../../../services/service.favoriteDevice.js';
+import { jest } from '@jest/globals';
 import { userPool } from '../../../db/index.js';
 import Resolvers from '../../../operations/device/Resolvers';
 
