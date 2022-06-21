@@ -3,12 +3,17 @@ const TypeDefs = [`
 type Device {
     id: String!
     label: String!
+    favorite: Boolean
     attrs: [Attr]
     created: String
     updated: String
     certificate: Certificate
     templates: [TemplatesObj]
     lastUpdate: [AttributesData]
+ }
+ type FavoriteDevice {
+   id: String!
+   label: String!
  }
  type Certificate {
     fingerprint: String
@@ -125,13 +130,16 @@ type Device {
     getDeviceById(deviceId: String!): Device
     #Returns historical data in the format used by the Dashboard
     getDeviceHistoryForDashboard(filter: HistoryInput!, configs: ConfigsInput): String
+    #Returns a list of favorite devices for home page of gui-nx
+    getFavoriteDevicesList(user: String!, tenant: String!): [FavoriteDevice]
   }
 
   type Mutation {
     createDevice(label: String!, id: String, templates: [Int]!, attrs: [DeviceAttributes], fingerprint: String): [DeviceCreatedList]
-    deleteDevices(deviceIds: [String]!): String
+    deleteDevices(deviceIds: [String]!, userName: String!, tenant: String!): String
     editDevice(id: String!, label: String!, templates: [Int]!, attrs: [DeviceAttributes]): DeviceCreatedList
-  }
+    favoriteDevices(deviceIds: [String]!, userName: String!, tenant: String!): Boolean
+   }
 `];
 
 export default TypeDefs;

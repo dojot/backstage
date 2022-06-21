@@ -1,8 +1,9 @@
 import LOG from "../../utils/Log.js";
 import * as service from "../../services/service.device.js";
+import * as favoriteDeviceService from "../../services/service.favoriteDevice.js";
 import * as securityService from "../../services/service.security.js";
 
-const deleteDevices = async (_, { deviceIds }, { token }) => {
+const deleteDevices = async (_, { deviceIds, userName, tenant }, { token }) => {
   try {
     const disassociateCertificatesPromise = deviceIds.map(async (deviceId) => {
       const { data: certificateData } = await securityService
@@ -20,6 +21,7 @@ const deleteDevices = async (_, { deviceIds }, { token }) => {
     });
     const deleteDevicesPromise = deviceIds.map(async (deviceId) => {
       await service.deleteDevice(token, deviceId);
+      await favoriteDeviceService.removeFavorite(userName, tenant, deviceId);
     });
     await Promise.all(disassociateCertificatesPromise);
     await Promise.all(deleteDevicesPromise);

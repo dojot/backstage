@@ -1,8 +1,23 @@
 import axios from 'axios';
 import { jest } from '@jest/globals';
+import { userPool } from '../../../db/index.js';
 import Resolvers from '../../../operations/device/Resolvers';
 
 jest.mock('axios');
+
+jest.mock('../../../db/index.js', () => {
+  const mPool = {
+    connect: function () {
+      return { query: jest.fn() };
+    },
+    query: jest.fn(),
+    end: jest.fn(),
+    on: jest.fn(),
+  };
+  return { Pool: jest.fn(() => mPool) };
+});
+
+userPool.query = jest.fn();
 
 axios.get = jest.fn();
 axios.put = jest.fn();
@@ -173,6 +188,7 @@ const deviceData = {
           created: '2020-05-14T18:18:34.401142+00:00',
           id: '1b32ee',
           label: 'device2',
+          favorite: false,
           templates: [
             2,
           ],
@@ -555,6 +571,25 @@ it('Device - should get a list of devices', () => {
     .mockResolvedValueOnce(deviceData[5])
     .mockResolvedValueOnce(certificateData[0]);
 
+  userPool.query.mockImplementationOnce(() => Promise.resolve({
+    'command': 'SELECT',
+    'rowCount': 1,
+    'oid': null,
+    'rows': [],
+    'fields': [{
+      'name': 'configuration',
+      'tableID': 24576,
+      'columnID': 3,
+      'dataTypeID': 114,
+      'dataTypeSize': -1,
+      'dataTypeModifier': -1,
+      'format': 'text',
+    }],
+    '_parsers': [null],
+    'RowCtor': null,
+    'rowAsArray': false,
+  }));
+
   const root = {};
   const params = { page: { number: 1, size: 4 }, filter: { label: 'd' } };
 
@@ -582,6 +617,7 @@ it('Device - should get a list of devices', () => {
             created: '2020-05-14T18:18:34.401142+00:00',
             id: '1b32ee',
             label: 'device2',
+            favorite: false,
             updated: '',
           },
         ],
