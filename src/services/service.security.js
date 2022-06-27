@@ -23,7 +23,7 @@ export const createCertificate = (token, csrPEM) => axios.post(`${baseURL}/x509/
 
 export const registerExternalCertificate = (token, certificateChain) => axios.post(`${baseURL}/x509/v1/certificates`, { certificateChain }, getHeader(token));
 
-export const getCAChain = token => axios.get(`${baseURL}/x509/v1/ca`, getHeader(token));
+export const getCACertificate = token => axios.get(`${baseURL}/x509/v1/ca`, getHeader(token));
 
 export const associateCertificate = (token, fingerprint, deviceId) => axios.patch(`${baseURL}/x509/v1/certificates/${fingerprint}`, {
   belongsTo: {
