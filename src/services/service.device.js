@@ -117,6 +117,32 @@ export const getDeviceHistoricForAllAttrs = async (token, deviceId) => {
   }
 }
 
+export const getInfluxLastUpdateForDevice = async (token, deviceId) => {
+  try {
+    const { data } = await axios.get(
+      `${baseURL}/tss/v1/devices/${deviceId}/data?limit=1`,
+      getHeader(token),
+    );
+
+    const [newestData] = data.data;
+
+    if (newestData) {
+      const { ts, attrs } = newestData;
+
+      return attrs.map(attr => ({
+        date: ts,
+        label: attr.label,
+        value: attr.value || null,
+      }));
+    }
+
+    return [];
+  } catch (error) {
+    LOG.error(error.stack || error);
+    throw error;
+  }
+};
+
 export const editDevice = async (token, id, data) => {
   return axios.put(`${baseURL}/device/${id}`, data, getHeader(token))
 }

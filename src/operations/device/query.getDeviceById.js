@@ -2,6 +2,7 @@ import LOG from '../../utils/Log.js';
 import * as deviceService from '../../services/service.device.js';
 import * as template from '../../services/service.template.js';
 import * as securityService from '../../services/service.security.js';
+import config from '../../config.js';
 
 const getDeviceById = async (_, { deviceId }, { token }) => {
   try {
@@ -11,6 +12,10 @@ const getDeviceById = async (_, { deviceId }, { token }) => {
       token, undefined, undefined, deviceId,
     );
 
+    const lastUpdate = config.use_influxdb
+      ? await deviceService.getInfluxLastUpdateForDevice(token, deviceData.id)
+      : await deviceService.getDeviceHistoricForAllAttrs(token, deviceData.id);
+
     const device = {
       id: deviceData.id,
       label: deviceData.label,
@@ -18,7 +23,7 @@ const getDeviceById = async (_, { deviceId }, { token }) => {
       created: deviceData.created,
       updated: deviceData.updated ? deviceData.updated : '',
       templates: await template.getTemplatesInfo(token, deviceData.templates),
-      lastUpdate: await deviceService.getDeviceHistoricForAllAttrs(token, deviceData.id),
+      lastUpdate,
       certificate: {
         fingerprint: undefined,
       },
