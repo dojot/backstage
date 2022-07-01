@@ -18,7 +18,7 @@ const config = {
   postgres_backstage_pwd: process.env.BACKSTAGE_DASHBOARD_DB_PASSWORD || 'postgres',
   postgres_backstage_host: process.env.BACKSTAGE_DASHBOARD_DB_HOST || 'postgres',
   postgres_backstage_port: process.env.BACKSTAGE_DASHBOARD_DB_PORT || 5432,
-  use_influxdb: Boolean(process.env.BACKSTAGE_USE_INFLUXDB) || true,
+  use_influxdb: process.env.BACKSTAGE_USE_INFLUXDB === 'true' || false,
 };
 
 export default config;

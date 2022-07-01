@@ -12,9 +12,6 @@ const getDeviceById = async (_, { deviceId }, { token }) => {
       token, undefined, undefined, deviceId,
     );
 
-    const lastUpdate = config.use_influxdb
-      ? await deviceService.getInfluxLastUpdateForDevice(token, deviceData.id)
-      : await deviceService.getDeviceHistoricForAllAttrs(token, deviceData.id);
 
     const device = {
       id: deviceData.id,
@@ -23,7 +20,7 @@ const getDeviceById = async (_, { deviceId }, { token }) => {
       created: deviceData.created,
       updated: deviceData.updated ? deviceData.updated : '',
       templates: await template.getTemplatesInfo(token, deviceData.templates),
-      lastUpdate,
+      lastUpdate: [],
       certificate: {
         fingerprint: undefined,
       },
@@ -48,6 +45,12 @@ const getDeviceById = async (_, { deviceId }, { token }) => {
         });
       });
     });
+
+    const lastUpdate = config.use_influxdb
+      ? await deviceService.getInfluxLastUpdateForDevice(token, deviceData.id, device.attrs)
+      : await deviceService.getDeviceHistoricForAllAttrs(token, deviceData.id);
+
+    device.lastUpdate = lastUpdate;
 
     return device;
   } catch (error) {
