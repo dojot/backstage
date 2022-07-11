@@ -7,7 +7,9 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js src/tests/.*.test.js --env=node  --coverage --runInBand --collectCoverage --detectOpenHandles && codecov",
     "dev": "node src/databaseCheck.js && nodemon src/index.js",
     "start": "node databaseCheck.js && node index.js",
-    "check-licenses": "apache2-license-checker"
+    "check-licenses": "apache2-license-checker",
+    "eslint:lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "eslint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
   "repository": {
     "type": "git",
@@ -34,9 +36,12 @@
     "@peculiar/webcrypto": "^1.2.3",
     "asn1js": "^2.2.0",
     "axios": "^0.24.0",
+    "base64url": "^3.0.1",
     "body-parser": "^1.19.1",
+    "connect-redis": "^6.1.2",
     "express": "^4.17.2",
     "express-graphql": "^0.12.0",
+    "express-session": "^1.17.2",
     "graphql": "^15.8.0",
     "lodash": "^4.17.21",
     "log4js": "^6.3.0",
@@ -44,7 +49,9 @@
     "pg": "^8.7.1",
     "pkijs": "^2.2.1",
     "pvutils": "^1.0.17",
-    "querystring": "^0.2.0"
+    "querystring": "^0.2.0",
+    "randomstring": "^1.2.2",
+    "redis": "^4.0.4"
   },
   "jest": {
     "coverageDirectory": "./coverage/",

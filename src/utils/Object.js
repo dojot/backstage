@@ -27,4 +27,3 @@ export const getObjectWithNewKeys = (object, transformKeys, options = { recursiv
 
   return formattedObject;
 };
-
