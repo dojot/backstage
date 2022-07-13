@@ -9,6 +9,7 @@ import {OPERATION, SOURCE, WIDGET_TYPE} from '../../constants/index.js';
 import moment from 'moment';
 import LOG from '../../utils/Log.js';
 import lodash from 'lodash';
+import config from '../../config.js';
 
 
 const getDeviceHistoryForDashboard = async (
@@ -32,7 +33,9 @@ const getDeviceHistoryForDashboard = async (
   switch (operationType) {
     case OPERATION.LAST.N:
       // To get the latest N records
-      queryStringParams += `${lastN && `&lastN=${lastN}`}`;
+      queryStringParams += config.use_influxdb 
+        ? `${lastN && `&limit=${lastN}`}` 
+        : `${lastN && `&lastN=${lastN}`}`;
       break;
     case OPERATION.LAST.MINUTES:
       // To get the data for the last minutes
@@ -60,14 +63,18 @@ const getDeviceHistoryForDashboard = async (
       case SOURCE.DEVICE:
         const devicesIds = devices.map(device => device.deviceID)
         dojotDevices = await service.getDeviceList(token, devicesIds)
-        dynamicAttrs = await service.getHistoryFromDevices(token, devices, queryStringParams)
+        dynamicAttrs = config.use_influxdb 
+          ? await service.getInfluxDataFromDevices(token, devices, queryStringParams) 
+          : await service.getHistoryFromDevices(token, devices, queryStringParams)
         break;
       case SOURCE.TEMPLATE:
         const ret = await service.getDevicesByTemplate(token, templates)
         dojotDevices = ret.values;
         devicesFromTemplate = ret.devicesIDs;
         deviceDictionary = ret.deviceDictionary;
-        dynamicAttrs = await service.getHistoryFromDevices(token, devicesFromTemplate, queryStringParams)
+        dynamicAttrs = config.use_influxdb 
+          ? await service.getInfluxDataFromDevices(token, devicesFromTemplate, queryStringParams) 
+          : await service.getHistoryFromDevices(token, devicesFromTemplate, queryStringParams)
         break;
       default:
         dojotDevices = {}
