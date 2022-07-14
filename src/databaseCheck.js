@@ -21,7 +21,6 @@ async function checkTable(tableName, queryText) {
       LOG.info(`Table ${tableName}  already exists.`);
     }
     LOG.info(`Table ${tableName} is available to use.`);
-    process.exit();
   } catch (err) {
     LOG.error(`Erro: ${err}`);
     throw err;
@@ -77,6 +76,7 @@ async function checkDatabase(databaseName) {
   } finally {
     pool.end();
     userPool.end();
+    process.exit();
   }
 }
 

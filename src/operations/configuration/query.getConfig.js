@@ -24,7 +24,8 @@ const getConfig = async (root, params) => {
       return (JSON.stringify(result.rows[0].configuration));
     }
 
-    throw `Could not retrieve configuration from user ${params.user} in tenant ${params.tenant}`;
+    LOG.info(`Could not retrieve configuration from user ${params.user} in tenant ${params.tenant}`);
+    return null;
   } catch (error) {
     LOG.error(error);
     throw error;
