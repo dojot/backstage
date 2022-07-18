@@ -3,6 +3,7 @@ const config = {
   port: process.env.BS_PORT || 3005,
   backstage_base_url: process.env.BS_BASE_URL || 'http://localhost:8000',
   graphql_base_url: process.env.BS_GRAPHQL_BASE_URL || 'http://apigw:8000',
+  use_influxdb: process.env.BS_USE_INFLUXDB === 'true' || false,
 
   postgres_backstage_port: process.env.BS_POSTGRES_PORT || 5432,
   postgres_backstage_host: process.env.BS_POSTGRES_HOST || 'postgres',
