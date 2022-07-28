@@ -36,6 +36,7 @@ const getTemplates = async (_, { page, filter }, { token }) => {
     return {
       id: template.id,
       label: template.label,
+      created: template.created,
       attrs,
     };
   });

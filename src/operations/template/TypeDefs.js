@@ -61,6 +61,7 @@ const TypeDefs = [`
   type TemplateList {
     id: String!
     label: String!
+    created: String!
     attrs: [Attr]
   }
 
