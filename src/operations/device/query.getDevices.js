@@ -23,14 +23,22 @@ const getDevices = async (root, { page, filter, sortBy }, { token }) => {
       urlParams.toString(),
     );
 
+    const certificatePromises = fetchedData.devices.map(device => securityService
+      .getAllCertificates(token, undefined, undefined, device.id).then((response) => {
+        const { certificates } = response.data;
+
+        const fingerprint = certificates[0]
+          ? certificates[0].fingerprint
+          : undefined;
+
+        return fingerprint;
+      }));
+
+    const fingerprints = await Promise.all(certificatePromises);
+
     const devices = [];
-    const devicesIds = [];
-    const promises = [];
-
-    fetchedData.devices.forEach((device) => {
+    fetchedData.devices.forEach((device, index) => {
       const attributes = [];
-
-      devicesIds.push(device.id);
 
       if (device.attrs) {
         Object.keys(device.attrs).forEach((key) => {
@@ -48,35 +56,21 @@ const getDevices = async (root, { page, filter, sortBy }, { token }) => {
         });
       }
 
-      promises.push(
-        securityService
-          .getAllCertificates(token, undefined, undefined, device.id)
-          .then((response) => {
-            const {
-              data: { certificates },
-            } = response;
-            const fingerprint = certificates[0]
-              ? certificates[0].fingerprint
-              : undefined;
-            devices.push({
-              id: device.id,
-              label: device.label,
-              created: device.created,
-              updated: device.updated ? device.updated : '',
-              attrs: attributes,
-              certificate: { fingerprint },
-            });
-          }),
-      );
+      devices.push({
+        id: device.id,
+        label: device.label,
+        created: device.created,
+        updated: device.updated ? device.updated : '',
+        attrs: attributes,
+        certificate: { fingerprint: fingerprints[index] },
+      });
     });
 
-    await Promise.all(promises);
-
+    const deviceIds = devices.map(device => device.id);
     const favoriteDevices = await favoriteDeviceService
-      .getFavoriteDevicesForDevicesPage(devicesIds);
+      .getFavoriteDevicesForDevicesPage(deviceIds);
 
     const favoriteDevicesObj = {};
-
     favoriteDevices.forEach((favorite) => {
       favoriteDevicesObj[favorite.device_id] = true;
     });
