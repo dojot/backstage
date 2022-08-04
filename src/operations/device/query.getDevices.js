@@ -3,50 +3,29 @@ import * as securityService from '../../services/service.security.js';
 import * as favoriteDeviceService from '../../services/service.favoriteDevice.js';
 import LOG from '../../utils/Log.js';
 
-const getDevices = async (root, params, { token }) => {
+const getDevices = async (root, { page, filter, sortBy }, { token }) => {
   try {
-    const requestParameters = {};
-    const promises = [];
-
-    if (params.page) {
-      if (params.page.size) {
-        requestParameters.page_size = params.page.size;
-      } else {
-        requestParameters.page_size = 20;
-      }
-      if (params.page.number) {
-        requestParameters.page_num = params.page.number;
-      } else {
-        requestParameters.page_num = 1;
-      }
-    }
-
-    if (params.filter) {
-      if (params.filter.label) {
-        requestParameters.label = params.filter.label;
-      }
-    }
-
-    requestParameters.sortBy = params.sortBy || 'label';
-
-    let requestString = '';
-    const keys = Object.keys(requestParameters);
-    const last = keys[keys.length - 1];
-    keys.forEach((element) => {
-      if (element === last) {
-        requestString += `${element}=${requestParameters[element]}`;
-      } else {
-        requestString += `${element}=${requestParameters[element]}&`;
-      }
+    const urlParams = new URLSearchParams({
+      sortBy: sortBy || 'desc:created',
     });
+
+    if (page) {
+      urlParams.append('page_size', page.size || 20);
+      urlParams.append('page_num', page.number || 1);
+    }
+
+    if (filter) {
+      urlParams.append('label', filter.label);
+    }
 
     const { data: fetchedData } = await service.getDevicesWithFilter(
       token,
-      requestString,
+      urlParams.toString(),
     );
 
     const devices = [];
     const devicesIds = [];
+    const promises = [];
 
     fetchedData.devices.forEach((device) => {
       const attributes = [];
