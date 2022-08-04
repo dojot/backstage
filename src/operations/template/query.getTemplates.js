@@ -28,6 +28,7 @@ const getTemplates = async (_, { page, filter, sortBy }, { token }) => {
         id: attr.id,
         type: attr.type,
         label: attr.label,
+        created: attr.created,
         valueType: attr.value_type,
         templateId: attr.template_id,
         staticValue: attr.static_value,
@@ -38,6 +39,7 @@ const getTemplates = async (_, { page, filter, sortBy }, { token }) => {
     return {
       id: template.id,
       label: template.label,
+      created: template.created,
       attrs,
     };
   });

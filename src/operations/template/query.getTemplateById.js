@@ -10,6 +10,7 @@ const getTemplateById = async (_, { templateId }, { token }) => {
         id: attr.id,
         type: attr.type,
         label: attr.label,
+        created: attr.created,
         valueType: attr.value_type,
         templateId: attr.template_id,
         staticValue: attr.static_value,
@@ -20,6 +21,7 @@ const getTemplateById = async (_, { templateId }, { token }) => {
     return {
       id: data.id,
       label: data.label,
+      created: data.created,
       attrs: formattedAttrs,
     };
   } catch (error) {
