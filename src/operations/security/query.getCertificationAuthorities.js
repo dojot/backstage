@@ -4,7 +4,7 @@ import * as service from '../../services/service.security.js';
 const getCertificationAuthorities = async (_, { page, filter, sortBy }, { token }) => {
   try {
     const { data } = await service.getCertificationAuthorities({
-      token, page, filter, sortBy,
+      token, page, filter, sortBy: sortBy || 'desc:createdAt',
     });
 
     const certificationAuthorities = data['trusted-cas'];

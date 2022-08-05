@@ -4,7 +4,7 @@ import * as service from '../../services/service.security.js';
 const getCertificateList = async (_, { page, filter, sortBy }, { token }) => {
   try {
     const ret = await service.getAllCertificates({
-      token, page, filter, sortBy,
+      token, page, filter, sortBy: sortBy || 'desc:createdAt',
     });
 
     const { data: { paging, certificates } } = ret;
