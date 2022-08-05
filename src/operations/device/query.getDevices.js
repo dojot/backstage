@@ -24,7 +24,7 @@ const getDevices = async (root, { page, filter, sortBy }, { token }) => {
     );
 
     const certificatePromises = fetchedData.devices.map(device => securityService
-      .getAllCertificates(token, undefined, undefined, device.id).then((response) => {
+      .getAllCertificates({ token, id: device.id }).then((response) => {
         const { certificates } = response.data;
 
         const fingerprint = certificates[0]

@@ -3,7 +3,10 @@ import * as service from '../../services/service.security.js';
 
 export const getCertificateById = async (_, { page, filter, id }, { token }) => {
   try {
-    const ret = await service.getAllCertificates(token, page, filter, id);
+    const ret = await service.getAllCertificates({
+      token, page, filter, id,
+    });
+
     const { data: { paging, certificates } } = ret;
 
     const pagination = {

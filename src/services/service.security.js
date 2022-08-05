@@ -7,12 +7,15 @@ const getHeader = token => ({
   headers: { 'content-type': 'application/json', Authorization: `${token}` },
 });
 
-export const getAllCertificates = (token, page, filter, id) => {
+export const getAllCertificates = ({
+  token, page, filter, id, sortBy,
+}) => {
   const queryParams = {};
   if (page && page.size) queryParams.limit = page.size;
   if (page && page.number) queryParams.page = page.number;
   if (filter && filter.fingerprint) queryParams.fingerprint = filter.fingerprint;
   if (id || id === null) queryParams.keyVal = `belongsTo.device=${id}`;
+  if (sortBy) queryParams.sortBy = sortBy;
   const queryParamsString = new URLSearchParams(queryParams).toString();
   return axios.get(`${baseURL}/x509/v1/certificates?${queryParamsString}`, getHeader(token));
 };
@@ -37,13 +40,16 @@ export const disassociateCertificate = async (token, fingerprint) => axios.delet
 
 export const createCertificationAuthority = async (token, { caPem, allowAutoRegistration }) => axios.post(`${baseURL}/x509/v1/trusted-cas`, { caPem, allowAutoRegistration }, getHeader(token));
 
-export const getCertificationAuthorities = async (token, page, filter) => {
+export const getCertificationAuthorities = async ({
+  token, page, filter, sortBy,
+}) => {
   const queryParams = {};
   if (page && page.size) queryParams.limit = page.size;
   if (page && page.number) queryParams.page = page.number;
   if (filter && filter.caFingerprint) queryParams.caFingerprint = filter.caFingerprint;
+  if (sortBy) queryParams.sortBy = sortBy;
   const queryParamsString = new URLSearchParams(queryParams).toString();
   return axios.get(`${baseURL}/x509/v1/trusted-cas?${queryParamsString}`, getHeader(token));
 };
 
-export const deleteCertificationAuthority = async (token, fingerprint) => axios.delete(`${baseURL}/x509/v1/trusted-cas/${fingerprint}`, getHeader(token));;
+export const deleteCertificationAuthority = async (token, fingerprint) => axios.delete(`${baseURL}/x509/v1/trusted-cas/${fingerprint}`, getHeader(token));
