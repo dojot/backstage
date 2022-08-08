@@ -40,6 +40,7 @@ const TypeDefs = [`
     privateKeyPEM: String
     publicKeyPEM: String
     caPem: String
+    certAndKeysAs64: String
   }
   #Input to filter certificates
   input FilterCertificateInput {

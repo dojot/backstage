@@ -32,6 +32,7 @@ type Device {
     id: String!
     type: String!
     label: String!
+    created: String!
     valueType: String!
     isDynamic: Boolean!
     staticValue: String
