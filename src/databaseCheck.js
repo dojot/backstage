@@ -25,8 +25,6 @@ async function checkTable(tableName, queryText) {
   } catch (err) {
     LOG.error(err);
     process.exit(1);
-  } finally {
-    userPool.end();
   }
 }
 
@@ -82,13 +80,5 @@ async function checkDatabase(databaseName) {
     process.exit();
   }
 }
-
-userPool.query('SELECT NOW()', (err, res) => {
-  if (err) {
-    LOG.error(`Erro: ${err} ${res}`);
-    userPool.end();
-    process.exit(1);
-  }
-});
 
 checkDatabase(config.postgres_backstage_database);
