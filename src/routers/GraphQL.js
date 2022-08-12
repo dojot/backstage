@@ -28,6 +28,21 @@ router.use('/graphql/permissions', graphqlHTTP({
 router.use('/graphql/', graphqlHTTP({
   schema: rootSchema,
   graphiql: false, // graphql interface
+  customFormatErrorFn(error) {
+    let data;
+    if (error.originalError.response && error.originalError.response.data) {
+      const { data: errorData } = error.originalError.response;
+      data = errorData;
+    }
+
+    return {
+      path: error.path,
+      message: error.message,
+      locations: error.locations,
+      extensions: error.extensions,
+      data,
+    };
+  },
 }));
 
 
