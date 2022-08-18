@@ -30,7 +30,12 @@ router.use('/graphql/', graphqlHTTP({
   graphiql: false, // graphql interface
   customFormatErrorFn(error) {
     let data;
-    if (error.originalError.response && error.originalError.response.data) {
+
+    if (
+      error.originalError
+      && error.originalError.response
+      && error.originalError.response.data
+    ) {
       const { data: errorData } = error.originalError.response;
       data = errorData;
     }
