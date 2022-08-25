@@ -83,6 +83,7 @@ const TypeDefs = [`
     label: String!
     valueType: String!
     staticValue: String
+    created: String
   }
 
   type Query {
