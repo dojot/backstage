@@ -23,7 +23,7 @@ const createDevice = async (_, device, { token }) => {
 
     if (fingerprint) {
       const [device] = data.devices;
-      await securityService.associateCertificate(token, fingerprint, device.id)
+      await securityService.associateCertificate(token, fingerprint, device.id);
     }
 
     return data.devices;
