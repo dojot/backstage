@@ -9,9 +9,8 @@ const getDeviceById = async (_, { deviceId }, { token }) => {
     const { data: deviceData } = await deviceService.getDeviceById(token, deviceId);
 
     const { data: certificateData } = await securityService.getAllCertificates(
-      token, undefined, undefined, deviceId,
+      { token, id: deviceId },
     );
-
 
     const device = {
       id: deviceData.id,

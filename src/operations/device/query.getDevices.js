@@ -3,55 +3,42 @@ import * as securityService from '../../services/service.security.js';
 import * as favoriteDeviceService from '../../services/service.favoriteDevice.js';
 import LOG from '../../utils/Log.js';
 
-const getDevices = async (root, params, { token }) => {
+const getDevices = async (root, { page, filter, sortBy }, { token }) => {
   try {
-    const requestParameters = {};
-    const promises = [];
-
-    if (params.page) {
-      if (params.page.size) {
-        requestParameters.page_size = params.page.size;
-      } else {
-        requestParameters.page_size = 20;
-      }
-      if (params.page.number) {
-        requestParameters.page_num = params.page.number;
-      } else {
-        requestParameters.page_num = 1;
-      }
-    }
-
-    if (params.filter) {
-      if (params.filter.label) {
-        requestParameters.label = params.filter.label;
-      }
-    }
-
-    requestParameters.sortBy = params.sortBy || 'label';
-
-    let requestString = '';
-    const keys = Object.keys(requestParameters);
-    const last = keys[keys.length - 1];
-    keys.forEach((element) => {
-      if (element === last) {
-        requestString += `${element}=${requestParameters[element]}`;
-      } else {
-        requestString += `${element}=${requestParameters[element]}&`;
-      }
+    const urlParams = new URLSearchParams({
+      sortBy: sortBy || 'desc:created',
     });
+
+    if (page) {
+      urlParams.append('page_size', page.size || 20);
+      urlParams.append('page_num', page.number || 1);
+    }
+
+    if (filter) {
+      urlParams.append('label', filter.label);
+    }
 
     const { data: fetchedData } = await service.getDevicesWithFilter(
       token,
-      requestString,
+      urlParams.toString(),
     );
 
+    const certificatePromises = fetchedData.devices.map(device => securityService
+      .getAllCertificates({ token, id: device.id }).then((response) => {
+        const { certificates } = response.data;
+
+        const fingerprint = certificates[0]
+          ? certificates[0].fingerprint
+          : undefined;
+
+        return fingerprint;
+      }));
+
+    const fingerprints = await Promise.all(certificatePromises);
+
     const devices = [];
-    const devicesIds = [];
-
-    fetchedData.devices.forEach((device) => {
+    fetchedData.devices.forEach((device, index) => {
       const attributes = [];
-
-      devicesIds.push(device.id);
 
       if (device.attrs) {
         Object.keys(device.attrs).forEach((key) => {
@@ -69,35 +56,21 @@ const getDevices = async (root, params, { token }) => {
         });
       }
 
-      promises.push(
-        securityService
-          .getAllCertificates(token, undefined, undefined, device.id)
-          .then((response) => {
-            const {
-              data: { certificates },
-            } = response;
-            const fingerprint = certificates[0]
-              ? certificates[0].fingerprint
-              : undefined;
-            devices.push({
-              id: device.id,
-              label: device.label,
-              created: device.created,
-              updated: device.updated ? device.updated : '',
-              attrs: attributes,
-              certificate: { fingerprint },
-            });
-          }),
-      );
+      devices.push({
+        id: device.id,
+        label: device.label,
+        created: device.created,
+        updated: device.updated ? device.updated : '',
+        attrs: attributes,
+        certificate: { fingerprint: fingerprints[index] },
+      });
     });
 
-    await Promise.all(promises);
-
+    const deviceIds = devices.map(device => device.id);
     const favoriteDevices = await favoriteDeviceService
-      .getFavoriteDevicesForDevicesPage(devicesIds);
+      .getFavoriteDevicesForDevicesPage(deviceIds);
 
     const favoriteDevicesObj = {};
-
     favoriteDevices.forEach((favorite) => {
       favoriteDevicesObj[favorite.device_id] = true;
     });

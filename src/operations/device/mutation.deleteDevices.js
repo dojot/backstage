@@ -1,18 +1,16 @@
-import LOG from "../../utils/Log.js";
-import * as service from "../../services/service.device.js";
-import * as favoriteDeviceService from "../../services/service.favoriteDevice.js";
-import * as securityService from "../../services/service.security.js";
+import LOG from '../../utils/Log.js';
+import * as service from '../../services/service.device.js';
+import * as favoriteDeviceService from '../../services/service.favoriteDevice.js';
+import * as securityService from '../../services/service.security.js';
 
 const deleteDevices = async (_, { deviceIds, userName, tenant }, { token }) => {
   try {
     const disassociateCertificatesPromise = deviceIds.map(async (deviceId) => {
       const { data: certificateData } = await securityService
-        .getAllCertificates(
+        .getAllCertificates({
           token,
-          undefined,
-          undefined,
-          deviceId,
-        );
+          id: deviceId,
+        });
       const { certificates } = certificateData;
       const disassociateLinkedCertificates = certificates.map(async (certificate) => {
         await securityService.disassociateCertificate(token, certificate.fingerprint);
@@ -25,7 +23,7 @@ const deleteDevices = async (_, { deviceIds, userName, tenant }, { token }) => {
     });
     await Promise.all(disassociateCertificatesPromise);
     await Promise.all(deleteDevicesPromise);
-    return "ok";
+    return 'ok';
   } catch (error) {
     LOG.error(error.stack || error);
     throw error;
