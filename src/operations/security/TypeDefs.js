@@ -69,10 +69,10 @@ const TypeDefs = [`
   }
   type Query {
     #Returns the list of certificates in paginated form.
-    getCertificateList(page: PageInput, filter: FilterCertificateInput): Certs
+    getCertificateList(page: PageInput, filter: FilterCertificateInput, sortBy: String): Certs
     getCertificateById(page: PageInput, filter: FilterCertificateInput, id: String!): Certs
     getCertificateByFingerprint(fingerprint: String!): Certificates
-    getCertificationAuthorities(page: PageInput, filter: FilterCertificationAuthoritiesInput): CertificationAuthorityList
+    getCertificationAuthorities(page: PageInput, filter: FilterCertificationAuthoritiesInput, sortBy: String): CertificationAuthorityList
   }
   type Mutation {
     createCertificateOneClick(commonName: String): CertKeys

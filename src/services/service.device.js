@@ -165,7 +165,7 @@ export const getInfluxLastUpdateForDevice = async (token, deviceId, attrs) => {
     const attrDataArray = await Promise.all(promises);
 
     return attrDataArray.map((attrData, index) => {
-      const { ts, value } = attrData;
+      const { ts, value } = attrData || {};
       const attr = attrs[index];
       return {
         value,

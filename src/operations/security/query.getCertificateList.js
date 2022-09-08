@@ -1,8 +1,12 @@
 import LOG from '../../utils/Log.js';
 import * as service from '../../services/service.security.js';
-const getCertificateList = async (_, { page, filter }, { token }) => {
+
+const getCertificateList = async (_, { page, filter, sortBy }, { token }) => {
   try {
-    const ret = await service.getAllCertificates(token, page, filter);
+    const ret = await service.getAllCertificates({
+      token, page, filter, sortBy: sortBy || 'desc:createdAt',
+    });
+
     const { data: { paging, certificates } } = ret;
 
     const pagination = {

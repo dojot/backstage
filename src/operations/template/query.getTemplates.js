@@ -1,20 +1,22 @@
 import * as service from '../../services/service.template.js';
 
-const getTemplates = async (_, { page, filter }, { token }) => {
-  const requestParameters = {};
+const getTemplates = async (_, { page, filter, sortBy }, { token }) => {
+  const urlParams = new URLSearchParams({
+    sortBy: sortBy || 'desc:created',
+  });
 
   if (page) {
-    requestParameters.page_size = page.size || 20;
-    requestParameters.page_num = page.number || 1;
+    urlParams.append('page_size', page.size || 20);
+    urlParams.append('page_num', page.number || 1);
   }
 
   if (filter) {
-    requestParameters.label = filter.label;
+    urlParams.append('label', filter.label);
   }
 
   const { data: fetchedData } = await service.getTemplateWithParams(
     token,
-    new URLSearchParams(requestParameters).toString(),
+    urlParams.toString(),
   );
 
 

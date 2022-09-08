@@ -93,7 +93,7 @@ const TypeDefs = [`
     #The value is true if the template has image firmware.
     templatesHasImageFirmware(templatesId: [Int]!): [MapStringToString]
     #Returns a list of templates
-    getTemplates(page: PageInput, filter: FilterTemplateInput): TemplatesListPage
+    getTemplates(page: PageInput, filter: FilterTemplateInput, sortBy: String): TemplatesListPage
   }
 
   type Mutation {
