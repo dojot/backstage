@@ -28,6 +28,32 @@ export const getTemplatesInfo = async (token, ids) => {
 
 export const deleteTemplate = async (token, id) => axios.delete(`${baseURL}/template/${id}`, getHeader(token));
 
+
+export const deleteMultipleTemplates = async (token, templateIds) => {
+  const deletedTemplates = [];
+  const notDeletedTemplates = [];
+
+  const promises = templateIds.map(
+    async (templateId) => {
+      await deleteTemplate(token, templateId)
+        .then(async (response) => {
+          deletedTemplates.push(response.data.removed);
+        })
+        .catch(async () => {
+          const { data: { label } } = await getTemplateById(token, templateId);
+          notDeletedTemplates.push({
+            id: templateId,
+            label,
+            associatedDevices: [{ id: '12345', label: 'Fake Device 1' }, { id: '54321', label: 'Fake Device 2' }],
+          });
+        });
+    },
+  );
+
+  await Promise.all(promises);
+  return { deletedTemplates, notDeletedTemplates };
+};
+
 export const createTemplate = async (token, template) => axios.post(`${baseURL}/template`, template, getHeader(token));
 
 export const editTemplate = async (token, id, template) => axios.put(`${baseURL}/template/${id}`, template, getHeader(token));

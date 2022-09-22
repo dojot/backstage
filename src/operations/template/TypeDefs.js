@@ -64,6 +64,22 @@ const TypeDefs = [`
     created: String!
     attrs: [Attr]
   }
+  
+  type AssociatedDevice {
+    id: String!,
+    label: String!,
+  }
+
+  type NotDeletedTemplate {
+    id: String!,
+    label: String!,
+    associatedDevices: [AssociatedDevice]!
+  }
+
+  type DeleteMultipleTemplatesResponse {
+    deletedTemplates: [TemplateList]!
+    notDeletedTemplates: [NotDeletedTemplate]!
+  }
 
   type MapStringToString {
     #key
@@ -98,6 +114,7 @@ const TypeDefs = [`
 
   type Mutation {
     deleteTemplates(templateIds: [String]!): String
+    deleteMultipleTemplates(templateIds: [String]!): DeleteMultipleTemplatesResponse
     duplicateTemplate(templateId: String!): TemplateList
     createTemplate(label: String!, attrs: [TemplateAttr]!): TemplateList
     editTemplate(id: String!, label: String!, attrs: [TemplateAttr]!): TemplateList
