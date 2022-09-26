@@ -5,6 +5,7 @@ import templatesHasImageFirmware from './query.templatesHasImageFirmware.js';
 import editTemplate from './mutation.editTemplate.js';
 import createTemplate from './mutation.createTemplate.js';
 import deleteTemplates from './mutation.deleteTemplates.js';
+import deleteMultipleTemplates from './mutation.deleteMultipleTemplates.js';
 import duplicateTemplate from './mutation.duplicateTemplate.js';
 
 const Resolvers = {
@@ -17,6 +18,7 @@ const Resolvers = {
     editTemplate,
     createTemplate,
     deleteTemplates,
+    deleteMultipleTemplates,
     duplicateTemplate,
   },
 };

@@ -123,6 +123,10 @@ type Device {
     label: String
  }
 
+ type MultipleDevicesCreated{
+   devicesWithError: Boolean
+ }
+
   type Query {
     #Returns a list of devices that can be divided in pages, and the information about how many pages there are in total, along with which page is being shown.
     #@param sortBy: set sortBy to sort list (default 'label')
@@ -137,6 +141,7 @@ type Device {
 
   type Mutation {
     createDevice(label: String!, id: String, templates: [Int]!, attrs: [DeviceAttributes], fingerprint: String): [DeviceCreatedList]
+    createMultipleDevices(devicesPrefix: String!, quantity: String!, initialSuffixNumber: String!, templates: [Int]!, attrs: [DeviceAttributes]): MultipleDevicesCreated
     deleteDevices(deviceIds: [String]!, userName: String!, tenant: String!): String
     editDevice(id: String!, label: String!, templates: [Int]!, attrs: [DeviceAttributes]): DeviceCreatedList
     favoriteDevices(deviceIds: [String]!, userName: String!, tenant: String!): Boolean
