@@ -83,6 +83,7 @@ const TypeDefs = [`
     disassociateDevice(fingerprint: String!): String
     createCertificationAuthority(caPem: String!): String
     deleteCertificationAuthorities(fingerprints: [String]!): String
+    importCertificatesInBatch(caRoot: String!, certificates: [String]!): String
   }
 `];
 
