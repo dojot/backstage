@@ -8,6 +8,7 @@ import deleteDevices from './mutation.deleteDevices.js';
 import editDevice from './mutation.editDevice.js';
 import favoriteDevices from './mutation.favoriteDevices.js';
 import getFavoriteDevicesList from './query.getFavoriteDevicesList.js';
+import associateDevicesInBatch from './mutation.associateDevicesInBatch.js';
 
 const Resolvers = {
   Query: {
@@ -23,6 +24,7 @@ const Resolvers = {
     deleteDevices,
     editDevice,
     favoriteDevices,
+    associateDevicesInBatch,
   },
 };
 

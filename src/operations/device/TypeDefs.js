@@ -138,6 +138,16 @@ type Device {
    notCreatedDevices: [NotCreatedDeviceCSV]
  }
 
+ type DeviceAssociated {
+   label: String!
+ }
+
+ type DevicesAssociatedResponse {
+   associatedDevices: [DeviceAssociated]!
+   devicesWithOtherCertificates: [DeviceAssociated]!,
+   notAssociatedDevices: [DeviceAssociated]!
+ }
+
   type Query {
     #Returns a list of devices that can be divided in pages, and the information about how many pages there are in total, along with which page is being shown.
     #@param sortBy: set sortBy to sort list (default 'label')
@@ -157,6 +167,7 @@ type Device {
     deleteDevices(deviceIds: [String]!, userName: String!, tenant: String!): String
     editDevice(id: String!, label: String!, templates: [Int]!, attrs: [DeviceAttributes]): DeviceCreatedList
     favoriteDevices(deviceIds: [String]!, userName: String!, tenant: String!): Boolean
+    associateDevicesInBatch(deviceIdArray: [String]!): DevicesAssociatedResponse
    }
 `];
 
