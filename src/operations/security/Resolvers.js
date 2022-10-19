@@ -11,6 +11,7 @@ import deleteCertificates from './mutation.deleteCertificates.js';
 import disassociateDevice from './mutation.disassociateDevice.js';
 import createCertificationAuthority from './mutation.createCertificationAuthority.js';
 import deleteCertificationAuthorities from './mutation.deleteCertificationAuthorities.js';
+import importCertificatesInBatch from './mutation.importCertificatesInBatch.js';
 
 const Resolvers = {
   Query: {
@@ -28,6 +29,7 @@ const Resolvers = {
     createCertificationAuthority,
     deleteCertificationAuthorities,
     registerExternalCertificate,
+    importCertificatesInBatch,
   },
 };
 

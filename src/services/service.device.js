@@ -180,3 +180,21 @@ export const getInfluxLastUpdateForDevice = async (token, deviceId, attrs) => {
 };
 
 export const editDevice = async (token, id, data) => axios.put(`${baseURL}/device/${id}`, data, getHeader(token));
+
+export const associateDevicesInBatch = async (token, { deviceIdArray }) => ({
+  associatedDevices: [
+    {
+      label: 'fake device 1',
+    },
+  ],
+  devicesWithOtherCertificates: [
+    {
+      label: 'fake device 2',
+    },
+  ],
+  notAssociatedDevices: [
+    {
+      label: 'fake device 3',
+    },
+  ],
+});

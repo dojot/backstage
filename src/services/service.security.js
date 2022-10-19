@@ -53,3 +53,8 @@ export const getCertificationAuthorities = async ({
 };
 
 export const deleteCertificationAuthority = async (token, fingerprint) => axios.delete(`${baseURL}/x509/v1/trusted-cas/${fingerprint}`, getHeader(token));
+
+export const importCertificatesInBatch = async (token, {caRoot, certificates}) => {
+  // to be implemented when the api is ready
+  return 'ok';
+};
