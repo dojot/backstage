@@ -1,8 +1,8 @@
-import LOG from '../../utils/Log.js';
 import * as deviceService from '../../services/service.device.js';
 import * as favoriteDeviceService from '../../services/service.favoriteDevice.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const getFavoriteDevicesList = async (_, { user, tenant }, { token }) => {
+const getFavoriteDevicesList = async (_, { user, tenant }, { session, token }) => {
   try {
     const promises = [];
     const favoriteDevicesForList = [];
@@ -24,7 +24,7 @@ const getFavoriteDevicesList = async (_, { user, tenant }, { token }) => {
 
     return favoriteDevicesForList;
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };

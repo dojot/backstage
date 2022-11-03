@@ -1,7 +1,7 @@
-import LOG from '../../utils/Log.js';
 import * as service from '../../services/service.template.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const deleteTemplates = async (_, { templateIds }, { token }) => {
+const deleteTemplates = async (_, { templateIds }, { session, token }) => {
   try {
     const promises = templateIds.map(
       async (templateId) => {
@@ -11,7 +11,7 @@ const deleteTemplates = async (_, { templateIds }, { token }) => {
     await Promise.all(promises);
     return 'ok';
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };

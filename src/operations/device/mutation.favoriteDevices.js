@@ -1,7 +1,7 @@
-import LOG from '../../utils/Log.js';
 import * as service from '../../services/service.favoriteDevice.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const favoriteDevices = async (_, { deviceIds, userName, tenant }) => {
+const favoriteDevices = async (_, { deviceIds, userName, tenant }, { session }) => {
   try {
     let result;
     const promises = deviceIds.map(
@@ -16,7 +16,7 @@ const favoriteDevices = async (_, { deviceIds, userName, tenant }) => {
 
     return result;
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };

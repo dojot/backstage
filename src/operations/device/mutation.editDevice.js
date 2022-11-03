@@ -1,9 +1,9 @@
 import lodash from 'lodash';
-import LOG from '../../utils/Log.js';
 import * as service from '../../services/service.device.js';
 import { getObjectWithNewKeys } from '../../utils/Object.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const editDevice = async (_, device, { token }) => {
+const editDevice = async (_, device, { token, session }) => {
   try {
     const {
       id, label, templates, attrs,
@@ -19,7 +19,7 @@ const editDevice = async (_, device, { token }) => {
 
     return data.device;
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };

@@ -1,13 +1,13 @@
 import * as service from '../../services/service.security.js';
-import LOG from '../../utils/Log.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const associateDevice = async (_, { fingerprint, deviceId }, { token }) => {
+const associateDevice = async (_, { fingerprint, deviceId }, { session, token }) => {
   try {
     await service.associateCertificate(token, fingerprint, deviceId);
     return 'successfully associated';
 
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 }

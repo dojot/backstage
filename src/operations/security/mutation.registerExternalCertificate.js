@@ -1,8 +1,8 @@
 import * as service from "../../services/service.security.js";
-import LOG from '../../utils/Log.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
 
-const registerExternalCertificate = async (_, {certificateChain}, {token}) => {
+const registerExternalCertificate = async (_, { certificateChain }, { session, token }) => {
   try {
     const {data: {certificateFingerprint}} = await service.registerExternalCertificate(token, certificateChain);
 
@@ -12,7 +12,7 @@ const registerExternalCertificate = async (_, {certificateChain}, {token}) => {
 
   } catch (e) {
     const {response: {data: {error}}} = e;
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 }

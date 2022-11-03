@@ -1,9 +1,9 @@
-import LOG from '../../utils/Log.js';
 import * as service from '../../services/service.device.js';
 import * as favoriteDeviceService from '../../services/service.favoriteDevice.js';
 import * as securityService from '../../services/service.security.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const deleteDevices = async (_, { deviceIds, userName, tenant }, { token }) => {
+const deleteDevices = async (_, { deviceIds, userName, tenant }, { token, session }) => {
   try {
     const disassociateCertificatesPromise = deviceIds.map(async (deviceId) => {
       const { data: certificateData } = await securityService
@@ -25,7 +25,7 @@ const deleteDevices = async (_, { deviceIds, userName, tenant }, { token }) => {
     await Promise.all(deleteDevicesPromise);
     return 'ok';
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };

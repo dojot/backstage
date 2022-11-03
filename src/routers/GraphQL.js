@@ -8,9 +8,8 @@ const router = Router();
 router.use('/backstage/graphql', graphqlHTTP({
   schema: rootSchema,
   graphiql: false,
-  customFormatErrorFn(error) {
+  customFormatErrorFn: (error) => {
     let data;
-
     if (
       error.originalError
       && error.originalError.response

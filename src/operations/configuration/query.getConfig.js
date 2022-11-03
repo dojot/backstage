@@ -1,7 +1,8 @@
 import {userPool} from "../../db/index.js";
 import LOG from "../../utils/Log.js";
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const getConfig = async (root, params) => {
+const getConfig = async (root, params, { session }) => {
   let query = {};
   if (params.user) {
     if (params.user === '**generic_user**') {
@@ -27,7 +28,7 @@ const getConfig = async (root, params) => {
     LOG.info(`Could not retrieve configuration from user ${params.user} in tenant ${params.tenant}`);
     return null;
   } catch (error) {
-    LOG.error(error);
+    HandleResolverError(session, error);
     throw error;
   }
 }

@@ -1,14 +1,14 @@
-import LOG from '../../utils/Log.js';
 import * as service from '../../services/service.template.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const deleteMultipleTemplates = async (_, { templateIds }, { token }) => {
+const deleteMultipleTemplates = async (_, { templateIds }, { session, token }) => {
   try {
     const { deletedTemplates, notDeletedTemplates } = await service
       .deleteMultipleTemplates(token, templateIds);
 
     return { deletedTemplates, notDeletedTemplates };
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };
