@@ -1,9 +1,19 @@
 import LOG from "../../utils/Log.js";
 import * as service from "../../services/service.reports.js";
 
-const findManyReports = async (_, { page, pageSize }, { token }) => {
+const findManyReports = async (_, { page, pageSize, name }, { token }) => {
   try {
-    const { data } = await service.findManyReports(token, { page, pageSize });
+    const urlParams = new URLSearchParams({
+      page: page || 1,
+      pageSize: pageSize || 10,
+    });
+
+    if (name) {
+      urlParams.append('name', name);
+    }
+
+
+    const { data } = await service.findManyReports(token, { urlParams });
 
     return {
       total: data.pagination.total,

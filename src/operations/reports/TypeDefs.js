@@ -223,7 +223,7 @@ type Device {
  }
 
   type Query {
-    findManyReports(page: Int, pageSize: Int): ReportListPage
+    findManyReports(page: Int, pageSize: Int, name: String): ReportListPage
   }
 
   type Mutation {

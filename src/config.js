@@ -29,7 +29,7 @@ const config = {
   redis_port: process.env.BS_REDIS_PORT || 6379,
   redis_ttl: process.env.BS_REDIS_TTL || 86400, // 1 Day in seconds
 
-  report_manager_url: process.env.REPORT_MANAGER_URL || 'http://172.20.0.26:3791',
+  report_manager_url: process.env.REPORT_MANAGER_URL || 'http://report-manager:3791',
 
   file_management_url: process.env.FILE_MANAGEMENT_URL || 'http://file-mgmt:7000',
 };
