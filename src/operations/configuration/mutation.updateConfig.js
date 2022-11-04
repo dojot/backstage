@@ -1,5 +1,4 @@
 import { userPool } from '../../db/index.js';
-import LOG from '../../utils/Log.js';
 import HandleResolverError from '../../utils/SessionValidation.js';
 
 const updateConfig = async (root, params, { session }) => {
