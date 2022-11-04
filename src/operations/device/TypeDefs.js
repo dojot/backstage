@@ -166,7 +166,7 @@ type Device {
     createMultipleDevices(devicesPrefix: String!, quantity: String!, initialSuffixNumber: String!, templates: [Int]!, attrs: [DeviceAttributes]): MultipleDevicesCreated
     createDevicesCSV(csvFile: String!): CreatedDevicesCSV
     deleteDevices(deviceIds: [String]!, userName: String!, tenant: String!): String
-    editDevice(id: String!, label: String!, templates: [Int]!, attrs: [DeviceAttributes]): DeviceCreatedList
+    editDevice(id: String!, label: String!, disabled: Boolean!, templates: [Int]!, attrs: [DeviceAttributes]): DeviceCreatedList
     favoriteDevices(deviceIds: [String]!, userName: String!, tenant: String!): Boolean
     associateDevicesInBatch(deviceIdArray: [String]!): DevicesAssociatedResponse
    }
