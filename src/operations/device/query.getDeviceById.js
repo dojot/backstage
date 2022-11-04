@@ -15,6 +15,7 @@ const getDeviceById = async (_, { deviceId }, { session, token }) => {
     const device = {
       id: deviceData.id,
       label: deviceData.label,
+      disabled: deviceData.disabled,
       attrs: [],
       created: deviceData.created,
       updated: deviceData.updated ? deviceData.updated : '',
