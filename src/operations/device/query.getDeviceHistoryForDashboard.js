@@ -7,7 +7,7 @@ import {
 import * as service from '../../services/service.device.js';
 import {OPERATION, SOURCE, WIDGET_TYPE} from '../../constants/index.js';
 import moment from 'moment';
-import LOG from '../../utils/Log.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 import lodash from 'lodash';
 import config from '../../config.js';
 
@@ -17,7 +17,7 @@ const getDeviceHistoryForDashboard = async (
   props,
   context,
 ) => {
-  const {token} = context;
+  const {token, session} = context;
   const {
     filter: {dateFrom = '', dateTo = '', lastN = '1', devices = [], templates = []},
     configs: {sourceType = SOURCE.DEVICE, operationType = OPERATION.LAST.N, widgetType = WIDGET_TYPE.DEFAULT}
@@ -33,8 +33,8 @@ const getDeviceHistoryForDashboard = async (
   switch (operationType) {
     case OPERATION.LAST.N:
       // To get the latest N records
-      queryStringParams += config.use_influxdb 
-        ? `${lastN && `&limit=${lastN}`}` 
+      queryStringParams += config.use_influxdb
+        ? `${lastN && `&limit=${lastN}`}`
         : `${lastN && `&lastN=${lastN}`}`;
       break;
     case OPERATION.LAST.MINUTES:
@@ -63,8 +63,8 @@ const getDeviceHistoryForDashboard = async (
       case SOURCE.DEVICE:
         const devicesIds = devices.map(device => device.deviceID)
         dojotDevices = await service.getDeviceList(token, devicesIds)
-        dynamicAttrs = config.use_influxdb 
-          ? await service.getInfluxDataFromDevices(token, devices, queryStringParams) 
+        dynamicAttrs = config.use_influxdb
+          ? await service.getInfluxDataFromDevices(token, devices, queryStringParams)
           : await service.getHistoryFromDevices(token, devices, queryStringParams)
         break;
       case SOURCE.TEMPLATE:
@@ -72,8 +72,8 @@ const getDeviceHistoryForDashboard = async (
         dojotDevices = ret.values;
         devicesFromTemplate = ret.devicesIDs;
         deviceDictionary = ret.deviceDictionary;
-        dynamicAttrs = config.use_influxdb 
-          ? await service.getInfluxDataFromDevices(token, devicesFromTemplate, queryStringParams) 
+        dynamicAttrs = config.use_influxdb
+          ? await service.getInfluxDataFromDevices(token, devicesFromTemplate, queryStringParams)
           : await service.getHistoryFromDevices(token, devicesFromTemplate, queryStringParams)
         break;
       default:
@@ -90,7 +90,7 @@ const getDeviceHistoryForDashboard = async (
       }
     }
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 

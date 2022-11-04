@@ -1,9 +1,9 @@
 import JSZip from 'jszip';
 import * as service from '../../services/service.security.js';
-import LOG from '../../utils/Log.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
 
-const createCertificateCSR = async (_, { csrPEM }, { token }) => {
+const createCertificateCSR = async (_, { csrPEM }, { session, token }) => {
   try {
     const {
       data: {
@@ -27,7 +27,7 @@ const createCertificateCSR = async (_, { csrPEM }, { token }) => {
     };
   } catch (e) {
     const { response: { data: { error } } } = e;
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };

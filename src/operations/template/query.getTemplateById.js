@@ -1,7 +1,7 @@
-import LOG from '../../utils/Log.js';
 import * as service from '../../services/service.template.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const getTemplateById = async (_, { templateId }, { token }) => {
+const getTemplateById = async (_, { templateId }, { session, token }) => {
   try {
     const { data } = await service.getTemplateById(token, templateId);
 
@@ -25,7 +25,7 @@ const getTemplateById = async (_, { templateId }, { token }) => {
       attrs: formattedAttrs,
     };
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };

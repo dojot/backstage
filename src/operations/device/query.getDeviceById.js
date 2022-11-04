@@ -1,10 +1,10 @@
-import LOG from '../../utils/Log.js';
 import * as deviceService from '../../services/service.device.js';
 import * as template from '../../services/service.template.js';
 import * as securityService from '../../services/service.security.js';
 import config from '../../config.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const getDeviceById = async (_, { deviceId }, { token }) => {
+const getDeviceById = async (_, { deviceId }, { session, token }) => {
   try {
     const { data: deviceData } = await deviceService.getDeviceById(token, deviceId);
 
@@ -53,7 +53,7 @@ const getDeviceById = async (_, { deviceId }, { token }) => {
 
     return device;
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };
