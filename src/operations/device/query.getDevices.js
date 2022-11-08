@@ -57,6 +57,7 @@ const getDevices = async (root, { page, filter, sortBy }, { token, session }) =>
       devices.push({
         id: device.id,
         label: device.label,
+        disabled: device.disabled,
         created: device.created,
         updated: device.updated ? device.updated : '',
         attrs: attributes,

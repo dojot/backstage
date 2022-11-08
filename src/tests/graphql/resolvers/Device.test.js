@@ -44,6 +44,7 @@ const deviceData = {
       created: '2020-10-01T14:49:26.869152+00:00',
       id: '0998',
       label: 'temperature sensor',
+      disabled: false,
       templates: [0],
     },
   },
@@ -74,6 +75,7 @@ const deviceData = {
       created: '2020-10-01T14:49:26.869152+00:00',
       id: '8aa0f9',
       label: 'colors sensor',
+      disabled: false,
       templates: [1, 2],
     },
   },
@@ -104,6 +106,7 @@ const deviceData = {
       created: '2020-10-01T14:49:26.869152+00:00',
       id: '44h7ff',
       label: 'GPS - Marca C',
+      disabled: false,
       templates: [3],
     },
   },
@@ -134,6 +137,7 @@ const deviceData = {
       created: '2020-10-01T14:49:26.869152+00:00',
       id: '44h7ff',
       label: 'GPS - Marca A',
+      disabled: false,
       templates: [3],
     },
   },
@@ -164,6 +168,7 @@ const deviceData = {
       created: '2020-10-01T14:49:26.869152+00:00',
       id: '44h7ff',
       label: 'GPS - Marca B',
+      disabled: false,
       templates: [3],
     },
   },
@@ -188,6 +193,7 @@ const deviceData = {
           created: '2020-05-14T18:18:34.401142+00:00',
           id: '1b32ee',
           label: 'device2',
+          disabled: false,
           favorite: false,
           templates: [
             2,
@@ -232,6 +238,7 @@ const devicesFromTemplateData = {
         created: '2020-10-01T14:49:26.869152+00:00',
         id: '44h7ff',
         label: 'GPS - Marca C',
+        disabled: false,
         templates: [3],
       },
       {
@@ -260,6 +267,7 @@ const devicesFromTemplateData = {
         created: '2020-10-01T14:49:26.869152+00:00',
         id: '90bc2a',
         label: 'GPS - Marca A',
+        disabled: false,
         templates: [3],
       },
       {
@@ -288,6 +296,7 @@ const devicesFromTemplateData = {
         created: '2020-10-01T14:49:26.869152+00:00',
         id: 'ca19f8',
         label: 'GPS - Marca B',
+        disabled: false,
         templates: [3],
       },
     ],
@@ -433,6 +442,7 @@ it('Device - should return a device', () => {
         created: '2021-08-24T18:00:58.595191+00:00',
         id: 'e5d299',
         label: 'CS Teste',
+        disabled: false,
         templates: [
           18,
           19,
@@ -539,6 +549,7 @@ it('Device - should return a device', () => {
       created: '2021-08-24T18:00:58.595191+00:00',
       id: 'e5d299',
       label: 'CS Teste',
+      disabled: false,
       lastUpdate: [
         {
           date: null,
@@ -617,6 +628,7 @@ it('Device - should get a list of devices', () => {
             created: '2020-05-14T18:18:34.401142+00:00',
             id: '1b32ee',
             label: 'device2',
+            disabled: false,
             favorite: false,
             updated: '',
           },
@@ -848,6 +860,7 @@ it('Device - should edit a device', async () => {
   const fakeDevice = {
     id: 'abc123',
     label: 'OLD DEVICE NAME',
+    disabled: false,
     templates: [{ id: 'template123' }],
   };
 
