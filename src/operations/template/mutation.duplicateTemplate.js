@@ -1,7 +1,7 @@
-import LOG from '../../utils/Log.js';
 import * as service from '../../services/service.template.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const duplicateTemplate = async (_, { templateId }, { token }) => {
+const duplicateTemplate = async (_, { templateId }, { session, token }) => {
   try {
     const { data: template } = await service.getTemplateById(token, templateId);
 
@@ -23,7 +23,7 @@ const duplicateTemplate = async (_, { templateId }, { token }) => {
 
     return savedData.template;
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };

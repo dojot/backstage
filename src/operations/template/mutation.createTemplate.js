@@ -1,9 +1,9 @@
 import lodash from 'lodash';
-import LOG from '../../utils/Log.js';
 import * as service from '../../services/service.template.js';
 import { getObjectWithNewKeys } from '../../utils/Object.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const createTemplate = async (_, { label, attrs }, { token }) => {
+const createTemplate = async (_, { label, attrs }, { session, token }) => {
   try {
     const formattedAttrs = attrs
       ? attrs.map(attr => getObjectWithNewKeys(attr, lodash.snakeCase))
@@ -16,7 +16,7 @@ const createTemplate = async (_, { label, attrs }, { token }) => {
 
     return data.template;
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };

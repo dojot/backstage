@@ -1,7 +1,7 @@
-import LOG from '../../utils/Log.js';
 import * as service from '../../services/service.security.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const createCertificationAuthority = async (_, { caPem }, { token }) => {
+const createCertificationAuthority = async (_, { caPem }, { session, token }) => {
   try {
     await service.createCertificationAuthority(token, {
       caPem,
@@ -10,7 +10,7 @@ const createCertificationAuthority = async (_, { caPem }, { token }) => {
 
     return 'ok';
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };
