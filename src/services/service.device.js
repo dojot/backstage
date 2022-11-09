@@ -173,12 +173,12 @@ export const getInfluxLastUpdateForDevice = async (token, deviceId, attrs) => {
           date: undefined,
           label: attr.label,
         });
-        Promise.resolve(null)
+        Promise.resolve(null);
       });
       promises.push(promise);
     });
 
-  await Promise.all(promises)
+  await Promise.all(promises);
   return values;
 };
 
