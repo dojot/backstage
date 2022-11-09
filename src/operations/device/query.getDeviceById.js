@@ -2,7 +2,6 @@ import * as deviceService from '../../services/service.device.js';
 import * as template from '../../services/service.template.js';
 import * as securityService from '../../services/service.security.js';
 import config from '../../config.js';
-import LOG from '../../utils/Log.js';
 import HandleResolverError from '../../utils/SessionValidation.js';
 
 const getDeviceById = async (_, { deviceId }, { session, token }) => {
