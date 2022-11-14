@@ -12,7 +12,6 @@ const findManyReports = async (_, { page, pageSize, name }, { token }) => {
       urlParams.append('name', name);
     }
 
-
     const { data } = await service.findManyReports(token, { urlParams });
 
     return {

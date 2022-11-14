@@ -3,7 +3,7 @@ import config from '../config.js';
 
 const baseURL = config.file_management_url;
 
-const getHeader = token => ({
+const getHeader = (token) => ({
   Authorization: `Bearer ${token}`,
 });
 
