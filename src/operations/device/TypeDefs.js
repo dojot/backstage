@@ -161,6 +161,7 @@ type Device {
   }
 
   type Mutation {
+    actuate(deviceId: String!, labels: [String]!, values: [String]!): String
     createDevice(label: String!, id: String, templates: [Int]!, attrs: [DeviceAttributes], fingerprint: String): [DeviceCreatedList]
     createMultipleDevices(devicesPrefix: String!, quantity: String!, initialSuffixNumber: String!, templates: [Int]!, attrs: [DeviceAttributes]): MultipleDevicesCreated
     createDevicesCSV(csvFile: String!): CreatedDevicesCSV

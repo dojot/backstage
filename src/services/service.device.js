@@ -200,3 +200,5 @@ export const associateDevicesInBatch = async (token, { deviceIdArray }) => ({
     },
   ],
 });
+
+export const actuate = async (token, id, data) => axios.put(`${baseURL}/device/${id}/actuate`, data, getHeader(token));
