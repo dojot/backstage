@@ -45,11 +45,9 @@ const getDeviceById = async (_, { deviceId }, { session, token }) => {
       });
     });
 
-    const lastUpdate = config.use_influxdb
+    device.lastUpdate = config.use_influxdb
       ? await deviceService.getInfluxLastUpdateForDevice(token, deviceData.id, device.attrs)
       : await deviceService.getDeviceHistoricForAllAttrs(token, deviceData.id);
-
-    device.lastUpdate = lastUpdate;
 
     return device;
   } catch (error) {
