@@ -1,9 +1,9 @@
 import * as service from '../../services/service.device.js';
 import HandleResolverError from '../../utils/SessionValidation.js';
 
-const actuate = async (_, device, { token, session }) => {
+const actuate = async (_, params, { token, session }) => {
   try {
-    const { deviceId, labels, values } = device;
+    const { deviceId, labels, values } = params;
 
     const attrs = {};
     labels.forEach((label, index) => {
