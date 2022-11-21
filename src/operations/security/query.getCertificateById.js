@@ -1,7 +1,7 @@
-import LOG from '../../utils/Log.js';
 import * as service from '../../services/service.security.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-export const getCertificateById = async (_, { page, filter, id }, { token }) => {
+export const getCertificateById = async (_, { page, filter, id }, { session, token }) => {
   try {
     const ret = await service.getAllCertificates({
       token, page, filter, id,
@@ -20,7 +20,7 @@ export const getCertificateById = async (_, { page, filter, id }, { token }) => 
 
     return { certificates, pagination };
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };

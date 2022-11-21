@@ -56,34 +56,36 @@ export const getHistoryFromDevices = async (token, devices, params = '') => {
 
 export const getInfluxDataFromDevices = async (token, devices, params) => {
   const promises = [];
+  const attributes = [];
 
-  devices.forEach(({ deviceID, dynamicAttrs }) => {
+  devices.forEach(({deviceID, dynamicAttrs}) => {
     if (dynamicAttrs) {
-      const newPromises = dynamicAttrs.map(async (attr) => {
-        const { data } = await axios.get(
+      dynamicAttrs.forEach((attr) => {
+        const promise = axios.get(
           `${baseURL}/tss/v1/devices/${deviceID}/attrs/${attr}/data?order=desc${params}`,
-          getHeader(token),
-        );
-
-        const [firstAttrData] = data.data;
-
-        return {
-          attr,
-          // We don't have the metadata on InfluxDB, but its here just to ensure
-          // that this function returns the same data as getHistoryFromDevices
-          metadata: {},
-          device_id: deviceID,
-          ts: firstAttrData.ts,
-          value: firstAttrData.value,
-        };
+          getHeader(token)
+        ).then((response) => {
+          if (!!response.data.data && Array.isArray(response.data.data)) {
+            response.data.data.forEach(attrItems => {
+                attributes.push(
+              {
+                attr,
+                // We don't have the metadata on InfluxDB, but its here just to ensure
+                // that this function returns the same data as getHistoryFromDevices
+                metadata: {},
+                device_id: deviceID,
+                ...attrItems,
+              });
+            });
+          }
+        }).catch(() => Promise.resolve(null));
+        promises.push(promise);
       });
-
-      promises.push(...newPromises);
     }
   });
-
-  return Promise.all(promises);
-};
+  await (Promise.all(promises));
+  return attributes;
+}
 
 export const getDevicesByTemplate = async (token, templates) => {
   const promises = [];
@@ -151,32 +153,33 @@ export const getDeviceHistoricForAllAttrs = async (token, deviceId) => {
 };
 
 export const getInfluxLastUpdateForDevice = async (token, deviceId, attrs) => {
-  try {
-    const promises = attrs.map(async (attr) => {
-      const { data } = await axios.get(
+  const promises = [];
+  const values = [];
+    attrs.forEach((attr) => {
+      const promise = axios.get(
         `${baseURL}/tss/v1/devices/${deviceId}/attrs/${attr.label}/data?limit=1`,
         getHeader(token),
-      );
-
-      const [firstAttrData] = data.data;
-      return firstAttrData;
+      ).then((response) => {
+        const [firstAttrData] = response.data;
+        const { ts, value } = firstAttrData || {};
+        values.push({
+          value,
+          date: ts,
+          label: attr.label,
+        });
+      }).catch(() => {
+        values.push({
+          value: undefined,
+          date: undefined,
+          label: attr.label,
+        });
+        Promise.resolve(null);
+      });
+      promises.push(promise);
     });
 
-    const attrDataArray = await Promise.all(promises);
-
-    return attrDataArray.map((attrData, index) => {
-      const { ts, value } = attrData || {};
-      const attr = attrs[index];
-      return {
-        value,
-        date: ts,
-        label: attr.label,
-      };
-    });
-  } catch (error) {
-    LOG.error(error.stack || error);
-    throw error;
-  }
+  await Promise.all(promises);
+  return values;
 };
 
 export const editDevice = async (token, id, data) => axios.put(`${baseURL}/device/${id}`, data, getHeader(token));

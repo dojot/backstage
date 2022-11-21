@@ -1,12 +1,12 @@
-import LOG from '../../utils/Log.js';
 import * as service from '../../services/service.security.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const getCertificateByFingerprint = async (_, { fingerprint }, { token }) => {
+const getCertificateByFingerprint = async (_, { fingerprint }, { session, token }) => {
   try {
     const ret = await service.getCertificateByFingerprint(token, fingerprint);
     return ret.data;
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };

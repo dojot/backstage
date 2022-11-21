@@ -1,9 +1,9 @@
 import * as service from '../../services/service.device.js';
 import * as securityService from '../../services/service.security.js';
 import * as favoriteDeviceService from '../../services/service.favoriteDevice.js';
-import LOG from '../../utils/Log.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const getDevices = async (root, { page, filter, sortBy }, { token }) => {
+const getDevices = async (root, { page, filter, sortBy }, { token, session }) => {
   try {
     const urlParams = new URLSearchParams({
       sortBy: sortBy || 'desc:created',
@@ -27,11 +27,9 @@ const getDevices = async (root, { page, filter, sortBy }, { token }) => {
       .getAllCertificates({ token, id: device.id }).then((response) => {
         const { certificates } = response.data;
 
-        const fingerprint = certificates[0]
+        return certificates[0]
           ? certificates[0].fingerprint
           : undefined;
-
-        return fingerprint;
       }));
 
     const fingerprints = await Promise.all(certificatePromises);
@@ -86,7 +84,7 @@ const getDevices = async (root, { page, filter, sortBy }, { token }) => {
       devices: devicesWithFavorites,
     };
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };

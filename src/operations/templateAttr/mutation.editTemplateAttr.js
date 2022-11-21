@@ -1,9 +1,9 @@
 import lodash from 'lodash';
-import LOG from '../../utils/Log.js';
 import * as service from '../../services/service.template.js';
 import { getObjectWithNewKeys } from '../../utils/Object.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const editTemplateAttr = async (_, { templateId, attrId, attr }, { token }) => {
+const editTemplateAttr = async (_, { templateId, attrId, attr }, { session, token }) => {
   try {
     const { data: template } = await service.getTemplateById(token, templateId);
 
@@ -26,7 +26,7 @@ const editTemplateAttr = async (_, { templateId, attrId, attr }, { token }) => {
 
     return editedTemplate.updated;
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };

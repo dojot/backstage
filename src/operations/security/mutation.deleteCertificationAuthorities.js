@@ -1,7 +1,7 @@
-import LOG from '../../utils/Log.js';
 import * as service from '../../services/service.security.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const deleteCertificationAuthorities = async (_, { fingerprints }, { token }) => {
+const deleteCertificationAuthorities = async (_, { fingerprints }, { session, token }) => {
   try {
     const promises = fingerprints.map(
       async (fingerprint) => {
@@ -11,7 +11,7 @@ const deleteCertificationAuthorities = async (_, { fingerprints }, { token }) =>
     await Promise.all(promises);
     return 'ok';
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };

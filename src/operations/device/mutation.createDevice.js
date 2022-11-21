@@ -1,10 +1,10 @@
 import lodash from 'lodash';
-import LOG from '../../utils/Log.js';
 import * as service from '../../services/service.device.js';
 import * as securityService from '../../services/service.security.js';
 import { getObjectWithNewKeys } from '../../utils/Object.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const createDevice = async (_, device, { token }) => {
+const createDevice = async (_, device, { token }, { session }) => {
   try {
     const {
       label = '', id = null, templates = [], attrs = [], fingerprint = '',
@@ -28,7 +28,7 @@ const createDevice = async (_, device, { token }) => {
 
     return data.devices;
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };

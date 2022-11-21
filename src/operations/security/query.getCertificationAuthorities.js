@@ -1,7 +1,7 @@
-import LOG from '../../utils/Log.js';
 import * as service from '../../services/service.security.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const getCertificationAuthorities = async (_, { page, filter, sortBy }, { token }) => {
+const getCertificationAuthorities = async (_, { page, filter, sortBy }, { session, token }) => {
   try {
     const { data } = await service.getCertificationAuthorities({
       token, page, filter, sortBy: sortBy || 'desc:createdAt',
@@ -22,7 +22,7 @@ const getCertificationAuthorities = async (_, { page, filter, sortBy }, { token 
 
     return { certificationAuthorities, pagination };
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };

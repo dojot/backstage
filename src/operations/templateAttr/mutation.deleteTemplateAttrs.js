@@ -1,7 +1,7 @@
-import LOG from '../../utils/Log.js';
 import * as service from '../../services/service.template.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const deleteTemplateAttrs = async (_, { templateId, attrIds = [] }, { token }) => {
+const deleteTemplateAttrs = async (_, { templateId, attrIds = [] }, { session, token }) => {
   try {
     const { data: template } = await service.getTemplateById(token, templateId);
 
@@ -18,7 +18,7 @@ const deleteTemplateAttrs = async (_, { templateId, attrIds = [] }, { token }) =
 
     return editedTemplate.updated;
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };

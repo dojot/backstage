@@ -1,7 +1,7 @@
 import { userPool } from '../../db/index.js';
-import LOG from '../../utils/Log.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const updateConfig = async (root, params) => {
+const updateConfig = async (root, params, { session }) => {
   const genUser = '**generic_user**';
   try {
     if (params.config === null) {
@@ -52,7 +52,7 @@ const updateConfig = async (root, params) => {
       throw 'Failed to insert into database';
     }
   } catch (error) {
-    LOG.error(error);
+    HandleResolverError(session, error);
     return error;
   }
 }

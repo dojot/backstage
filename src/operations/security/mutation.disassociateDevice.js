@@ -1,12 +1,12 @@
 import * as service from '../../services/service.security.js';
-import LOG from '../../utils/Log.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
-const disassociateDevice = async (_, { fingerprint }, { token }) => {
+const disassociateDevice = async (_, { fingerprint }, { session, token }) => {
   try {
     await service.disassociateCertificate(token, fingerprint);
     return 'successfully dissociated';
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 }

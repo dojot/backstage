@@ -1,10 +1,10 @@
 import JSZip from 'jszip';
 import * as service from '../../services/service.security.js';
 import * as helpers from './helpers.js';
-import LOG from '../../utils/Log.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
 
-const createCertificateOneClick = async (_, { commonName = 'dojot' }, { token }) => {
+const createCertificateOneClick = async (_, { commonName = 'dojot' }, { session, token }) => {
   const hashAlgorithm = 'SHA-256';
   const signAlgorithm = 'RSASSA-PKCS1-V1_5';
   const subjAltCSR = {
@@ -67,7 +67,7 @@ const createCertificateOneClick = async (_, { commonName = 'dojot' }, { token })
     };
   } catch (e) {
     const { response: { data: { error } } } = e;
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };

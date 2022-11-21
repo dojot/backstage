@@ -1,7 +1,8 @@
 import LOG from '../../utils/Log.js';
+import HandleResolverError from '../../utils/SessionValidation.js';
 
 // To implement when the new device manager is ready for integration
-const createMultipleDevices = async (_, devicesParams, { token }) => {
+const createMultipleDevices = async (_, devicesParams, { token, session }) => {
   try {
     const {
       devicesPrefix = '',
@@ -17,7 +18,7 @@ const createMultipleDevices = async (_, devicesParams, { token }) => {
 
     return { devicesWithError };
   } catch (error) {
-    LOG.error(error.stack || error);
+    HandleResolverError(session, error);
     throw error;
   }
 };
