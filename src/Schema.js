@@ -10,6 +10,8 @@ import userResolvers from './operations/configuration/Resolvers.js';
 import securityTypeDefs from './operations/security/TypeDefs.js';
 import securityResolvers from './operations/security/Resolvers.js';
 import templateAttrTypeDefs from './operations/templateAttr/TypeDefs.js';
+import reportsTypeDefs from './operations/reports/TypeDefs.js';
+import reportsResolvers from './operations/reports/Resolvers.js';
 
 
 import templateAttrResolvers from './operations/templateAttr/Resolvers.js';
@@ -21,7 +23,8 @@ export const typeDefs = mergeTypeDefs([
   deviceTypeDefs,
   userTypeDefs,
   securityTypeDefs,
-  templateAttrTypeDefs
+  templateAttrTypeDefs,
+  reportsTypeDefs,
 ]);
 
 const resolvers = lodash.merge(
@@ -30,10 +33,10 @@ const resolvers = lodash.merge(
   userResolvers,
   securityResolvers,
   templateAttrResolvers,
+  reportsResolvers,
 );
 
 
 const executableSchema = makeExecutableSchema({ typeDefs, resolvers });
 
 export default executableSchema;
-
