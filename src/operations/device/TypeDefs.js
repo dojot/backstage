@@ -3,6 +3,7 @@ const TypeDefs = [`
 type Device {
     id: String!
     label: String!
+    disabled: Boolean
     favorite: Boolean
     attrs: [Attr]
     created: String
@@ -161,11 +162,11 @@ type Device {
   }
 
   type Mutation {
-    createDevice(label: String!, id: String, templates: [Int]!, attrs: [DeviceAttributes], fingerprint: String): [DeviceCreatedList]
+    createDevice(label: String!, disabled: Boolean!, id: String, templates: [Int]!, attrs: [DeviceAttributes], fingerprint: String): [DeviceCreatedList]
     createMultipleDevices(devicesPrefix: String!, quantity: String!, initialSuffixNumber: String!, templates: [Int]!, attrs: [DeviceAttributes]): MultipleDevicesCreated
     createDevicesCSV(csvFile: String!): CreatedDevicesCSV
     deleteDevices(deviceIds: [String]!, userName: String!, tenant: String!): String
-    editDevice(id: String!, label: String!, templates: [Int]!, attrs: [DeviceAttributes]): DeviceCreatedList
+    editDevice(id: String!, label: String!, disabled: Boolean!, templates: [Int]!, attrs: [DeviceAttributes]): DeviceCreatedList
     favoriteDevices(deviceIds: [String]!, userName: String!, tenant: String!): Boolean
     associateDevicesInBatch(deviceIdArray: [String]!): DevicesAssociatedResponse
    }
