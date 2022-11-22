@@ -28,6 +28,10 @@ const config = {
   redis_host: process.env.BS_REDIS_HOST || 'redis://backstage-redis',
   redis_port: process.env.BS_REDIS_PORT || 6379,
   redis_ttl: process.env.BS_REDIS_TTL || 86400, // 1 Day in seconds
+
+  report_manager_url: process.env.BS_REPORT_MANAGER_URL || 'http://report-manager:3791',
+
+  file_management_url: process.env.BS_FILE_MANAGEMENT_URL || 'http://file-mgmt:7000',
 };
 
 export default config;
