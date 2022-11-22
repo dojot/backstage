@@ -6,13 +6,14 @@ import HandleResolverError from '../../utils/SessionValidation.js';
 const editDevice = async (_, device, { token, session }) => {
   try {
     const {
-      id, label, templates, attrs,
+      id, label, disabled, templates, attrs,
     } = device;
 
     const formattedAttrs = attrs ? attrs.map(attr => getObjectWithNewKeys(attr, lodash.snakeCase)) : attrs;
 
     const { data } = await service.editDevice(token, id, {
       label,
+      disabled,
       templates,
       attrs: formattedAttrs,
     });

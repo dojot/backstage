@@ -3,7 +3,6 @@ const TypeDefs = [`
 type Device {
     id: String!
     label: String!
-    disabled: Boolean
     favorite: Boolean
     attrs: [Attr]
     created: String
@@ -46,6 +45,14 @@ type Device {
     currentPage: Int!
     devices: [Device]
  }
+
+ type ReportListPage {
+   total: Int!,
+   page: Int!,
+   pageSize: Int!,
+   reports: [Report]
+ }
+
 #Determines which page to show and how many items#
  input PageInput {
     #set the page number to be accessed (default 20) #
@@ -149,27 +156,80 @@ type Device {
    notAssociatedDevices: [DeviceAssociated]!
  }
 
+ type AttrReportItem {
+   id: String!,
+   label: String!,
+   type: String!,
+   valueType: String!
+ }
+
+ type DeviceReportItem {
+   id: String!,
+   label: String!,
+   attrs: [AttrReportItem]
+ }
+
+ type ReportFile {
+   id: String!,
+   reportId: String!,
+   path: String!,
+   mimeType: String!,
+   filename: String!,
+   fileSizeKb: Float!,
+   expiresAt: String,
+   createdAt: String!,
+   updatedAt: String,
+ }
+
+ type ReportAttempt {
+   id: String!,
+   error: String,
+   failedAt: String,
+   canceledAt: String,
+   finishedAt: String,
+   createdAt: String,
+   updatedAt: String,
+ }
+
+ type Report {
+    id: String,
+    name: String,
+    format: String!,
+    singleReportFile: Boolean,
+    initialDate: String,
+    finalDate: String,
+    params: [DeviceReportItem],
+    createdAt: String,
+    updatedAt: String,
+    file: ReportFile,
+    attempts: [ReportAttempt]
+ }
+
+ input AttrReportInput {
+   id: String!,
+   label: String!,
+   type: String!,
+   valueType: String!
+ }
+
+ input DeviceReportInput {
+   id: String!,
+   label: String!,
+   attrs: [AttrReportInput]!
+ }
+
+ type CreatedReport {
+   id: String!
+ }
+
   type Query {
-    #Returns a list of devices that can be divided in pages, and the information about how many pages there are in total, along with which page is being shown.
-    #@param sortBy: set sortBy to sort list (default 'label')
-    getDevices(page: PageInput, filter: FilterDeviceInput, sortBy: String): DeviceListPage
-    #Finds device information by id
-    getDeviceById(deviceId: String!): Device
-    #Returns historical data in the format used by the Dashboard
-    getDeviceHistoryForDashboard(filter: HistoryInput!, configs: ConfigsInput): String
-    #Returns a list of favorite devices for home page of gui-nx
-    getFavoriteDevicesList(user: String!, tenant: String!): [FavoriteDevice]
+    findManyReports(page: Int, pageSize: Int, name: String): ReportListPage
   }
 
   type Mutation {
-    actuate(deviceId: String!, labels: [String]!, values: [String]!): String
-    createDevice(label: String!, disabled: Boolean!, id: String, templates: [Int]!, attrs: [DeviceAttributes], fingerprint: String): [DeviceCreatedList]
-    createMultipleDevices(devicesPrefix: String!, quantity: String!, initialSuffixNumber: String!, templates: [Int]!, attrs: [DeviceAttributes]): MultipleDevicesCreated
-    createDevicesCSV(csvFile: String!): CreatedDevicesCSV
-    deleteDevices(deviceIds: [String]!, userName: String!, tenant: String!): String
-    editDevice(id: String!, label: String!, disabled: Boolean!, templates: [Int]!, attrs: [DeviceAttributes]): DeviceCreatedList
-    favoriteDevices(deviceIds: [String]!, userName: String!, tenant: String!): Boolean
-    associateDevicesInBatch(deviceIdArray: [String]!): DevicesAssociatedResponse
+    createReport(name: String!, format: String!, singleReportFile: Boolean!, initialDate: String, finalDate: String, devices: [DeviceReportInput]!): CreatedReport
+    deleteReport(id: String!): String
+    downloadReport(path: String!): String
    }
 `];
 
