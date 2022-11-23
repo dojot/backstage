@@ -9,6 +9,7 @@ import editDevice from './mutation.editDevice.js';
 import favoriteDevices from './mutation.favoriteDevices.js';
 import getFavoriteDevicesList from './query.getFavoriteDevicesList.js';
 import associateDevicesInBatch from './mutation.associateDevicesInBatch.js';
+import actuate from './mutation.actuate.js';
 
 const Resolvers = {
   Query: {
@@ -18,6 +19,7 @@ const Resolvers = {
     getFavoriteDevicesList,
   },
   Mutation: {
+    actuate,
     createDevice,
     createMultipleDevices,
     createDevicesCSV,

@@ -7,7 +7,7 @@ import HandleResolverError from '../../utils/SessionValidation.js';
 const createDevice = async (_, device, { token }, { session }) => {
   try {
     const {
-      label = '', id = null, templates = [], attrs = [], fingerprint = '',
+      label = '', disabled = false, id = null, templates = [], attrs = [], fingerprint = '',
     } = device;
 
     const formattedAttrs = attrs
@@ -16,6 +16,7 @@ const createDevice = async (_, device, { token }, { session }) => {
 
     const { data } = await service.createDevice(token, {
       label,
+      disabled,
       id,
       templates,
       attrs: formattedAttrs,

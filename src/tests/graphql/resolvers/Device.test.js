@@ -7,7 +7,7 @@ jest.mock('axios');
 
 jest.mock('../../../db/index.js', () => {
   const mPool = {
-    connect: function () {
+    connect() {
       return { query: jest.fn() };
     },
     query: jest.fn(),
@@ -44,6 +44,7 @@ const deviceData = {
       created: '2020-10-01T14:49:26.869152+00:00',
       id: '0998',
       label: 'temperature sensor',
+      disabled: false,
       templates: [0],
     },
   },
@@ -74,6 +75,7 @@ const deviceData = {
       created: '2020-10-01T14:49:26.869152+00:00',
       id: '8aa0f9',
       label: 'colors sensor',
+      disabled: false,
       templates: [1, 2],
     },
   },
@@ -104,6 +106,7 @@ const deviceData = {
       created: '2020-10-01T14:49:26.869152+00:00',
       id: '44h7ff',
       label: 'GPS - Marca C',
+      disabled: false,
       templates: [3],
     },
   },
@@ -134,6 +137,7 @@ const deviceData = {
       created: '2020-10-01T14:49:26.869152+00:00',
       id: '44h7ff',
       label: 'GPS - Marca A',
+      disabled: false,
       templates: [3],
     },
   },
@@ -164,6 +168,7 @@ const deviceData = {
       created: '2020-10-01T14:49:26.869152+00:00',
       id: '44h7ff',
       label: 'GPS - Marca B',
+      disabled: false,
       templates: [3],
     },
   },
@@ -188,6 +193,7 @@ const deviceData = {
           created: '2020-05-14T18:18:34.401142+00:00',
           id: '1b32ee',
           label: 'device2',
+          disabled: false,
           favorite: false,
           templates: [
             2,
@@ -232,6 +238,7 @@ const devicesFromTemplateData = {
         created: '2020-10-01T14:49:26.869152+00:00',
         id: '44h7ff',
         label: 'GPS - Marca C',
+        disabled: false,
         templates: [3],
       },
       {
@@ -260,6 +267,7 @@ const devicesFromTemplateData = {
         created: '2020-10-01T14:49:26.869152+00:00',
         id: '90bc2a',
         label: 'GPS - Marca A',
+        disabled: false,
         templates: [3],
       },
       {
@@ -288,6 +296,7 @@ const devicesFromTemplateData = {
         created: '2020-10-01T14:49:26.869152+00:00',
         id: 'ca19f8',
         label: 'GPS - Marca B',
+        disabled: false,
         templates: [3],
       },
     ],
@@ -433,6 +442,7 @@ it('Device - should return a device', () => {
         created: '2021-08-24T18:00:58.595191+00:00',
         id: 'e5d299',
         label: 'CS Teste',
+        disabled: false,
         templates: [
           18,
           19,
@@ -539,6 +549,7 @@ it('Device - should return a device', () => {
       created: '2021-08-24T18:00:58.595191+00:00',
       id: 'e5d299',
       label: 'CS Teste',
+      disabled: false,
       lastUpdate: [
         {
           date: null,
@@ -572,22 +583,22 @@ it('Device - should get a list of devices', () => {
     .mockResolvedValueOnce(certificateData[0]);
 
   userPool.query.mockImplementationOnce(() => Promise.resolve({
-    'command': 'SELECT',
-    'rowCount': 1,
-    'oid': null,
-    'rows': [],
-    'fields': [{
-      'name': 'configuration',
-      'tableID': 24576,
-      'columnID': 3,
-      'dataTypeID': 114,
-      'dataTypeSize': -1,
-      'dataTypeModifier': -1,
-      'format': 'text',
+    command: 'SELECT',
+    rowCount: 1,
+    oid: null,
+    rows: [],
+    fields: [{
+      name: 'configuration',
+      tableID: 24576,
+      columnID: 3,
+      dataTypeID: 114,
+      dataTypeSize: -1,
+      dataTypeModifier: -1,
+      format: 'text',
     }],
-    '_parsers': [null],
-    'RowCtor': null,
-    'rowAsArray': false,
+    _parsers: [null],
+    RowCtor: null,
+    rowAsArray: false,
   }));
 
   const root = {};
@@ -617,6 +628,7 @@ it('Device - should get a list of devices', () => {
             created: '2020-05-14T18:18:34.401142+00:00',
             id: '1b32ee',
             label: 'device2',
+            disabled: false,
             favorite: false,
             updated: '',
           },
@@ -753,7 +765,6 @@ it('Device - Consult the history for the last 3 records (dashboard)', async () =
 });
 
 it('Device - Consult the history by time period (dashboard)', async () => {
-
   axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(deviceData[0])
     .mockResolvedValueOnce(deviceData[1])
@@ -775,7 +786,6 @@ it('Device - Consult the history by time period (dashboard)', async () => {
 });
 
 it('Device - should obtain a static coordinate point for the map', async () => {
-
   axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(deviceData[2]);
 
@@ -792,7 +802,6 @@ it('Device - should obtain a static coordinate point for the map', async () => {
 });
 
 it('Device - should obtain a static and dynamic coordinates points for the map', async () => {
-
   axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(deviceData[2])
     .mockResolvedValueOnce(historyData[3]);
@@ -810,7 +819,6 @@ it('Device - should obtain a static and dynamic coordinates points for the map',
 });
 
 it('Device - should obtain a empty responde', async () => {
-
   axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(deviceData[2]);
 
@@ -827,7 +835,6 @@ it('Device - should obtain a empty responde', async () => {
 });
 
 it('Template - should get the coordinates from three devices', async () => {
-
   axios.get.mockResolvedValue('default value')
     .mockResolvedValueOnce(devicesFromTemplateData);
 
@@ -848,6 +855,7 @@ it('Device - should edit a device', async () => {
   const fakeDevice = {
     id: 'abc123',
     label: 'OLD DEVICE NAME',
+    disabled: false,
     templates: [{ id: 'template123' }],
   };
 
@@ -867,4 +875,17 @@ it('Device - should edit a device', async () => {
   );
 
   expect(result).toEqual(newFakeDevice);
+});
+
+it('Device - should send values to device (actuate)', async () => {
+  const status = 'Data was sent to device';
+  axios.put.mockResolvedValueOnce({ data: { status } });
+
+  const result = await Resolvers.Mutation.actuate(
+    {},
+    { deviceId: 'id', labels: ['test'], values: ['value'] },
+    { token: '' },
+  );
+
+  expect(result).toEqual(status);
 });
