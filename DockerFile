@@ -4,6 +4,8 @@ WORKDIR /opt/backstage
 
 COPY package.json ./package.json
 
+RUN apt update && apt install -y netcat
+
 RUN npm install
 
 COPY src/ .
