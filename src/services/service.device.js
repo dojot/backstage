@@ -130,6 +130,8 @@ export const getDevicesByTemplate = async (token, templates) => {
 
 export const createDevice = async (token, data) => axios.post(`${baseURL}/device`, data, getHeader(token));
 
+export const createDevicesInBatch = async (token, data) => axios.post(`${baseURL}/device/batch`, data, getHeader(token));
+
 export const deleteDevice = async (token, id) => axios.delete(`${baseURL}/device/${id}`, getHeader(token));
 
 export const getDeviceHistoricForAllAttrs = async (token, deviceId) => {
