@@ -1,4 +1,3 @@
-import LOG from '../../utils/Log.js';
 import HandleResolverError from '../../utils/SessionValidation.js';
 import * as service from '../../services/service.device.js';
 
