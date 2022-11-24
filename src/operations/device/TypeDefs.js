@@ -164,7 +164,7 @@ type Device {
   type Mutation {
     actuate(deviceId: String!, labels: [String]!, values: [String]!): String
     createDevice(label: String!, disabled: Boolean!, id: String, templates: [Int]!, attrs: [DeviceAttributes], fingerprint: String): [DeviceCreatedList]
-    createMultipleDevices(devicesPrefix: String!, quantity: String!, initialSuffixNumber: String!, templates: [Int]!, attrs: [DeviceAttributes]): MultipleDevicesCreated
+    createMultipleDevices(devicesPrefix: String!, quantity: Int!, initialSuffixNumber: Int!, templates: [Int]!): MultipleDevicesCreated
     createDevicesCSV(csvFile: String!): CreatedDevicesCSV
     deleteDevices(deviceIds: [String]!, userName: String!, tenant: String!): String
     editDevice(id: String!, label: String!, disabled: Boolean!, templates: [Int]!, attrs: [DeviceAttributes]): DeviceCreatedList

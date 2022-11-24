@@ -1,20 +1,21 @@
-import LOG from '../../utils/Log.js';
 import HandleResolverError from '../../utils/SessionValidation.js';
+import * as service from '../../services/service.device.js';
 
-// To implement when the new device manager is ready for integration
 const createMultipleDevices = async (_, devicesParams, { token, session }) => {
   try {
     const {
-      devicesPrefix = '',
-      quantity = '',
-      initialSuffixNumber = '',
-      templates = [],
-      attrs = [],
+      devicesPrefix,
+      quantity,
+      initialSuffixNumber,
+      templates,
     } = devicesParams;
 
-    LOG.info(devicesPrefix, quantity, initialSuffixNumber, templates, attrs);
-
-    const devicesWithError = true;
+    const { data: { devicesWithError } } = await service.createDevicesInBatch(token, {
+      devicesPrefix,
+      quantity,
+      initialSuffixNumber,
+      templates,
+    });
 
     return { devicesWithError };
   } catch (error) {
