@@ -10,16 +10,12 @@ const createMultipleDevices = async (_, devicesParams, { token, session }) => {
       templates,
     } = devicesParams;
 
-    const response = await service.createDevicesInBatch(token, {
+    const { data: { devicesWithError } } = await service.createDevicesInBatch(token, {
       devicesPrefix,
       quantity,
       initialSuffixNumber,
       templates,
     });
-
-    console.log(response);
-
-    const devicesWithError = true;
 
     return { devicesWithError };
   } catch (error) {
