@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
+import LOG from './utils/Log.js';
 import config from './config.js';
 import graphQLRoutes from './routers/GraphQL.js';
 import keycloakRoutes from './routers/Keycloak.js';
@@ -21,10 +22,11 @@ app.use(sessionTokenGetter);
 app.use(graphQLRoutes);
 
 const server = app.listen(config.port, () => {
-  console.log(`Server running on port ${config.port}`);
+  LOG.debug(`Service started with configs \n${JSON.stringify(config, null, '\t')}`);
+  LOG.info(`Server running on port ${config.port}`);
 });
 
 sessionRedisClient.connect().catch((error) => {
-  console.error(error);
+  LOG.error(error);
   server.close(); // Closes the express server if fails to connect to redis
 });
