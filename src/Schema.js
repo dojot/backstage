@@ -12,6 +12,8 @@ import securityResolvers from './operations/security/Resolvers.js';
 import templateAttrTypeDefs from './operations/templateAttr/TypeDefs.js';
 import reportsTypeDefs from './operations/reports/TypeDefs.js';
 import reportsResolvers from './operations/reports/Resolvers.js';
+import flowsResolvers from './operations/flow/Resolvers.js';
+import flowsTypeDefs from './operations/flow/TypeDefs.js';
 
 
 import templateAttrResolvers from './operations/templateAttr/Resolvers.js';
@@ -25,6 +27,7 @@ export const typeDefs = mergeTypeDefs([
   securityTypeDefs,
   templateAttrTypeDefs,
   reportsTypeDefs,
+  flowsTypeDefs
 ]);
 
 const resolvers = lodash.merge(
@@ -34,6 +37,7 @@ const resolvers = lodash.merge(
   securityResolvers,
   templateAttrResolvers,
   reportsResolvers,
+  flowsResolvers
 );
 
 
