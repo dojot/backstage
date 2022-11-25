@@ -32,6 +32,8 @@ const config = {
   report_manager_url: process.env.BS_REPORT_MANAGER_URL || 'http://report-manager:3791',
 
   file_management_url: process.env.BS_FILE_MANAGEMENT_URL || 'http://file-mgmt:7000',
+
+  device_manager_batch_url: process.env.BS_DEVICE_MANAGER_URL || 'http://device-manager-batch:8089',
 };
 
 export default config;
