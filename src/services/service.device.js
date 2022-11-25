@@ -3,6 +3,8 @@ import config from '../config.js';
 import LOG from '../utils/Log.js';
 
 const baseURL = config.graphql_base_url;
+const deviceManagerUrl = config.device_manager_batch_url;
+
 const getHeader = (token) => ({
   headers: {'content-type': 'application/json', Authorization: `Bearer ${token}`},
 })
@@ -133,6 +135,8 @@ export const createDevice = async (token, data) => axios.post(`${baseURL}/device
 export const createDevicesInBatch = async (token, data) => axios.post(`${baseURL}/device/batch`, data, getHeader(token));
 
 export const deleteDevice = async (token, id) => axios.delete(`${baseURL}/device/${id}`, getHeader(token));
+
+export const deleteMultipleDevice = async (token, deviceIds) => axios.put(`${deviceManagerUrl}/devices_batch`, { devices: deviceIds }, getHeader(token));
 
 export const getDeviceHistoricForAllAttrs = async (token, deviceId) => {
   const values = [];

@@ -149,10 +149,16 @@ type Device {
    notAssociatedDevices: [DeviceAssociated]!
  }
 
+ type DeleteDevicesResponse {
+   id: String!,
+   message: String!,
+   type: String!,
+ }
+
   type Query {
     #Returns a list of devices that can be divided in pages, and the information about how many pages there are in total, along with which page is being shown.
     #@param sortBy: set sortBy to sort list (default 'label')
-    getDevices(page: PageInput, filter: FilterDeviceInput, sortBy: String): DeviceListPage
+    getDevices(page: PageInput, filter: FilterDeviceInput, sortBy: String): [DeviceListPage]
     #Finds device information by id
     getDeviceById(deviceId: String!): Device
     #Returns historical data in the format used by the Dashboard
@@ -166,7 +172,7 @@ type Device {
     createDevice(label: String!, disabled: Boolean!, id: String, templates: [Int]!, attrs: [DeviceAttributes], fingerprint: String): [DeviceCreatedList]
     createMultipleDevices(devicesPrefix: String!, quantity: Int!, initialSuffixNumber: Int!, templates: [Int]!): MultipleDevicesCreated
     createDevicesCSV(csvFile: String!): CreatedDevicesCSV
-    deleteDevices(deviceIds: [String]!, userName: String!, tenant: String!): String
+    deleteDevices(deviceIds: [String]!, userName: String!, tenant: String!): DeleteDevicesResponse
     editDevice(id: String!, label: String!, disabled: Boolean!, templates: [Int]!, attrs: [DeviceAttributes]): DeviceCreatedList
     favoriteDevices(deviceIds: [String]!, userName: String!, tenant: String!): Boolean
     associateDevicesInBatch(deviceIdArray: [String]!): DevicesAssociatedResponse
