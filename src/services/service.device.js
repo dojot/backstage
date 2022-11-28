@@ -139,6 +139,7 @@ export const deleteDevice = async (token, id) => axios.delete(`${baseURL}/device
 export const deleteMultipleDevice = async (token, deviceIds) => axios.put(`${deviceManagerUrl}/devices_batch`, { devices: deviceIds }, getHeader(token));
 
 export const getDeviceHistoricForAllAttrs = async (token, deviceId) => {
+  LOG.debug(`Getting (from history) last update's data for deviceId ${deviceId}`);
   const values = [];
   try {
     const response = await axios.get(`${baseURL}/history/device/${deviceId}/history?lastN=1`, getHeader(token));
@@ -159,33 +160,42 @@ export const getDeviceHistoricForAllAttrs = async (token, deviceId) => {
 };
 
 export const getInfluxLastUpdateForDevice = async (token, deviceId, attrs) => {
-  const promises = [];
-  const values = [];
-    attrs.forEach((attr) => {
-      const promise = axios.get(
-        `${baseURL}/tss/v1/devices/${deviceId}/attrs/${attr.label}/data?limit=1`,
-        getHeader(token),
-      ).then((response) => {
-        const [firstAttrData] = response.data;
-        const { ts, value } = firstAttrData || {};
-        values.push({
-          value,
-          date: ts,
+  LOG.debug(`Getting (from InfluxDB) last update's data for deviceId ${deviceId}`);
+
+  const lastUpdatedData = await axios.get(`${baseURL}/tss/v1/devices/${deviceId}/data`, {
+        ...getHeader(token),
+        params: {
+          order: 'desc',
+          limit: 1,
+        },
+    })
+    .then(({ data: response }) => {
+      LOG.debug("Got a response from retriever:", response.data);
+
+      if (response.data.length === 0) {
+        LOG.debug("No entries for this device. Building an empty response for the dynamic attributes");
+        return attrs
+          .filter(({ type }) => type === 'dynamic')
+          .map(({ label }) => ({ label, value: undefined, date: undefined }));
+      }
+
+      const { ts: timestamp, attrs: deviceAttrs = [] } = response.data[0];
+      LOG.debug("Mapping", deviceAttrs.length, "attributes");
+      return deviceAttrs.map((attr) => {
+        LOG.debug("Parsing entry for attr", attr);
+        const attrEntry = {
           label: attr.label,
-        });
-      }).catch(() => {
-        values.push({
-          value: undefined,
-          date: undefined,
-          label: attr.label,
-        });
-        Promise.resolve(null);
+          value: attr.value,
+          date: timestamp,
+        };
+        LOG.debug("-- parsed into", attrEntry);
+        return attrEntry;
       });
-      promises.push(promise);
     });
 
-  await Promise.all(promises);
-  return values;
+  LOG.debug('Returning attribute data:', lastUpdatedData);
+
+  return lastUpdatedData;
 };
 
 export const editDevice = async (token, id, data) => axios.put(`${baseURL}/device/${id}`, data, getHeader(token));
