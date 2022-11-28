@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { graphqlHTTP } from 'express-graphql';
 
 import rootSchema from '../Schema.js';
-import config from '../config.js'
+import config from '../config.js';
 
 const router = Router();
 
