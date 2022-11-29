@@ -73,12 +73,25 @@ const TypeDefs = [`
   type NotDeletedTemplate {
     id: String!,
     label: String!,
-    associatedDevices: [AssociatedDevice]!
+    type: String!,
+    associated_devices: [AssociatedDevice]!
+  }
+
+  type TemplatesNotFound {
+    id: String!
+    label: String!
+    type: String!
+  }
+
+  type DeletedTemplate {
+    id: String,
+    label: String
   }
 
   type DeleteMultipleTemplatesResponse {
-    deletedTemplates: [TemplateList]!
-    notDeletedTemplates: [NotDeletedTemplate]!
+    deletedTemplates: [DeletedTemplate]
+    templatesAssociatedDevices: [NotDeletedTemplate]
+    templatesNotFound: [TemplatesNotFound]
   }
 
   type MapStringToString {
@@ -114,7 +127,7 @@ const TypeDefs = [`
 
   type Mutation {
     deleteTemplates(templateIds: [String]!): String
-    deleteMultipleTemplates(templateIds: [String]!): DeleteMultipleTemplatesResponse
+    deleteMultipleTemplates(templateIds: [Int]!): DeleteMultipleTemplatesResponse
     duplicateTemplate(templateId: String!): TemplateList
     createTemplate(label: String!, attrs: [TemplateAttr]!): TemplateList
     editTemplate(id: String!, label: String!, attrs: [TemplateAttr]!): TemplateList

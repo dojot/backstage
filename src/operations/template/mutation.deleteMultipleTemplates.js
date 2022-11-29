@@ -3,10 +3,13 @@ import HandleResolverError from '../../utils/SessionValidation.js';
 
 const deleteMultipleTemplates = async (_, { templateIds }, { session, token }) => {
   try {
-    const { deletedTemplates, notDeletedTemplates } = await service
-      .deleteMultipleTemplates(token, templateIds);
+    const { data } = await service.deleteMultipleTemplates(token, templateIds);
 
-    return { deletedTemplates, notDeletedTemplates };
+    const deletedTemplates = data.templates;
+    const templatesAssociatedDevices = data.templates_associated_devices;
+    const templatesNotFound = data.templates_not_found;
+
+    return { deletedTemplates, templatesAssociatedDevices, templatesNotFound };
   } catch (error) {
     HandleResolverError(session, error);
     throw error;
