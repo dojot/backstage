@@ -2,6 +2,7 @@
 const config = {
   port: process.env.BS_PORT || 3005,
   log_level: process.env.BS_LOG_CONSOLE_LEVEL || 'info',
+  enable_graphiql: process.env.BS_ENABLE_GRAPHQL_INTERFACE === 'true' || false,
 
   backstage_base_url: process.env.BS_BASE_URL || 'http://localhost:8000',
   graphql_base_url: process.env.BS_GRAPHQL_BASE_URL || 'http://apigw:8000',

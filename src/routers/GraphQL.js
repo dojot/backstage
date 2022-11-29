@@ -2,12 +2,13 @@ import { Router } from 'express';
 import { graphqlHTTP } from 'express-graphql';
 
 import rootSchema from '../Schema.js';
+import config from '../config.js';
 
 const router = Router();
 
 router.use('/backstage/graphql', graphqlHTTP({
   schema: rootSchema,
-  graphiql: false,
+  graphiql: config.enable_graphiql,
   customFormatErrorFn: (error) => {
     let data;
     if (
