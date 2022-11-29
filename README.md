@@ -11,6 +11,8 @@ Documentation for development: https://dojot.github.io/backstage/development/
 | Key                               | Purpose                        | Default Value              | Valid Values |
 | --------------------------------- | ------------------------------ | -------------------------- | ------------ |
 | BS_PORT                           | Backstage port                 | 3005                       | Integer      |
+| BS_LOG_CONSOLE_LEVEL              | Logging level                  | info                       | String       |
+| BS_ENABLE_GRAPHQL_INTERFACE       | Enable GraphQL UI              | false                      | Boolean      |
 | BS_BASE_URL                       | Backstage base URL             | http://localhost:8000      | String       |
 | BS_GRAPHQL_BASE_URL               | Backstage graphql base url     | http://apigw:8000          | String       |
 | BS_POSTGRES_PORT                  | Postgres port                  | 5432                       | Integer      |
