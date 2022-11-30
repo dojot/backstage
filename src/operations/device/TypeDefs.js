@@ -149,10 +149,14 @@ type Device {
    notAssociatedDevices: [DeviceAssociated]!
  }
 
- type DeleteDevicesResponse {
+ type DeviceNotFoundBatch {
    id: String!,
    message: String!,
    type: String!,
+ }
+
+ type DeleteDevicesResponse {
+   devicesNotFound: [DeviceNotFoundBatch]!
  }
 
   type Query {
