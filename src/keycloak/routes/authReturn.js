@@ -11,7 +11,7 @@ const authReturn = async (req, res) => {
     state: sessionState, tenant, codeVerifier, returnPath,
   } = req.session;
 
-  LOG.info('Returned from Keycloak. Tenant:', tenant);
+  LOG.debug('Returned from Keycloak. Tenant:', tenant);
 
   const { state: receivedState, code: authorizationCode } = req.query;
 
@@ -19,12 +19,12 @@ const authReturn = async (req, res) => {
     return res.status(403).send('Received state does not match the saved one. Aborting...');
   }
 
-  LOG.info('There is a session and the state params are equal');
+  LOG.debug('There is a session and the state params are equal');
 
   const redirectUrl = new URL(`${config.backstage_base_url}${returnPath}`);
 
   try {
-    LOG.info('Trying to exchange the authorization code for an access token');
+    LOG.debug('Trying to exchange the authorization code for an access token');
 
     const {
       data,
@@ -43,11 +43,11 @@ const authReturn = async (req, res) => {
     req.session.accessTokenExpiresIn = data.expires_in;
     req.session.refreshExpiresIn = data.refresh_expires_in;
 
-    LOG.info('Tokens stored in session. Redirecting back to the app...');
+    LOG.debug('Tokens stored in session. Redirecting back to the app...');
 
     return res.redirect(303, redirectUrl.href);
   } catch (error) {
-    LOG.error(error.stack || error);
+    LOG.error('Failed when returned from keycloak', error);
 
     req.session.destroy((sessionError) => {
       if (sessionError) LOG.error('Session Destroy Error', sessionError);

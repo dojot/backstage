@@ -4,10 +4,10 @@ const sessionValidator = (req, res, next) => {
   const token = req.session.accessToken;
 
   if (token) {
-    LOG.info('Token exists. Session is valid');
+    LOG.debug('Token exists. Session is valid');
     next();
   } else {
-    LOG.info('Token does not exists. There is no valid session');
+    LOG.debug('Token does not exists. There is no valid session');
 
     req.session.destroy((sessionError) => {
       if (sessionError) LOG.error('Session Destroy Error', sessionError);
