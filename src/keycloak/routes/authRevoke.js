@@ -3,7 +3,7 @@ import LOG from '../../utils/Log.js';
 import { getFormattedReturnPath, getKeycloakUrl } from '../../utils/Keycloak.js';
 
 const authRevoke = async (req, res) => {
-  LOG.info('Revoking the current session');
+  LOG.debug('Revoking the current session');
 
   const { returnPath } = req.query;
   const formattedReturnPath = getFormattedReturnPath(returnPath);
@@ -28,11 +28,11 @@ const authRevoke = async (req, res) => {
       searchParams: new URLSearchParams({ redirect_uri: redirectUrl.href }),
     });
 
-    LOG.info('Redirecting to Keycloak to logout:', keycloakUrl);
+    LOG.debug('Redirecting to Keycloak to logout:', keycloakUrl);
 
     return res.redirect(303, keycloakUrl);
   } catch (error) {
-    LOG.error(error.stack || error);
+    LOG.error('Failed to logout', error);
     return res.redirect(303, redirectUrl.href);
   }
 };

@@ -9,9 +9,9 @@ const sessionTokenRefresher = async (req, res, next) => {
 
   try {
     if (isTokenExpired(tokenCreationTime, accessTokenExpiresIn)) {
-      LOG.info('Access token is expired. Refreshing it ...');
+      LOG.debug('Access token is expired. Refreshing it ...');
       const { data } = await keycloakService.getTokenByRefreshToken({ tenant, refreshToken });
-      LOG.info('Access token refreshed successfully');
+      LOG.debug('Access token refreshed successfully');
 
       req.session.tokenCreationTime = Date.now();
       req.session.accessToken = data.access_token;
@@ -20,8 +20,7 @@ const sessionTokenRefresher = async (req, res, next) => {
       req.session.refreshExpiresIn = data.refresh_expires_in;
     }
   } catch (e) {
-    LOG.info('Failed to refresh the access token');
-    LOG.error(e.stack || e);
+    LOG.error('Failed to refresh the access token', e);
     return res.status(401).send({ message: 'Failed to refresh the access token' });
   }
 

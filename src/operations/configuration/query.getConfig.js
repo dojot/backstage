@@ -1,5 +1,5 @@
-import {userPool} from "../../db/index.js";
-import LOG from "../../utils/Log.js";
+import { userPool } from '../../db/index.js';
+import LOG from '../../utils/Log.js';
 import HandleResolverError from '../../utils/SessionValidation.js';
 
 const getConfig = async (root, params, { session }) => {
@@ -25,12 +25,12 @@ const getConfig = async (root, params, { session }) => {
       return (JSON.stringify(result.rows[0].configuration));
     }
 
-    LOG.info(`Could not retrieve configuration from user ${params.user} in tenant ${params.tenant}`);
+    LOG.debug(`Could not retrieve configuration from user ${params.user} in tenant ${params.tenant}`);
     return null;
   } catch (error) {
     HandleResolverError(session, error);
     throw error;
   }
-}
+};
 
 export default getConfig;

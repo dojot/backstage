@@ -11,28 +11,28 @@ const getUserInfo = async (req, res) => {
 
     const { tenant, accessToken } = req.session;
 
-    LOG.info('Trying to get the user info. Tenant:', tenant);
+    LOG.debug('Trying to get the user info. Tenant:', tenant);
 
     const { data: permissions } = await keycloakService.getPermissionsByToken({
       tenant,
       accessToken,
     });
 
-    LOG.info('Permissions fetched');
+    LOG.debug('Permissions fetched');
 
     const { data: userInfo } = await keycloakService.getUserInfoByToken({
       tenant,
       accessToken,
     });
 
-    LOG.info('User info fetched');
+    LOG.debug('User info fetched');
 
     const profile = getKeycloakAccountUrl({
       tenant,
       baseURL: config.keycloak_external_url,
     });
 
-    LOG.info('Profile URL generated. Returning all data to the app...');
+    LOG.debug('Profile URL generated. Returning all data to the app...');
 
     return res.set('Cache-Control', 'no-store').status(200).json({
       tenant,
@@ -44,7 +44,7 @@ const getUserInfo = async (req, res) => {
       emailVerified: userInfo.email_verified,
     });
   } catch (error) {
-    LOG.error(error.stack || error);
+    LOG.error('Failed to get user info', error);
     return res.status(500).send(error.message);
   }
 };

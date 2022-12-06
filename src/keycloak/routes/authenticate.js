@@ -13,7 +13,7 @@ const authenticate = async (req, res) => {
   try {
     const { tenant, returnPath } = req.query;
 
-    LOG.info('Authenticating Tenant:', tenant);
+    LOG.debug('Authenticating Tenant:', tenant);
     const formattedReturnPath = getFormattedReturnPath(returnPath);
 
     const state = randomstring.generate(64);
@@ -45,11 +45,11 @@ const authenticate = async (req, res) => {
     req.session.codeChallenge = codeChallenge;
     req.session.returnPath = formattedReturnPath;
 
-    LOG.info('Session created. Redirecting to login...');
+    LOG.debug('Session created. Redirecting to login...');
 
     return res.redirect(303, keycloakUrl);
   } catch (error) {
-    LOG.error(error.stack || error);
+    LOG.error('Failed to authenticate', error);
     return res.status(500).send(error.message);
   }
 };
