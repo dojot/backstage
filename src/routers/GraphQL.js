@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { graphqlHTTP } from 'express-graphql';
 
+import LOG from '../utils/Log.js';
+
 import rootSchema from '../Schema.js';
 import config from '../config.js';
 
@@ -10,6 +12,7 @@ router.use('/backstage/graphql', graphqlHTTP({
   schema: rootSchema,
   graphiql: config.enable_graphiql,
   customFormatErrorFn: (error) => {
+    LOG.error(error);
     let data;
     if (
       error.originalError
