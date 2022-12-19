@@ -5,6 +5,7 @@ import LOG from './utils/Log.js';
 import config from './config.js';
 import graphQLRoutes from './routers/GraphQL.js';
 import keycloakRoutes from './routers/Keycloak.js';
+import FlowRoutes from './routers/Flow.js';
 import { sessionRedisClient } from './redis/index.js';
 import sessionConfig from './keycloak/middlewares/sessionConfig.js';
 import sessionValidator from './keycloak/middlewares/sessionValidator.js';
@@ -19,6 +20,7 @@ app.use(keycloakRoutes);
 app.use(sessionValidator);
 app.use(sessionTokenRefresher);
 app.use(sessionTokenGetter);
+app.use(FlowRoutes);
 app.use(graphQLRoutes);
 
 const server = app.listen(config.port, () => {
