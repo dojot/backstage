@@ -69,7 +69,7 @@
     "codecov": "^3.7.0",
     "eslint": "^5.13.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-import": "^2.26.0",
     "jest": "^27.4.7",
     "nodemon": "^2.0.15"
   }
