@@ -32,11 +32,15 @@ const config = {
   redis_port: process.env.BS_REDIS_PORT || 6379,
   redis_ttl: process.env.BS_REDIS_TTL || 86400, // 1 Day in seconds
 
-  report_manager_url: process.env.BS_REPORT_MANAGER_URL || 'http://report-manager:3791',
-
+  x509_url: process.env.BS_X509_URL || 'http://x509-identity-mgmt:3000',
+  retriever_url: process.env.BS_RETRIEVER_URL || 'http://influxdb-retriever:3000',
   file_management_url: process.env.BS_FILE_MANAGEMENT_URL || 'http://file-mgmt:7000',
-
+  device_manager_url: process.env.BS_DEVICE_MANAGER_URL || 'http://device-manager-sidecar:5000',
+  report_manager_url: process.env.BS_REPORT_MANAGER_URL || 'http://report-manager:3791',
   device_manager_batch_url: process.env.BS_DEVICE_MANAGER_URL || 'http://device-manager-batch:8089',
+  x509_identity_mgmt: process.env.BS_X509_IDENTITY_MGMT || 'http://x509-identity-mgmt:3000/api',
+  flows_url: process.env.BS_FLOWS_URL || 'http://flowbroker:80',
+  tss_url: process.env.BS_TSS_URL || 'http://influxdb-retriever:4000/tss'
 };
 
 export default config;

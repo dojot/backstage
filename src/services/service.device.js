@@ -4,18 +4,20 @@ import LOG from '../utils/Log.js';
 
 const baseURL = config.graphql_base_url;
 const deviceManagerBatchUrl = config.device_manager_batch_url;
+const deviceManagerUrl = config.device_manager_url;
+const tssUrl = config.tss_url;
 
 const getHeader = (token) => ({
   headers: {'content-type': 'application/json', Authorization: `Bearer ${token}`},
 })
 
-export const getDeviceById = (token, id) => axios.get(`${baseURL}/device/${id}`, getHeader(token));
+export const getDeviceById = (token, id) => axios.get(`${deviceManagerUrl}/device/${id}`, getHeader(token));
 
 export const getDeviceList = async (token, ids) => {
   const promises = [];
   const values = {};
   ids.forEach((deviceId) => {
-    const promise = axios.get(`${baseURL}/device/${deviceId}`, getHeader(token)).then((response) => {
+    const promise = axios.get(`${deviceManagerUrl}/device/${deviceId}`, getHeader(token)).then((response) => {
       if (response.data) {
         const {
           data: {
@@ -34,7 +36,7 @@ export const getDeviceList = async (token, ids) => {
   return values;
 };
 
-export const getDevicesWithFilter = async (token, params) => axios.get(`${baseURL}/device?${params}`, getHeader(token));
+export const getDevicesWithFilter = async (token, params) => axios.get(`${deviceManagerUrl}/device?${params}`, getHeader(token));
 
 export const getHistoryFromDevices = async (token, devices, params = '') => {
   const promises = [];
@@ -64,7 +66,7 @@ export const getInfluxDataFromDevices = async (token, devices, params) => {
     if (dynamicAttrs) {
       dynamicAttrs.forEach((attr) => {
         const promise = axios.get(
-          `${baseURL}/tss/v1/devices/${deviceID}/attrs/${attr}/data?order=desc${params}`,
+          `${tssUrl}/v1/devices/${deviceID}/attrs/${attr}/data?order=desc${params}`,
           getHeader(token)
         ).then((response) => {
           if (!!response.data.data && Array.isArray(response.data.data)) {
@@ -95,7 +97,7 @@ export const getDevicesByTemplate = async (token, templates) => {
   const devicesIDs = [];
   const deviceDictionary = {};
   Object.values(templates).forEach(({ templateID, dynamicAttrs, staticAttrs }) => {
-    const promise = axios.get(`${baseURL}/device/template/${templateID}`, getHeader(token)).then((response) => {
+    const promise = axios.get(`${deviceManagerUrl}/template/${templateID}`, getHeader(token)).then((response) => {
       if (response.data) {
         const { data: { devices = [] }, config: { url } } = response;
         const templateId = url.split('/').pop();
@@ -130,11 +132,11 @@ export const getDevicesByTemplate = async (token, templates) => {
   return { values, devicesIDs, deviceDictionary };
 };
 
-export const createDevice = async (token, data) => axios.post(`${baseURL}/device`, data, getHeader(token));
+export const createDevice = async (token, data) => axios.post(`${deviceManagerUrl}/device`, data, getHeader(token));
 
-export const createDevicesInBatch = async (token, data) => axios.post(`${baseURL}/device/batch`, data, getHeader(token));
+export const createDevicesInBatch = async (token, data) => axios.post(`${deviceManagerUrl}/device/batch`, data, getHeader(token));
 
-export const deleteDevice = async (token, id) => axios.delete(`${baseURL}/device/${id}`, getHeader(token));
+export const deleteDevice = async (token, id) => axios.delete(`${deviceManagerUrl}/device/${id}`, getHeader(token));
 
 export const deleteMultipleDevice = async (token, deviceIds) => axios.put(`${deviceManagerBatchUrl}/devices_batch`, { devices: deviceIds }, getHeader(token));
 
@@ -162,7 +164,7 @@ export const getDeviceHistoricForAllAttrs = async (token, deviceId) => {
 export const getInfluxLastUpdateForDevice = async (token, deviceId, attrs) => {
   LOG.debug(`Getting (from InfluxDB) last update's data for deviceId ${deviceId}`);
 
-  const lastUpdatedData = await axios.get(`${baseURL}/tss/v1/devices/${deviceId}/data`, {
+  const lastUpdatedData = await axios.get(`${tssUrl}/v1/devices/${deviceId}/data`, {
         ...getHeader(token),
         params: {
           order: 'desc',
@@ -198,7 +200,7 @@ export const getInfluxLastUpdateForDevice = async (token, deviceId, attrs) => {
   return lastUpdatedData;
 };
 
-export const editDevice = async (token, id, data) => axios.put(`${baseURL}/device/${id}`, data, getHeader(token));
+export const editDevice = async (token, id, data) => axios.put(`${deviceManagerUrl}/device/${id}`, data, getHeader(token));
 
 export const associateDevicesInBatch = async (token, { deviceIdArray }) => ({
   associatedDevices: [
@@ -218,4 +220,4 @@ export const associateDevicesInBatch = async (token, { deviceIdArray }) => ({
   ],
 });
 
-export const actuate = async (token, id, data) => axios.put(`${baseURL}/device/${id}/actuate`, data, getHeader(token));
+export const actuate = async (token, id, data) => axios.put(`${deviceManagerUrl}/device/${id}/actuate`, data, getHeader(token));
