@@ -17,9 +17,9 @@ async function checkTable(tableName, queryText) {
         text: queryText,
       };
       await client.query(query);
-      LOG.info('Successfully created database, proceeding to check table existence.');
+      LOG.info(`Successfully created table ${tableName}.`);
     } else {
-      LOG.info(`Table ${tableName}  already exists.`);
+      LOG.info(`Table ${tableName} already exists.`);
     }
     LOG.info(`Table ${tableName} is available to use.`);
   } catch (err) {
