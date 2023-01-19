@@ -2,10 +2,10 @@ import axios from 'axios';
 import config from '../config.js';
 import LOG from '../utils/Log.js';
 
-const baseURL = config.graphql_base_url;
+const historyUrl = config.history_url;
 const deviceManagerBatchUrl = config.device_manager_batch_url;
 const deviceManagerUrl = config.device_manager_url;
-const tssUrl = config.tss_url;
+const influxDbRetrieverUrl = config.influxdb_retriever_url;
 
 const getHeader = (token) => ({
   headers: {'content-type': 'application/json', Authorization: `Bearer ${token}`},
@@ -44,7 +44,7 @@ export const getHistoryFromDevices = async (token, devices, params = '') => {
   devices.forEach(({ deviceID, dynamicAttrs }) => {
     if (dynamicAttrs) {
       dynamicAttrs.forEach((attribute) => {
-        const promise = axios.get(`${baseURL}/history/device/${deviceID}/history?attr=${attribute}${params}`, getHeader(token))
+        const promise = axios.get(`${historyUrl}/device/${deviceID}/history?attr=${attribute}${params}`, getHeader(token))
           .then((response) => {
             if (!!response.data && Array.isArray(response.data)) {
               attributes.push(...response.data);
@@ -66,7 +66,7 @@ export const getInfluxDataFromDevices = async (token, devices, params) => {
     if (dynamicAttrs) {
       dynamicAttrs.forEach((attr) => {
         const promise = axios.get(
-          `${tssUrl}/v1/devices/${deviceID}/attrs/${attr}/data?order=desc${params}`,
+          `${influxDbRetrieverUrl}/tss/v1/devices/${deviceID}/attrs/${attr}/data?order=desc${params}`,
           getHeader(token)
         ).then((response) => {
           if (!!response.data.data && Array.isArray(response.data.data)) {
@@ -144,7 +144,7 @@ export const getDeviceHistoricForAllAttrs = async (token, deviceId) => {
   LOG.debug(`Getting (from history) last update's data for deviceId ${deviceId}`);
   const values = [];
   try {
-    const response = await axios.get(`${baseURL}/history/device/${deviceId}/history?lastN=1`, getHeader(token));
+    const response = await axios.get(`${historyUrl}/device/${deviceId}/history?lastN=1`, getHeader(token));
     if (response.data) {
       for (const key in response.data) {
         values.push({
@@ -164,7 +164,7 @@ export const getDeviceHistoricForAllAttrs = async (token, deviceId) => {
 export const getInfluxLastUpdateForDevice = async (token, deviceId, attrs) => {
   LOG.debug(`Getting (from InfluxDB) last update's data for deviceId ${deviceId}`);
 
-  const lastUpdatedData = await axios.get(`${tssUrl}/v1/devices/${deviceId}/data`, {
+  const lastUpdatedData = await axios.get(`${influxDbRetrieverUrl}/tss/v1/devices/${deviceId}/data`, {
         ...getHeader(token),
         params: {
           order: 'desc',
