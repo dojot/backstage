@@ -39,6 +39,8 @@ const config = {
   x509_identity_mgmt_url: process.env.BS_X509_IDENTITY_MGMT || 'http://x509-identity-mgmt:3000',
   flows_url: process.env.BS_FLOWS_URL || 'http://flowbroker:80',
   history_url: process.env.BS_HISTORY_URL || 'http://history:8000',
+
+  features_disabled: process.env.BS_FEATURES_DISABLED || '',
 };
 
 export default config;

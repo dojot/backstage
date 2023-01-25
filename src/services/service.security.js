@@ -1,7 +1,10 @@
 import axios from 'axios';
+import LOG from '../utils/Log.js';
 import config from '../config.js';
 
 const x509IdentityMgmt = config.x509_identity_mgmt_url;
+
+const certificatesAreDisabled = config.features_disabled.split(',').includes('certificates');
 
 const getHeader = token => ({
   headers: { 'content-type': 'application/json', Authorization: `Bearer ${token}` },
@@ -10,6 +13,17 @@ const getHeader = token => ({
 export const getAllCertificates = ({
   token, page, filter, id, sortBy,
 }) => {
+
+  if(certificatesAreDisabled) {
+    LOG.debug('-- Certificates are disabled. Nothing to load.');
+    const emptyCertResponse = {
+      data: {
+        certificates: [],
+      }
+    };
+    return Promise.resolve(emptyCertResponse);
+  }
+
   const queryParams = {};
   if (page && page.size) queryParams.limit = page.size;
   if (page && page.number) queryParams.page = page.number;
