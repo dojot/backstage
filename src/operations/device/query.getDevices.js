@@ -2,8 +2,10 @@ import * as service from '../../services/service.device.js';
 import * as securityService from '../../services/service.security.js';
 import * as favoriteDeviceService from '../../services/service.favoriteDevice.js';
 import HandleResolverError from '../../utils/SessionValidation.js';
+import LOG from '../../utils/Log.js';
 
 const getDevices = async (root, { page, filter, sortBy }, { token, session }) => {
+  LOG.debug('Loading devices list');
   try {
     const urlParams = new URLSearchParams({
       sortBy: sortBy || 'desc:created',
@@ -18,19 +20,25 @@ const getDevices = async (root, { page, filter, sortBy }, { token, session }) =>
       urlParams.append('label', filter.label);
     }
 
+    LOG.debug('- Using params:', urlParams);
     const { data: fetchedData } = await service.getDevicesWithFilter(
       token,
       urlParams.toString(),
     );
 
-    const certificatePromises = fetchedData.devices.map(device => securityService
-      .getAllCertificates({ token, id: device.id }).then((response) => {
+    LOG.debug('- Loading certificates for each device');
+
+    const certificatePromises = fetchedData.devices.map(device => {
+
+      return securityService.getAllCertificates({ token, id: device.id })
+      .then((response) => {
         const { certificates } = response.data;
 
         return certificates[0]
           ? certificates[0].fingerprint
           : undefined;
-      }));
+      })
+    });
 
     const fingerprints = await Promise.all(certificatePromises);
 
@@ -65,6 +73,7 @@ const getDevices = async (root, { page, filter, sortBy }, { token, session }) =>
       });
     });
 
+    LOG.debug('- Loading favorite devices');
     const deviceIds = devices.map(device => device.id);
     const favoriteDevices = await favoriteDeviceService
       .getFavoriteDevicesForDevicesPage(deviceIds);
@@ -79,11 +88,15 @@ const getDevices = async (root, { page, filter, sortBy }, { token, session }) =>
       return { ...device, favorite };
     });
 
-    return {
+    const responseData = {
       totalPages: fetchedData.pagination.total,
       currentPage: fetchedData.pagination.page,
       devices: devicesWithFavorites,
     };
+
+    LOG.debug('- Built the response:', responseData);
+    return responseData;
+
   } catch (error) {
     HandleResolverError(session, error);
     throw error;

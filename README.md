@@ -29,3 +29,4 @@ Documentation for development: https://dojot.github.io/backstage/development/
 | BS_SESSION_PROXY                  | Session proxy                  | true                       | Boolean      |
 | BS_SESSION_COOKIE_NAME            | Session cookie name            | dojot-backstage-cookie     | String       |
 | BS_SESSION_COOKIE_HTTPS           | Session cookie https           | false                      | Boolean      |
+| BS_FEATURES_DISABLED              | Features to disable            | ''                         | String (CSV) |
