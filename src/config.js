@@ -9,9 +9,9 @@ const config = {
 
   postgres_backstage_port: process.env.BS_POSTGRES_PORT || 5432,
   postgres_backstage_host: process.env.BS_POSTGRES_HOST || 'postgres',
-  postgres_backstage_user: process.env.BS_POSTGRES_USER || 'postgres',
-  postgres_backstage_pwd: process.env.BS_POSTGRES_PASSWORD || 'postgres',
-  postgres_backstage_database: process.env.BS_POSTGRES_DATABASE || 'dojot_dash_users',
+  postgres_backstage_user: process.env.BS_POSTGRES_USER || 'backstage',
+  postgres_backstage_pwd: process.env.BS_POSTGRES_PASSWORD || 'backstage',
+  postgres_backstage_database: process.env.BS_POSTGRES_DATABASE || 'backstage',
 
   keycloak_internal_url: process.env.BS_KEYCLOAK_INTERNAL_URL || 'http://apigw:8000/auth',
   keycloak_external_url: process.env.BS_KEYCLOAK_EXTERNAL_URL || 'http://localhost:8000/auth',
